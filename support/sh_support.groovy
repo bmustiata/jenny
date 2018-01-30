@@ -1,9 +1,12 @@
 sh = { code ->
-    def sout = new StringBuilder(), serr = new StringBuilder()
-    def proc = code.execute()
+    def exitCode = new ProcessBuilder('bash', '-c', code)
+        .redirectOutput(ProcessBuilder.Redirect.INHERIT)
+        .redirectError(ProcessBuilder.Redirect.INHERIT)
+        .redirectInput(ProcessBuilder.Redirect.INHERIT)
+        .start()
+        .waitFor();
 
-    proc.consumeProcessOutput(sout, serr)
-    proc.waitForOrKill(1000)
-    println "out> $sout err> $serr"
+    if (exitCode != 0) {
+        throw new IllegalStateException("Process execution failed, exit code: " + exitCode)
+    }
 }
-

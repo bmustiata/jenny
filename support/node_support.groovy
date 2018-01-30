@@ -1,4 +1,4 @@
-node = { name, code ->
+node = { name = null, code ->
     code()
 }
 
