@@ -1,0 +1,29 @@
+#!/usr/bin/env groovy
+
+print """   _
+  (_) ___ _ __  _ __  _   _
+  | |/ _ \\ '_ \\| '_ \\| | | |
+  | |  __/ | | | | | | |_| |
+ _/ |\\___|_| |_|_| |_|\\__, |
+|__/                  |___/
+"""
+
+def binding = new Binding()
+binding._global = binding
+
+def shell = new GroovyShell(binding)
+
+// find where jenny is installed
+File scriptFile = new File(getClass().protectionDomain.codeSource.location.path)
+
+// load all the support files.
+new File(scriptFile.parent, "support").listFiles().each {
+  shell.evaluate(it)
+}
+
+// FIXME: parse extra parameters
+// FIXME: load extra libraries
+
+// this will run the current jenkinsfile
+shell.evaluate(new File("Jenkinsfile"))
+

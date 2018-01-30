@@ -1,0 +1,3 @@
+deleteDir = { ->
+    println("rm -fr")
+}

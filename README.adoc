@@ -1,0 +1,17 @@
+= Jenny
+
+Command line Jenkinsfile runner written in groovy.
+
+== Usage
+
+Just make the `jenny` binary available in the path, go in the folder where the
+`Jenkinsfile` resides and run:
+
+[source,sh]
+-----------------------------------------------------------------------------
+jenny
+-----------------------------------------------------------------------------
+
+This will try running all the stages, locally. Only a subset of Jenkins
+commands are supported. PRs welcome.
+
