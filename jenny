@@ -1,5 +1,24 @@
 #!/usr/bin/env groovy
 
+// -------------------------------------------------------------------
+// Parse the CLI options.
+// -------------------------------------------------------------------
+def cli = new CliBuilder(usage: "jenny [options]")
+cli.l(longOpt: "lib", args: -2, argName: "lib", "path to the library to load")
+cli.p(longOpt: "param", args: -2, argName: "property=value", valueSeparator:'=', "parameter to override")
+cli.h(longOpt: "help", "show this message")
+
+def options = cli.parse(args)
+
+if (options.h) {
+    cli.usage();
+    return;
+}
+
+
+// -------------------------------------------------------------------
+// Start the execution.
+// -------------------------------------------------------------------
 print """   _
   (_) ___ _ __  _ __  _   _
   | |/ _ \\ '_ \\| '_ \\| | | |
@@ -13,6 +32,9 @@ binding._global = binding
 
 def shell = new GroovyShell(binding)
 
+// -------------------------------------------------------------------
+// Load the default suport functions
+// -------------------------------------------------------------------
 // find where jenny is installed
 File scriptFile = new File(getClass().protectionDomain.codeSource.location.path)
 
@@ -21,8 +43,33 @@ new File(scriptFile.parent, "support").listFiles().each {
   shell.evaluate(it)
 }
 
-// FIXME: parse extra parameters
-// FIXME: load extra libraries
+// -------------------------------------------------------------------
+// Load the external libraries
+// -------------------------------------------------------------------
+def loadLibrary(shell, binding, path) {
+    println "Loading library ${path}"
+    def libFolder = new File(path, "vars")
+
+    if (!libFolder.exists()) {
+        throw new IllegalArgumentException("${libFolder} does not exists")
+    }
+
+    libFolder.listFiles().each { commandFile ->
+        def command = shell.parse(commandFile)
+        binding[command.class.name] = { config = null -> 
+            return command.invokeMethod("call", config)
+        }
+    }
+}
+
+if (options.libs) {
+    options.libs.each {
+        loadLibrary(shell, binding, it)
+    }
+}
+
+println binding.variables
+// FIXME: override parameters
 
 // this will run the current jenkinsfile
 shell.evaluate(new File("Jenkinsfile"))
