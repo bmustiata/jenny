@@ -2,4 +2,3 @@ scm = "SCM"
 
 checkout = { version ->
 }
-

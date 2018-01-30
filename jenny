@@ -25,6 +25,7 @@ print """   _
   | |  __/ | | | | | | |_| |
  _/ |\\___|_| |_|_| |_|\\__, |
 |__/                  |___/
+console jenkins runner
 """
 
 def binding = new Binding()
@@ -68,7 +69,6 @@ if (options.libs) {
     }
 }
 
-println binding.variables
 // FIXME: override parameters
 
 // this will run the current jenkinsfile
