@@ -69,7 +69,14 @@ if (options.libs) {
     }
 }
 
-// FIXME: override parameters
+// -------------------------------------------------------------------
+// Override parameters
+// -------------------------------------------------------------------
+if (options.params) {
+    for (def i = 0; i < options.params.size(); i += 2) {
+        binding._definedParameters[options.params[i]] = options.params[i + 1]
+    }
+}
 
 // this will run the current jenkinsfile
 shell.evaluate(new File("Jenkinsfile"))
