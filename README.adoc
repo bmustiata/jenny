@@ -15,3 +15,58 @@ jenny
 This will try running all the stages, locally. Only a subset of Jenkins
 commands are supported. PRs welcome.
 
+== Supported Commands
+
+=== booleanParam
+
+Allow defining a boolean parameter in the `parameters` section.
+
+=== checkout
+
+Checkout the source in the workspace.
+
+=== deleteDir
+
+Delete the given folder.
+
+=== file
+
+Specify a file for a `withCredentials`.
+
+=== input
+
+Ask for input from the user. If the user starts with the letter `n` it's considered cancelled.
+
+=== node
+
+Specify a node. It will just call the code on the local instance.
+
+=== parallel
+
+Parallel sections will be run iteratively in a non parallel fashion.
+
+=== properties
+
+Allow defining properties for the current file.
+
+=== parameters
+
+Allow defining parameters for the current Jenkinsfile. The parameters can be overwritten at the execution using the `--param` flag.
+
+=== string
+
+Define a string param in a `parameters` section.
+
+=== sh
+
+Execute a shell script on the local node.
+
+=== stage
+
+Define a stage. It will just printout its name, and execute the code inside.
+
+=== withCredentials
+
+Will create the files given into, and delete them when the section is done.
+The files must exist in the current folder into `.jenny/credentials/NAME_OF_FILE`.
+They can also be symlinks.
