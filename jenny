@@ -6,7 +6,8 @@
 def cli = new CliBuilder(usage: "jenny [options]")
 cli.l(longOpt: "lib", args: -2, argName: "lib", "path to the library to load")
 cli.p(longOpt: "param", args: -2, argName: "property=value", valueSeparator:'=', "parameter to override")
-cli.s(longOpt: "skip", args: -2, argName: "stage/parallel", "stages or parallel blocks to skip by ID")
+cli.s(longOpt: "skip", args: -2, argName: "id", "stage/parallel/node blocks to skip by ID")
+cli.o(longOpt: "only", args: -2, argName: "id", "stage/parallel/node blocks to run by ID (includes ancestors)")
 cli.i(longOpt: "info", "show information on the current jenkinsfile, including ids")
 cli.h(longOpt: "help", "show this message")
 
@@ -42,6 +43,10 @@ def shell = new GroovyShell(binding)
 File scriptFile = new File(getClass().protectionDomain.codeSource.location.path)
 
 // load all the support files.
+new File(scriptFile.parent, "common").listFiles().each {
+  shell.evaluate(it)
+}
+
 new File(scriptFile.parent, options.info ? "info" : "support").listFiles().each {
   shell.evaluate(it)
 }
@@ -59,7 +64,7 @@ def loadLibrary(shell, binding, path) {
 
     libFolder.listFiles().each { commandFile ->
         def command = shell.parse(commandFile)
-        binding[command.class.name] = { config = null -> 
+        binding[command.class.name] = { config = null ->
             return command.invokeMethod("call", config)
         }
     }
@@ -75,7 +80,7 @@ def loadInfoLibrary(shell, binding, path) {
 
     libFolder.listFiles().each { commandFile ->
         def commandName = commandFile.getName().substring(0, commandFile.getName().lastIndexOf("."))
-        binding[commandName] = { config = null -> 
+        binding[commandName] = { config = null ->
             shell.evaluate("println(_currentIndent('${commandName}'))")
         }
     }
