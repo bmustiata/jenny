@@ -49,7 +49,7 @@ _runSectionWithId = { baseId, code ->
         def nodeItem = NodeItem.push(baseId)
     
         if (_execute_skip_ids && _execute_skip_ids.contains(nodeItem.fullId)) {
-            println("jenny: Skipped ${baseId} ${nodeItem.fullId}")
+            println("> jenny: Skipped ${baseId} ${nodeItem.fullId}")
             return
         }
 

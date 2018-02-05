@@ -38,6 +38,14 @@ properties = { props ->
                 _global[it.name] = it.defaultValue
             }
 
+            println("> ==============================================")
+            println("> Parameters")
+            println("> --------------------------------------------")
+            prop.parameters.each {
+                println("> ${it.name} = ${_global[it.name]}")
+            }
+            println("> ==============================================")
+
             return;
         }
     }

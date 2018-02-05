@@ -22,14 +22,14 @@ if (options.h) {
 // -------------------------------------------------------------------
 // Start the execution.
 // -------------------------------------------------------------------
-print """   _
-  (_) ___ _ __  _ __  _   _
-  | |/ _ \\ '_ \\| '_ \\| | | |
-  | |  __/ | | | | | | |_| |
- _/ |\\___|_| |_|_| |_|\\__, |
-|__/                  |___/
-console jenkins runner
-
+print """>    _
+>   (_) ___ _ __  _ __  _   _
+>   | |/ _ \\ '_ \\| '_ \\| | | |
+>   | |  __/ | | | | | | |_| |
+>  _/ |\\___|_| |_|_| |_|\\__, |
+> |__/                  |___/
+> console jenkins runner
+> 
 """
 
 def binding = new Binding()
@@ -62,7 +62,7 @@ new File(scriptFile.parent, options.info ? "info" : "support").listFiles().each 
 // Load the external libraries
 // -------------------------------------------------------------------
 def loadLibrary(shell, binding, path) {
-    println "Loading library ${path}"
+    println "> Loading library ${path}"
     def libFolder = new File(path, "vars")
 
     if (!libFolder.exists()) {
@@ -78,7 +78,7 @@ def loadLibrary(shell, binding, path) {
 }
 
 def loadInfoLibrary(shell, binding, path) {
-    println "Loading library ${path}"
+    println "> Loading library ${path}"
     def libFolder = new File(path, "vars")
 
     if (!libFolder.exists()) {
@@ -116,4 +116,3 @@ if (options.params) {
 // this will run the current jenkinsfile
 shell.evaluate(new File("Jenkinsfile"))
 
-println("Running on ${options.onlys}")
