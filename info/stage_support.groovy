@@ -1,4 +1,6 @@
 stage = { name, code ->
-    println(_currentIndent("stage: ${name}", "stage"))
-    _increaseIndent code
+    _runSectionWithId("stage") { stageId ->
+        println(_currentIndent("stage: ${name}", stageId))
+        _increaseIndent code
+    }
 }

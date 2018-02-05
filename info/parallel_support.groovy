@@ -1,12 +1,20 @@
 parallel = { items ->
-    items.each { parallelBranch, code ->
-        if (parallelBranch == "failFast") {
-            return;
-        }
+    _runSectionWithId("parallel") { parallelId ->
+        println(_currentIndent("parallel", parallelId))
 
-        println(_currentIndent("parallel: ${parallelBranch}", "parallel"))        
         _increaseIndent {
-            code()
+            items.each { parallelBranch, code ->
+                _runSectionWithId("branch") { branchId ->
+                    if (parallelBranch == "failFast") {
+                        return;
+                    }
+
+                    println(_currentIndent("parallel branch: ${parallelBranch}", branchId))
+                    _increaseIndent {
+                        code()
+                    }
+                }
+            }
         }
     }
 }

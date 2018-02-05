@@ -7,9 +7,9 @@ _currentIndent = { message, id = null ->
         indent += "  "
     }
 
-    def key = _generateId(id)
+    def key = id ?: ""
 
-    return indent + message + key
+    return indent + message + (key ? " [${key}]" : "")
 }
 
 _increaseIndent = { code -> 

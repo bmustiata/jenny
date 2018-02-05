@@ -29,12 +29,19 @@ print """   _
  _/ |\\___|_| |_|_| |_|\\__, |
 |__/                  |___/
 console jenkins runner
+
 """
 
 def binding = new Binding()
 binding._global = binding
 
 def shell = new GroovyShell(binding)
+
+// -------------------------------------------------------------------
+// Prepare parameters for the support functions
+// -------------------------------------------------------------------
+binding._execute_only_ids = options.onlys
+binding._execute_skip_ids = options.skips
 
 // -------------------------------------------------------------------
 // Load the default suport functions
@@ -108,3 +115,5 @@ if (options.params) {
 
 // this will run the current jenkinsfile
 shell.evaluate(new File("Jenkinsfile"))
+
+println("Running on ${options.onlys}")

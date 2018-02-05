@@ -1,3 +1,5 @@
 node = { name = null, code ->
-    code()
+    _runSectionWithId("node") {
+        code()
+    }
 }
