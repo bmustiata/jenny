@@ -1,5 +1,5 @@
 stage = { name, code ->
-    _runSectionWithId(name) {        
+    _runSectionWithId("stage") { id ->
         println("========================================================================")
         println("= Stage: " + name)
         println("========================================================================")
