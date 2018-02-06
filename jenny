@@ -8,6 +8,7 @@ cli.l(longOpt: "lib", args: -2, argName: "lib", "path to the library to load")
 cli.p(longOpt: "param", args: -2, argName: "property=value", valueSeparator:'=', "parameter to override")
 cli.s(longOpt: "skip", args: -2, argName: "id", "stage/parallel/node blocks to skip by ID")
 cli.o(longOpt: "only", args: -2, argName: "id", "stage/parallel/node blocks to run by ID (includes ancestors)")
+cli.rf(longOpt: "resume-from", args: 1, argName: "id", "stage/parallel/node blocks to continue from")
 cli.i(longOpt: "info", "show information on the current jenkinsfile, including ids")
 cli.h(longOpt: "help", "show this message")
 
@@ -42,6 +43,7 @@ def shell = new GroovyShell(binding)
 // -------------------------------------------------------------------
 binding._execute_only_ids = options.onlys
 binding._execute_skip_ids = options.skips
+binding._execute_resume_from_id = options.resumeFrom
 
 // -------------------------------------------------------------------
 // Load the default suport functions
