@@ -4,6 +4,7 @@ class NodeItem {
     Map<String, Integer> idMap = [:]
     NodeItem parentNode
     static List<NodeItem> runningItems = []
+    static boolean resumeSessionReached
 
     /**
     * Generate an id for the given prefix. This will
@@ -21,6 +22,28 @@ class NodeItem {
         }
 
         return key
+    }
+
+    boolean isInExecuteOnlySection(_execute_only_ids) {
+        if (!_execute_only_ids) {
+            return true
+        }
+
+        return _execute_only_ids.find {
+            it.startsWith(this.fullId) || this.fullId.startsWith(it)
+        } != null
+    }
+
+    boolean isInResumedSection(_execute_resume_from_id) {
+        if (!_execute_resume_from_id || NodeItem.resumeSessionReached) {
+            return true;
+        }
+
+        if (this.isInExecuteOnlySection([_execute_resume_from_id])) {
+            return true;
+        }
+
+        return false
     }
 
     public String getFullId() {
@@ -47,8 +70,22 @@ NodeItem.runningItems.push(new NodeItem(baseId: null))
 _runSectionWithId = { baseId, code ->
     try {
         def nodeItem = NodeItem.push(baseId)
+
+        if (_execute_resume_from_id == nodeItem.fullId) {
+            NodeItem.resumeSessionReached = true
+        }
     
         if (_execute_skip_ids && _execute_skip_ids.contains(nodeItem.fullId)) {
+            println("> jenny: Skipped ${baseId} ${nodeItem.fullId}")
+            return
+        }
+
+        if (!nodeItem.isInExecuteOnlySection(_execute_only_ids)) {
+            println("> jenny: Skipped ${baseId} ${nodeItem.fullId}")
+            return
+        }
+
+        if (!nodeItem.isInResumedSection(_execute_resume_from_id)) {
             println("> jenny: Skipped ${baseId} ${nodeItem.fullId}")
             return
         }

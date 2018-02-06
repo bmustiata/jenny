@@ -9,7 +9,7 @@ cli.l(longOpt: "lib", args: -2, argName: "lib", "path to the library to load")
 cli.p(longOpt: "param", args: -2, argName: "property=value", valueSeparator:'=', "parameter to override")
 cli.s(longOpt: "skip", args: -2, argName: "id", "stage/parallel/node blocks to skip by ID")
 cli.o(longOpt: "only", args: -2, argName: "id", "stage/parallel/node blocks to run by ID (includes ancestors)")
-cli.rf(longOpt: "resume-from", args: 1, argName: "id", "stage/parallel/node blocks to continue from")
+cli.rf(longOpt: "resumeFrom", args: 1, argName: "id", "stage/parallel/node blocks to continue from")
 cli.i(longOpt: "info", "show information on the current jenkinsfile, including ids")
 cli.h(longOpt: "help", "show this message")
 
@@ -50,6 +50,10 @@ binding._execute_resume_from_id = options.resumeFrom
 // Load the default suport functions
 // -------------------------------------------------------------------
 // find where jenny is installed
+// jenny can run in two modes:
+// 1. is to actually execute things,
+// 2. is to just provide information to the user 
+//    on what will be executed, and provide the IDs
 File scriptFile = new File(getClass().protectionDomain.codeSource.location.path)
 
 // load all the support files.
@@ -64,6 +68,7 @@ new File(scriptFile.parent, options.info ? "info" : "support").listFiles().each 
 // -------------------------------------------------------------------
 // Load the external libraries
 // -------------------------------------------------------------------
+// FIXME: these should be in some external files
 def loadLibrary(shell, binding, path) {
     println "> Loading library ${path}"
     def libFolder = new File(path, "vars")
@@ -118,4 +123,3 @@ if (options.params) {
 
 // this will run the current jenkinsfile
 shell.evaluate(new File(options.file ?: "Jenkinsfile"))
-
