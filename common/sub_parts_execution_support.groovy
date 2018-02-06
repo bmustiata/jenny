@@ -5,6 +5,7 @@ class NodeItem {
     NodeItem parentNode
     static List<NodeItem> runningItems = []
     static boolean resumeSessionReached
+    static boolean skipSessionReached
 
     /**
     * Generate an id for the given prefix. This will
@@ -46,6 +47,18 @@ class NodeItem {
         return false
     }
 
+    boolean isInSkipedSection(_execute_skip_after_id) {
+        if (!_execute_skip_after_id) {
+            return false
+        }
+
+        if (NodeItem.skipSessionReached) {
+            return true;
+        }
+
+        return false;
+    }
+
     public String getFullId() {
         return (this.parentNode.baseId ? "${this.parentNode.fullId}." : "") + this.leafId
     }
@@ -74,6 +87,10 @@ _runSectionWithId = { baseId, code ->
         if (_execute_resume_from_id == nodeItem.fullId) {
             NodeItem.resumeSessionReached = true
         }
+
+        if (_execute_skip_after_id == nodeItem.fullId) {
+            NodeItem.skipSessionReached = true
+        }
     
         if (_execute_skip_ids && _execute_skip_ids.contains(nodeItem.fullId)) {
             println("> jenny: Skipped ${baseId} ${nodeItem.fullId}")
@@ -86,6 +103,11 @@ _runSectionWithId = { baseId, code ->
         }
 
         if (!nodeItem.isInResumedSection(_execute_resume_from_id)) {
+            println("> jenny: Skipped ${baseId} ${nodeItem.fullId}")
+            return
+        }
+
+        if (nodeItem.isInSkipedSection(_execute_skip_after_id)) {
             println("> jenny: Skipped ${baseId} ${nodeItem.fullId}")
             return
         }
