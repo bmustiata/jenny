@@ -1,3 +1,4 @@
 deleteDir = { ->
-    println "new File(${pwd()}).deleteDir()"
+    println("deleteDir: ${pwd()}")
+    new File(pwd()).deleteDir()
 }

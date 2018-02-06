@@ -5,7 +5,8 @@ class CredentialFile {
 
 withCredentials = { files, code ->
     files.each { credentialFile -> 
-        env[credentialFile.variable] = credentialFile.credentialsId
+        def file = new File(_projectFolder, ".jenny/credentials/${credentialFile.credentialsId}")
+        env[credentialFile.variable] = file.canonicalPath
     }
 
     code()

@@ -1,4 +1,8 @@
 sh = { code ->
+    println("> sh: ---------------------------------------")
+    println(code)
+    println("> -------------------------------------------")
+
     def process = new ProcessBuilder('bash', '-c', code)
         .redirectOutput(ProcessBuilder.Redirect.INHERIT)
         .redirectError(ProcessBuilder.Redirect.INHERIT)
