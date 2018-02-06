@@ -40,6 +40,8 @@ binding._global = binding
 
 def shell = new GroovyShell(binding)
 
+def jenkinsfile = new File(options.file ?: "Jenkinsfile")
+
 // -------------------------------------------------------------------
 // Prepare parameters for the support functions
 // -------------------------------------------------------------------
@@ -47,6 +49,16 @@ binding._execute_only_ids = options.onlys
 binding._execute_skip_ids = options.skips
 binding._execute_resume_from_id = options.resumeFrom
 binding._execute_skip_after_id = options.skipAfter
+
+// -------------------------------------------------------------------
+// Create the workspace
+// -------------------------------------------------------------------
+// FIXME: generate the workspace per project
+def workspaceLocation = new File("/tmp/.jenny/workspace/")
+workspaceLocation.deleteDir()
+workspaceLocation.mkdir()
+binding._workspaceFolder = workspaceLocation
+binding._projectFolder = new File(".")
 
 // -------------------------------------------------------------------
 // Load the default suport functions
@@ -124,4 +136,4 @@ if (options.params) {
 }
 
 // this will run the current jenkinsfile
-shell.evaluate(new File(options.file ?: "Jenkinsfile"))
+shell.evaluate(jenkinsfile)

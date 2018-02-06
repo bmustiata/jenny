@@ -53,6 +53,10 @@ Allow defining properties for the current file.
 
 Allow defining parameters for the current Jenkinsfile. The parameters can be overwritten at the execution using the `--param` flag.
 
+=== pwd
+
+Get the current folder, or a temporary folder.
+
 === string
 
 Define a string param in a `parameters` section.

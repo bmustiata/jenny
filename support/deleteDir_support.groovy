@@ -1,3 +1,3 @@
 deleteDir = { ->
-    println("rm -fr")
+    println "new File(${pwd()}).deleteDir()"
 }
