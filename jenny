@@ -1,5 +1,7 @@
 #!/usr/bin/env groovy
 
+@Grab('org.yaml:snakeyaml:1.17')
+
 // -------------------------------------------------------------------
 // Parse the CLI options.
 // -------------------------------------------------------------------
@@ -21,7 +23,6 @@ if (options.h) {
     return;
 }
 
-
 // -------------------------------------------------------------------
 // Start the execution.
 // -------------------------------------------------------------------
@@ -34,13 +35,26 @@ print """>    _
 > console jenkins runner
 > 
 """
+// find where jenny is installed
+File scriptFile = new File(getClass().protectionDomain.codeSource.location.path)
 
+// -------------------------------------------------------------------
+// Load the core libraries (config, lib loading)
+// -------------------------------------------------------------------
+new File(scriptFile.parent, "lib").listFiles().each {
+    evaluate(it)
+}
+
+loadConfigFile("${System.getenv('HOME')}/.jenny")
+loadConfigFile(".jenny/config")
+
+// -------------------------------------------------------------------
+// Prepare the execution context.
+// -------------------------------------------------------------------
 def binding = new Binding()
 binding._global = binding
 
 def shell = new GroovyShell(binding)
-
-def jenkinsfile = new File(options.file ?: "Jenkinsfile")
 
 // -------------------------------------------------------------------
 // Prepare parameters for the support functions
@@ -63,12 +77,10 @@ binding._projectFolder = new File(".")
 // -------------------------------------------------------------------
 // Load the default suport functions
 // -------------------------------------------------------------------
-// find where jenny is installed
 // jenny can run in two modes:
 // 1. is to actually execute things,
 // 2. is to just provide information to the user 
 //    on what will be executed, and provide the IDs
-File scriptFile = new File(getClass().protectionDomain.codeSource.location.path)
 
 // load all the support files.
 new File(scriptFile.parent, "common").listFiles().each {
@@ -82,53 +94,23 @@ new File(scriptFile.parent, options.info ? "info" : "support").listFiles().each 
 // -------------------------------------------------------------------
 // Load the external libraries
 // -------------------------------------------------------------------
-// FIXME: these should be in some external files
-def loadLibrary(shell, binding, path) {
-    println "> Loading library ${path}"
-    def libFolder = new File(path, "vars")
-
-    if (!libFolder.exists()) {
-        throw new IllegalArgumentException("${libFolder} does not exists")
-    }
-
-    libFolder.listFiles().each { commandFile ->
-        def command = shell.parse(commandFile)
-        binding[command.class.name] = { config = null ->
-            return command.invokeMethod("call", config)
-        }
-    }
-}
-
-def loadInfoLibrary(shell, binding, path) {
-    println "> Loading library ${path}"
-    def libFolder = new File(path, "vars")
-
-    if (!libFolder.exists()) {
-        throw new IllegalArgumentException("${libFolder} does not exists")
-    }
-
-    libFolder.listFiles().each { commandFile ->
-        def commandName = commandFile.getName().substring(0, commandFile.getName().lastIndexOf("."))
-        binding[commandName] = { config = null ->
-            shell.evaluate("println(_currentIndent('${commandName}'))")
-        }
-    }
-}
-
 if (options.libs) {
-    options.libs.each {
-        if (options.info) {
-            loadInfoLibrary(shell, binding, it)
-            return
-        }
+    jennyConfig.addNested(["libs": options.libs])
+}
 
-        loadLibrary(shell, binding, it)
-    }
+if (options.info) {
+    loadInfoLibraries(shell, binding)
+} else {
+    loadLibraries(shell, binding)
 }
 
 // -------------------------------------------------------------------
 // Override parameters
 // -------------------------------------------------------------------
+if (jennyConfig.params) {
+    binding._definedParameters.addNested(jennyConfig.params)
+}
+
 if (options.params) {
     for (def i = 0; i < options.params.size(); i += 2) {
         binding._definedParameters[options.params[i]] = options.params[i + 1]
@@ -136,4 +118,5 @@ if (options.params) {
 }
 
 // this will run the current jenkinsfile
+def jenkinsfile = new File(options.file ?: "Jenkinsfile")
 shell.evaluate(jenkinsfile)
