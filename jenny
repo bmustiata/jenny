@@ -47,22 +47,16 @@ new File(scriptFile.parent, "lib").listFiles().each {
 
 loadConfigFile("${System.getenv('HOME')}/.jenny")
 loadConfigFile(".jenny/config")
+loadCommandLineOptions(options)
 
 // -------------------------------------------------------------------
 // Prepare the execution context.
 // -------------------------------------------------------------------
 def binding = new Binding()
 binding._global = binding
+binding._jennyConfig = jennyConfig
 
 def shell = new GroovyShell(binding)
-
-// -------------------------------------------------------------------
-// Prepare parameters for the support functions
-// -------------------------------------------------------------------
-binding._execute_only_ids = options.onlys
-binding._execute_skip_ids = options.skips
-binding._execute_resume_from_id = options.resumeFrom
-binding._execute_skip_after_id = options.skipAfter
 
 // -------------------------------------------------------------------
 // Create the workspace
@@ -94,10 +88,6 @@ new File(scriptFile.parent, options.info ? "info" : "support").listFiles().each 
 // -------------------------------------------------------------------
 // Load the external libraries
 // -------------------------------------------------------------------
-if (options.libs) {
-    jennyConfig.addNested(["libs": options.libs])
-}
-
 if (options.info) {
     loadInfoLibraries(shell, binding)
 } else {
@@ -109,12 +99,6 @@ if (options.info) {
 // -------------------------------------------------------------------
 if (jennyConfig.params) {
     binding._definedParameters.addNested(jennyConfig.params)
-}
-
-if (options.params) {
-    for (def i = 0; i < options.params.size(); i += 2) {
-        binding._definedParameters[options.params[i]] = options.params[i + 1]
-    }
 }
 
 // this will run the current jenkinsfile

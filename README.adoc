@@ -2,6 +2,13 @@
 
 Command line Jenkinsfile runner written in groovy.
 
+This does not require Jenkins to run, and will run everything locally. It's
+great to debug and fastly iterate over `Jenkinsfile` creation, before pushing
+them for the real Jenkins.
+
+In order to do that it allows skipping sections of the Jenkinsfiles, and
+starting from different parts.
+
 == Usage
 
 Just make the `jenny` binary available in the path, go in the folder where the
@@ -23,11 +30,12 @@ Allow defining a boolean parameter in the `parameters` section.
 
 === checkout
 
-Checkout the source in the workspace.
+Checkout the source in the workspace. This will actually just copy the project
+folder into the current folder.
 
 === deleteDir
 
-Delete the given folder.
+Delete the current folder recursively.
 
 === file
 
@@ -35,7 +43,8 @@ Specify a file for a `withCredentials`.
 
 === input
 
-Ask for input from the user. If the user starts with the letter `n` it's considered cancelled.
+Ask for input from the user. If the user starts with the letter `n` it's
+considered cancelled.
 
 === node
 
@@ -51,7 +60,8 @@ Allow defining properties for the current file.
 
 === parameters
 
-Allow defining parameters for the current Jenkinsfile. The parameters can be overwritten at the execution using the `--param` flag.
+Allow defining parameters for the current Jenkinsfile. The parameters can be
+overwritten at the execution using the `--param` flag.
 
 === pwd
 
@@ -72,5 +82,6 @@ Define a stage. It will just printout its name, and execute the code inside.
 === withCredentials
 
 Will create the files given into, and delete them when the section is done.
-The files must exist in the current folder into `.jenny/credentials/NAME_OF_FILE`.
-They can also be symlinks.
+The files must exist in the project or home folder into
+`.jenny/credentials/NAME_OF_FILE`.  They can also be symlinks.
+

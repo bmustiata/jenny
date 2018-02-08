@@ -84,30 +84,30 @@ _runSectionWithId = { baseId, code ->
     try {
         def nodeItem = NodeItem.push(baseId)
 
-        if (_execute_resume_from_id == nodeItem.fullId) {
+        if (_jennyConfig.execute.resumeFrom == nodeItem.fullId) {
             NodeItem.resumeSessionReached = true
         }
 
-        if (_execute_skip_after_id == nodeItem.fullId) {
+        if (_jennyConfig.execute.skipAfter == nodeItem.fullId) {
             NodeItem.skipSessionReached = true
         }
     
-        if (_execute_skip_ids && _execute_skip_ids.contains(nodeItem.fullId)) {
+        if (_jennyConfig.execute.skip && _jennyConfig.execute.skip.contains(nodeItem.fullId)) {
             println("> jenny: Skipped ${baseId} ${nodeItem.fullId}")
             return
         }
 
-        if (!nodeItem.isInExecuteOnlySection(_execute_only_ids)) {
+        if (!nodeItem.isInExecuteOnlySection(_jennyConfig.execute.only)) {
             println("> jenny: Skipped ${baseId} ${nodeItem.fullId}")
             return
         }
 
-        if (!nodeItem.isInResumedSection(_execute_resume_from_id)) {
+        if (!nodeItem.isInResumedSection(_jennyConfig.execute.resumeFrom)) {
             println("> jenny: Skipped ${baseId} ${nodeItem.fullId}")
             return
         }
 
-        if (nodeItem.isInSkipedSection(_execute_skip_after_id)) {
+        if (nodeItem.isInSkipedSection(_jennyConfig.execute.skipAfter)) {
             println("> jenny: Skipped ${baseId} ${nodeItem.fullId}")
             return
         }

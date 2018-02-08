@@ -34,3 +34,39 @@ loadConfigFile = { fileName ->
         jennyConfig.addNested(loadedConfig)
     }
 }
+
+loadCommandLineOptions = { options -> 
+    def commandLineOptions = ["execute":[:]]
+
+    if (options.libs) {
+        commandLineOptions["libs"] = options.libs
+    }
+
+    if (options.params) {
+        def parameters = [:]
+
+        for (def i = 0; i < options.params.size(); i += 2) {
+            parameters[options.params[i]] = parameters[i + 1]
+        }
+
+        commandLineOptions["params"] = parameters
+    }
+
+    if (options.onlys) {
+        commandLineOptions.execute["only"] = options.onlys
+    }
+
+    if (options.skips) {
+        commandLineOptions.execute["skip"] = options.skips
+    }
+
+    if (options.resumeFrom) {
+        commandLineOptions.execute["resumeFrom"] = options.resumeFrom
+    }
+
+    if (options.skipAfter) {
+        commandLineOptions.execute["skipAfter"] = options.skipAfter
+    }
+
+    jennyConfig.addNested(commandLineOptions)
+}
