@@ -45,7 +45,9 @@ new File(scriptFile.parent, "lib").listFiles().each {
     evaluate(it)
 }
 
-loadConfigFile("${System.getenv('HOME')}/.jenny")
+def jennyGlobalConfigFolder = "${System.getenv('HOME')}/.jenny"
+
+loadConfigFile("${jennyGlobalConfigFolder}/config")
 loadConfigFile(".jenny/config")
 loadCommandLineOptions(options)
 
@@ -65,6 +67,7 @@ def shell = new GroovyShell(binding)
 def workspaceLocation = new File("/tmp/.jenny/workspace/")
 workspaceLocation.deleteDir()
 workspaceLocation.mkdir()
+binding._jennyGlobalConfigFolder = jennyGlobalConfigFolder
 binding._workspaceFolder = workspaceLocation
 binding._projectFolder = new File(".")
 
