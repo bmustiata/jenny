@@ -22,7 +22,13 @@ withCredentials = { files, code ->
         throw new IllegalStateException("Unable to find credential ${credentialFile.credentialsId} in any of ${searchedPaths}.")
     }
 
-    code()
+    try {
+        code()
+    } finally {
+        files.each { credentialFile ->
+            env.remove(credentialFile.variable)
+        }
+    }
 }
 
 file = { config -> 
