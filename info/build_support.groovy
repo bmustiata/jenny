@@ -8,7 +8,7 @@ build = { config ->
     }
 
     println(_currentIndent("build job: \"${config.job}\", wait: ${config.wait}"))
-    
+
     if (config && config.containsKey("wait") && !config["wait"]) {
         println("> wait: nowait in external builds is not supported.")
     }
@@ -25,5 +25,7 @@ build = { config ->
         projectFolder = new File(_jennyConfig.projectFolder.parentFile, jobLocation).canonicalPath
     }
 
-    _jennyRun(projectFolder: projectFolder)
+    _increaseIndent {
+        _jennyRun(projectFolder: projectFolder)
+    }
 }

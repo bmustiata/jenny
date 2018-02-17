@@ -47,6 +47,8 @@ new File(scriptFile.parent, "lib").listFiles().each {
 
 jennyGlobalConfigFolder = "${System.getenv('HOME')}/.jenny"
 
+jennyGlobal = [:]
+
 /**
  * Execute a build for a jenkinsfile. This uses also the parent context
  * when calling nested builds run.
@@ -55,11 +57,14 @@ jennyRun = { runConfig ->
     // -------------------------------------------------------------------
     // Read the configuration for the current project.
     // -------------------------------------------------------------------
-    def jennyConfig = [:]
+    def jennyConfig = ["libs":[], "execute":[:], "projects":[:]]
 
     loadConfigFile(jennyConfig, "${jennyGlobalConfigFolder}/config")
     loadConfigFile(jennyConfig, ".jenny/config")
-    loadCommandLineOptions(jennyConfig, options)
+
+    if (runConfig.topProject) {
+        loadCommandLineOptions(jennyConfig, options)
+    }
 
     // -------------------------------------------------------------------
     // Prepare the execution context.
@@ -67,7 +72,8 @@ jennyRun = { runConfig ->
     def binding = new Binding()
     binding._global = binding
     binding._jennyConfig = jennyConfig
-    binding._jennyRun = jennyRun 
+    binding._jennyRun = jennyRun
+    binding._jennyGlobal = jennyGlobal
 
     def shell = new GroovyShell(binding)
 
@@ -131,5 +137,6 @@ jennyRun = { runConfig ->
 
 jennyRun([
     projectFolder: ".",
-    jenkinsFile: (options.file ?: "Jenkinsfile")
+    jenkinsFile: (options.file ?: "Jenkinsfile"),
+    topProject: true
 ])

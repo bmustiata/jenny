@@ -1,9 +1,11 @@
 
-def _indentIndex = 0
+if (!_jennyGlobal.containsKey("indentIndex")) {
+    _jennyGlobal["indentIndex"] = 0
+}
 
 _currentIndent = { message, id = null ->
     def indent = ""
-    for (int i = 0; i < _indentIndex; i++) {
+    for (int i = 0; i < _jennyGlobal["indentIndex"]; i++) {
         indent += "  "
     }
 
@@ -14,9 +16,9 @@ _currentIndent = { message, id = null ->
 
 _increaseIndent = { code -> 
     try {
-        _indentIndex++
+        _jennyGlobal["indentIndex"] = _jennyGlobal["indentIndex"] + 1
         return code()
     } finally {
-        _indentIndex--
+        _jennyGlobal["indentIndex"] = _jennyGlobal["indentIndex"] - 1
     }
 }
