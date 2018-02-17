@@ -25,9 +25,8 @@ List.metaClass.addNested { List rhs ->
 // Read the configuration from the home folder.
 // -------------------------------------------------------------------
 Yaml parser = new Yaml()
-jennyConfig = [:]
 
-loadConfigFile = { fileName ->
+loadConfigFile = { jennyConfig, fileName ->
     if ((fileName as File).exists()) {
         println "> loading config file: ${fileName}"
         def loadedConfig = parser.load((fileName as File).text)
@@ -35,7 +34,7 @@ loadConfigFile = { fileName ->
     }
 }
 
-loadCommandLineOptions = { options -> 
+loadCommandLineOptions = { jennyConfig, options -> 
     def commandLineOptions = ["execute":[:]]
 
     if (options.libs) {

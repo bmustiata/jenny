@@ -31,13 +31,13 @@ def loadInfoLibrary(shell, binding, path) {
 }
 
 loadLibraries = { shell, binding ->
-    jennyConfig.libs.each {
+    binding._jennyConfig.libs.each {
         loadLibrary(shell, binding, it)
     }
 }
 
 loadInfoLibraries = { shell, binding ->
-    jennyConfig.libs.each {
+    binding._jennyConfig.libs.each {
         loadInfoLibrary(shell, binding, it)
     }    
 }

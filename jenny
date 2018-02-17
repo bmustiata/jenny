@@ -55,9 +55,10 @@ jennyRun = { config ->
     // -------------------------------------------------------------------
     // Read the configuration for the current project.
     // -------------------------------------------------------------------
-    loadConfigFile("${jennyGlobalConfigFolder}/config")
-    loadConfigFile(".jenny/config")
-    loadCommandLineOptions(options)
+    def jennyConfig = [:]
+    loadConfigFile(jennyConfig, "${jennyGlobalConfigFolder}/config")
+    loadConfigFile(jennyConfig, ".jenny/config")
+    loadCommandLineOptions(jennyConfig, options)
 
     // -------------------------------------------------------------------
     // Prepare the execution context.
@@ -76,6 +77,7 @@ jennyRun = { config ->
     def workspaceLocation = new File("/tmp/.jenny/workspace/")
     workspaceLocation.deleteDir()
     workspaceLocation.mkdir()
+    // the folder is needed for credentials search.
     binding._jennyGlobalConfigFolder = jennyGlobalConfigFolder
     binding._workspaceFolder = workspaceLocation
     binding._projectFolder = new File(".")
