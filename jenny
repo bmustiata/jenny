@@ -51,11 +51,12 @@ jennyGlobalConfigFolder = "${System.getenv('HOME')}/.jenny"
  * Execute a build for a jenkinsfile. This uses also the parent context
  * when calling nested builds run.
  */
-jennyRun = { config ->
+jennyRun = { runConfig ->
     // -------------------------------------------------------------------
     // Read the configuration for the current project.
     // -------------------------------------------------------------------
     def jennyConfig = [:]
+
     loadConfigFile(jennyConfig, "${jennyGlobalConfigFolder}/config")
     loadConfigFile(jennyConfig, ".jenny/config")
     loadCommandLineOptions(jennyConfig, options)
@@ -80,7 +81,7 @@ jennyRun = { config ->
     // needed for credentials
     jennyConfig.jennyGlobalConfigFolder = jennyGlobalConfigFolder
     // needed for credentials/checkout
-    jennyConfig.projectFolder = new File(".")
+    jennyConfig.projectFolder = new File(new File(runConfig.projectFolder ?: ".").canonicalPath)
     // workspaceFolder is needed for pwd
     jennyConfig.workspaceFolder = workspaceLocation
 
@@ -117,9 +118,18 @@ jennyRun = { config ->
         binding._definedParameters.addNested(jennyConfig.params)
     }
 
-    // this will run the current jenkinsfile
-    def jenkinsfile = new File(options.file ?: "Jenkinsfile")
-    shell.evaluate(jenkinsfile)
+    // this will run the given jenkinsfile
+    def jenkinsFile = new File(jennyConfig.projectFolder,
+                               runConfig.jenkinsFile ?: "Jenkinsfile")
+
+    if (!jenkinsFile.exists()) {
+        throw new IllegalArgumentException("File ${jenkinsFile.canonicalPath} does not exists.")
+    }
+
+    shell.evaluate(jenkinsFile)
 }
 
-jennyRun([:])
+jennyRun([
+    projectFolder: ".",
+    jenkinsFile: (options.file ?: "Jenkinsfile")
+])

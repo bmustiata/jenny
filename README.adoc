@@ -22,11 +22,167 @@ jenny
 This will try running all the stages, locally. Only a subset of Jenkins
 commands are supported. PRs welcome.
 
+== Configuration
+
+The configuration items are made from a few sources:
+
+1. global config: `$HOME/.jenny/config`,
+2. project config: `.jenny/config` in the project folder,
+3. command line arguments.
+
+Options are generally merged (for example libraries), skip node ids, etc. only
+with the exception of resumeFrom and skipAfter.
+
+=== Configurable options
+
+[source,yaml]
+-----------------------------------------------------------------------------
+libs: # list of libaries folders to load
+  - /path/to/some/folder
+  - /path/to/other/folder
+execute:
+  resumeFrom: "s1"
+  skipAfter: "s7"
+  only:
+    - "s1.n1"
+  skip:
+    - "s2"
+    - "s5"
+-----------------------------------------------------------------------------
+
+To get the IDs of the elements to skip, just call jenny with the `-i` flag.
+
+For this Jenkinsfile:
+
+[source,groovy]
+-----------------------------------------------------------------------------
+stage('Prepare') {
+  node {
+    sh """
+        echo Prepare
+    """
+  }
+}
+
+stage('Test') {
+  node {
+    sh """
+        echo Test part 1
+    """
+  }
+
+  node {
+    sh """
+        echo Test part 2
+    """
+  }
+}
+
+stage('Deploy') {
+  node {
+    sh """
+      echo Deploy
+    """
+  }
+}
+-----------------------------------------------------------------------------
+
+The outcome of `jenny -i` will be:
+
+[source,groovy]
+-----------------------------------------------------------------------------
+stage: Prepare [s1]
+  node [s1.n1]
+    sh
+stage: Test [s2]
+  node [s2.n1]
+    sh
+  node [s2.n2]
+    sh
+stage: Deploy [s3]
+  node [s3.n1]
+    sh
+-----------------------------------------------------------------------------
+
+To see how the skips, etc. will affect the execution, `jenny -i` will also
+display that information as well. Running for example a run starting from the
+Test stage, and not running the deployment, we can:
+
+[source,sh]
+-----------------------------------------------------------------------------
+jenny --resumeFrom s2 --skip s3 -i
+-----------------------------------------------------------------------------
+
+[source,text]
+-----------------------------------------------------------------------------
+>    _
+>   (_) ___ _ __  _ __  _   _
+>   | |/ _ \ '_ \| '_ \| | | |
+>   | |  __/ | | | | | | |_| |
+>  _/ |\___|_| |_|_| |_|\__, |
+> |__/                  |___/
+> console jenkins runner
+> 
+> jenny: Skipped stage s1
+stage: Test [s2]
+  node [s2.n1]
+    sh
+  node [s2.n2]
+    sh
+> jenny: Skipped stage s3
+-----------------------------------------------------------------------------
+
+Running it would also yield what we would expect:
+
+[source,sh]
+-----------------------------------------------------------------------------
+jenny --resumeFrom s2 --skip s3 -i
+-----------------------------------------------------------------------------
+
+[source,text]
+-----------------------------------------------------------------------------
+>    _
+>   (_) ___ _ __  _ __  _   _
+>   | |/ _ \ '_ \| '_ \| | | |
+>   | |  __/ | | | | | | |_| |
+>  _/ |\___|_| |_|_| |_|\__, |
+> |__/                  |___/
+> console jenkins runner
+> 
+> jenny: Skipped stage s1
+> ========================================================================
+> = Stage: Test
+> ========================================================================
+> sh: ---------------------------------------
+
+        echo Test part 1
+
+> -------------------------------------------
+Test part 1
+> sh: ---------------------------------------
+
+        echo Test part 2
+
+> -------------------------------------------
+Test part 2
+> jenny: Skipped stage s3
+-----------------------------------------------------------------------------
+
+
 == Supported Commands
 
 === booleanParam
 
 Allow defining a boolean parameter in the `parameters` section.
+
+=== build
+
+Allow running a nested build triggered from the curernt build. The `job` must
+point to a project folder configured in the jenny config, or a sibling folder
+in case it's not starting with `.`, and is not configured. If it's starting
+with a `.` then either the full relative name is configured in the jenny
+config, and that one will be used, either the folder path will be resolved
+relative to the current project folder.
 
 === checkout
 

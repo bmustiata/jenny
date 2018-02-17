@@ -8,9 +8,22 @@ build = { config ->
     }
 
     println(_currentIndent("build job: \"${config.job}\", wait: ${config.wait}"))
+    
     if (config && config.containsKey("wait") && !config["wait"]) {
         println("> wait: nowait in external builds is not supported.")
     }
 
-    _jennyRun(config)
+    def jobLocation = config.job
+    def projectFolder
+
+    if (jobLocation in _jennyConfig.projects) {
+        projectFolder = _jennyConfig.projects[jobLocation]
+    } else if (jobLocation[0] == '.') {
+        projectFolder = new File(_jennyConfig.projectFolder, jobLocation)
+                                .canonicalPath
+    } else {
+        projectFolder = new File(_jennyConfig.projectFolder.parentFile, jobLocation).canonicalPath
+    }
+
+    _jennyRun(projectFolder: projectFolder)
 }
