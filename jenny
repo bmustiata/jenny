@@ -16,7 +16,7 @@ cli.sa(longOpt: "skipAfter", args: 1, argName: "id", "stage/parallel/node blocks
 cli.i(longOpt: "info", "show information on the current jenkinsfile, including ids")
 cli.h(longOpt: "help", "show this message")
 
-def options = cli.parse(args)
+options = cli.parse(args)
 
 if (options.h) {
     cli.usage();
@@ -45,65 +45,77 @@ new File(scriptFile.parent, "lib").listFiles().each {
     evaluate(it)
 }
 
-def jennyGlobalConfigFolder = "${System.getenv('HOME')}/.jenny"
+jennyGlobalConfigFolder = "${System.getenv('HOME')}/.jenny"
 
-loadConfigFile("${jennyGlobalConfigFolder}/config")
-loadConfigFile(".jenny/config")
-loadCommandLineOptions(options)
+/**
+ * Execute a build for a jenkinsfile. This uses also the parent context
+ * when calling nested builds run.
+ */
+jennyRun = { config ->
+    // -------------------------------------------------------------------
+    // Read the configuration for the current project.
+    // -------------------------------------------------------------------
+    loadConfigFile("${jennyGlobalConfigFolder}/config")
+    loadConfigFile(".jenny/config")
+    loadCommandLineOptions(options)
 
-// -------------------------------------------------------------------
-// Prepare the execution context.
-// -------------------------------------------------------------------
-def binding = new Binding()
-binding._global = binding
-binding._jennyConfig = jennyConfig
+    // -------------------------------------------------------------------
+    // Prepare the execution context.
+    // -------------------------------------------------------------------
+    def binding = new Binding()
+    binding._global = binding
+    binding._jennyConfig = jennyConfig
+    binding._jennyRun = jennyRun 
 
-def shell = new GroovyShell(binding)
+    def shell = new GroovyShell(binding)
 
-// -------------------------------------------------------------------
-// Create the workspace
-// -------------------------------------------------------------------
-// FIXME: generate the workspace per project
-def workspaceLocation = new File("/tmp/.jenny/workspace/")
-workspaceLocation.deleteDir()
-workspaceLocation.mkdir()
-binding._jennyGlobalConfigFolder = jennyGlobalConfigFolder
-binding._workspaceFolder = workspaceLocation
-binding._projectFolder = new File(".")
+    // -------------------------------------------------------------------
+    // Create the workspace
+    // -------------------------------------------------------------------
+    // FIXME: generate the workspace per project
+    def workspaceLocation = new File("/tmp/.jenny/workspace/")
+    workspaceLocation.deleteDir()
+    workspaceLocation.mkdir()
+    binding._jennyGlobalConfigFolder = jennyGlobalConfigFolder
+    binding._workspaceFolder = workspaceLocation
+    binding._projectFolder = new File(".")
 
-// -------------------------------------------------------------------
-// Load the default suport functions
-// -------------------------------------------------------------------
-// jenny can run in two modes:
-// 1. is to actually execute things,
-// 2. is to just provide information to the user 
-//    on what will be executed, and provide the IDs
+    // -------------------------------------------------------------------
+    // Load the default suport functions
+    // -------------------------------------------------------------------
+    // jenny can run in two modes:
+    // 1. is to actually execute things,
+    // 2. is to just provide information to the user 
+    //    on what will be executed, and provide the IDs
 
-// load all the support files.
-new File(scriptFile.parent, "common").listFiles().each {
-  shell.evaluate(it)
+    // load all the support files.
+    new File(scriptFile.parent, "common").listFiles().each {
+        shell.evaluate(it)
+    }
+
+    new File(scriptFile.parent, options.info ? "info" : "support").listFiles().each {
+        shell.evaluate(it)
+    }
+
+    // -------------------------------------------------------------------
+    // Load the external libraries
+    // -------------------------------------------------------------------
+    if (options.info) {
+        loadInfoLibraries(shell, binding)
+    } else {
+        loadLibraries(shell, binding)
+    }
+
+    // -------------------------------------------------------------------
+    // Override parameters
+    // -------------------------------------------------------------------
+    if (jennyConfig.params) {
+        binding._definedParameters.addNested(jennyConfig.params)
+    }
+
+    // this will run the current jenkinsfile
+    def jenkinsfile = new File(options.file ?: "Jenkinsfile")
+    shell.evaluate(jenkinsfile)
 }
 
-new File(scriptFile.parent, options.info ? "info" : "support").listFiles().each {
-  shell.evaluate(it)
-}
-
-// -------------------------------------------------------------------
-// Load the external libraries
-// -------------------------------------------------------------------
-if (options.info) {
-    loadInfoLibraries(shell, binding)
-} else {
-    loadLibraries(shell, binding)
-}
-
-// -------------------------------------------------------------------
-// Override parameters
-// -------------------------------------------------------------------
-if (jennyConfig.params) {
-    binding._definedParameters.addNested(jennyConfig.params)
-}
-
-// this will run the current jenkinsfile
-def jenkinsfile = new File(options.file ?: "Jenkinsfile")
-shell.evaluate(jenkinsfile)
+jennyRun([:])
