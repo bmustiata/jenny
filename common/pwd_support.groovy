@@ -1,4 +1,4 @@
-def _currentFolder = _workspaceFolder
+def _currentFolder = _jennyConfig.workspaceFolder
 def _tempFolder = "/tmp/"  // FIXME: something smarter?
 
 pwd = { tmp = false -> 

@@ -77,10 +77,12 @@ jennyRun = { config ->
     def workspaceLocation = new File("/tmp/.jenny/workspace/")
     workspaceLocation.deleteDir()
     workspaceLocation.mkdir()
-    // the folder is needed for credentials search.
-    binding._jennyGlobalConfigFolder = jennyGlobalConfigFolder
-    binding._workspaceFolder = workspaceLocation
-    binding._projectFolder = new File(".")
+    // needed for credentials
+    jennyConfig.jennyGlobalConfigFolder = jennyGlobalConfigFolder
+    // needed for credentials/checkout
+    jennyConfig.projectFolder = new File(".")
+    // workspaceFolder is needed for pwd
+    jennyConfig.workspaceFolder = workspaceLocation
 
     // -------------------------------------------------------------------
     // Load the default suport functions
