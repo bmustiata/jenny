@@ -90,16 +90,12 @@ jennyRun = { runConfig ->
     // -------------------------------------------------------------------
     // Create the workspace
     // -------------------------------------------------------------------
-    // FIXME: generate the workspace per project
-    def workspaceLocation = new File("/tmp/.jenny/workspace/")
-    workspaceLocation.deleteDir()
-    workspaceLocation.mkdir()
     // needed for credentials
     jennyConfig.jennyGlobalConfigFolder = jennyGlobalConfigFolder
     // needed for credentials/checkout
     jennyConfig.projectFolder = new File(new File(runConfig.projectFolder ?: ".").canonicalPath)
     // workspaceFolder is needed for pwd
-    jennyConfig.workspaceFolder = workspaceLocation
+    jennyConfig.workspaceFolder = _prepareWorkspace()
 
     // -------------------------------------------------------------------
     // Load the default suport functions
