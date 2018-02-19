@@ -1,0 +1,16 @@
+stage('child') {
+    node {
+        sh """
+            echo "hello from child"
+        """
+    }
+}
+
+stage('child Deploy') {
+    node {
+        sh """
+            echo "wutinston"
+        """
+    }
+}
+

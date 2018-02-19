@@ -2,6 +2,10 @@
 
 @Grab('org.yaml:snakeyaml:1.17')
 
+// find where jenny is installed
+File scriptFile = new File(getClass().protectionDomain.codeSource.location.path)
+Class NodeItem = new GroovyClassLoader(getClass().getClassLoader()).parseClass(new File(scriptFile.parent, "NodeItem.groovy"));
+
 // -------------------------------------------------------------------
 // Parse the CLI options.
 // -------------------------------------------------------------------
@@ -35,8 +39,6 @@ print """>    _
 > console jenkins runner
 > 
 """
-// find where jenny is installed
-File scriptFile = new File(getClass().protectionDomain.codeSource.location.path)
 
 // -------------------------------------------------------------------
 // Load the core libraries (config, lib loading)
@@ -74,6 +76,8 @@ jennyRun = { runConfig ->
     binding._jennyConfig = jennyConfig
     binding._jennyRun = jennyRun
     binding._jennyGlobal = jennyGlobal
+
+    binding.NodeItem = NodeItem
 
     def shell = new GroovyShell(binding)
 
@@ -131,6 +135,9 @@ jennyRun = { runConfig ->
     if (!jenkinsFile.exists()) {
         throw new IllegalArgumentException("File ${jenkinsFile.canonicalPath} does not exists.")
     }
+
+    // add the root node.
+    NodeItem.runningItems.push(NodeItem.newInstance(baseId: null))
 
     shell.evaluate(jenkinsFile)
 }

@@ -1,0 +1,9 @@
+stage('Parent') {
+    node {
+        sh """
+            echo hello from parent
+        """
+    }
+
+    build "child"
+}

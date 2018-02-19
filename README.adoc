@@ -6,8 +6,8 @@ This does not require Jenkins to run, and will run everything locally. It's
 great to debug and fastly iterate over `Jenkinsfile` creation, before pushing
 them for the real Jenkins.
 
-In order to do that it allows skipping sections of the Jenkinsfiles, and
-starting from different parts.
+In order to do that, a lot of effort is concentrated on execution paths. It
+allows skipping sections of Jenkinsfiles, and starting from different parts.
 
 == Usage
 
