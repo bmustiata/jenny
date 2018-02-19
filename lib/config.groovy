@@ -3,7 +3,7 @@ import org.yaml.snakeyaml.Yaml
 Map.metaClass.addNested { Map rhs ->
     def lhs = delegate
     rhs.each { k, v ->
-        if (lhs.containsKey(k)) {
+        if (lhs.containsKey(k) && v instanceof Collection) {
             lhs[k].addNested(v)
         } else {
             lhs[k] = v
@@ -31,6 +31,11 @@ loadConfigFile = { jennyConfig, fileName ->
         //println "> loading config file: ${fileName}"
         def loadedConfig = parser.load((fileName as File).text)
         jennyConfig.addNested(loadedConfig)
+    }
+
+    // we ignore execution commands in case of nested ids
+    if (jennyConfig.nestedIds) {
+        jennyConfig["execute"] = [:]
     }
 }
 
@@ -65,6 +70,10 @@ loadCommandLineOptions = { jennyConfig, options ->
 
     if (options.skipAfter) {
         commandLineOptions.execute["skipAfter"] = options.skipAfter
+    }
+
+    if (options.nestedIds) {
+        commandLineOptions["nestedIds"] = true
     }
 
     jennyConfig.addNested(commandLineOptions)

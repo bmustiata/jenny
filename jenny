@@ -10,15 +10,16 @@ Class NodeItem = new GroovyClassLoader(getClass().getClassLoader()).parseClass(n
 // Parse the CLI options.
 // -------------------------------------------------------------------
 def cli = new CliBuilder(usage: "jenny [options]")
-cli.f(longOpt: "file", args: 1, argName: "file", "path to Jenkinsfile")
-cli.l(longOpt: "lib", args: -2, argName: "lib", "path to the library to load")
-cli.p(longOpt: "param", args: -2, argName: "property=value", valueSeparator:'=', "parameter to override")
-cli.s(longOpt: "skip", args: -2, argName: "id", "stage/parallel/node blocks to skip by ID")
-cli.o(longOpt: "only", args: -2, argName: "id", "stage/parallel/node blocks to run by ID (includes ancestors)")
-cli.rf(longOpt: "resumeFrom", args: 1, argName: "id", "stage/parallel/node blocks to continue from")
-cli.sa(longOpt: "skipAfter", args: 1, argName: "id", "stage/parallel/node blocks to skiped when reached (inclusive)")
-cli.i(longOpt: "info", "show information on the current jenkinsfile, including ids")
-cli.h(longOpt: "help", "show this message")
+cli.f(longOpt: "file", args: 1, argName: "file", "Path to Jenkinsfile.")
+cli.l(longOpt: "lib", args: -2, argName: "lib", "Path to the library to load.")
+cli.p(longOpt: "param", args: -2, argName: "nam=value", valueSeparator:'=', "Parameter to override.")
+cli.s(longOpt: "skip", args: -2, argName: "id", "stage/parallel/node blocks to skip by ID.")
+cli.o(longOpt: "only", args: -2, argName: "id", "stage/parallel/node blocks to run by ID (includes ancestors).")
+cli.rf(longOpt: "resumeFrom", args: 1, argName: "id", "stage/parallel/node blocks to continue from.")
+cli.sa(longOpt: "skipAfter", args: 1, argName: "id", "stage/parallel/node blocks to skiped when reached (inclusive).")
+cli.ni(longOpt: "nestedIds", "Generate unique ids for the whole run, including nested runs. Execution restrictions from config files will be ignored.")
+cli.i(longOpt: "info", "Show information on the current jenkinsfile, including ids.")
+cli.h(longOpt: "help", "Show this message.")
 
 options = cli.parse(args)
 
@@ -59,12 +60,17 @@ jennyRun = { runConfig ->
     // -------------------------------------------------------------------
     // Read the configuration for the current project.
     // -------------------------------------------------------------------
-    def jennyConfig = ["libs":[], "execute":[:], "projects":[:]]
+    def jennyConfig = [
+        "libs":[],
+        "execute":[:],
+        "projects":[:],
+        "nestedIds": runConfig["nestedIds"]
+    ]
 
     loadConfigFile(jennyConfig, "${jennyGlobalConfigFolder}/config")
     loadConfigFile(jennyConfig, ".jenny/config")
 
-    if (runConfig.topProject) {
+    if (runConfig.topProject || runConfig.nestedIds) {
         loadCommandLineOptions(jennyConfig, options)
     }
 
@@ -136,14 +142,15 @@ jennyRun = { runConfig ->
         throw new IllegalArgumentException("File ${jenkinsFile.canonicalPath} does not exists.")
     }
 
+    NodeItem.push(runConfig.parentId)
     // add the root node.
-    NodeItem.runningItems.push(NodeItem.newInstance(baseId: null))
-
     shell.evaluate(jenkinsFile)
 }
 
 jennyRun([
+    parentId: null,
     projectFolder: ".",
     jenkinsFile: (options.file ?: "Jenkinsfile"),
-    topProject: true
+    topProject: true,
+    nestedIds: options.nestedIds
 ])

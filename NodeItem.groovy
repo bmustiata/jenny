@@ -64,6 +64,13 @@ class NodeItem {
     }
 
     static NodeItem push(String baseId) {
+        if (baseId == null) {
+            def result = new NodeItem(baseId: null)
+            NodeItem.runningItems.push(result)
+
+            return result
+        }
+
         def result = new NodeItem(baseId: baseId, 
                                   parentNode: NodeItem.runningItems.last())
         NodeItem.runningItems.push(result)

@@ -26,7 +26,9 @@ build = { config ->
         projectFolder = new File(_jennyConfig.projectFolder.parentFile, jobLocation).canonicalPath
     }
 
-    _jennyRun(projectFolder: projectFolder)
+    _jennyRun(parentId: (_jennyConfig.nestedIds ? "internal" : null),
+              nestedIds: _jennyConfig.nestedIds,
+              projectFolder: projectFolder)
 
     println("> build job ${config.job} ended.")
     println("> =============================================")

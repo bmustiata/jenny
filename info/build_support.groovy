@@ -26,6 +26,8 @@ build = { config ->
     }
 
     _increaseIndent {
-        _jennyRun(projectFolder: projectFolder)
+        _jennyRun(parentId: (_jennyConfig.nestedIds ? "internal" : null),
+                nestedIds: _jennyConfig.nestedIds,
+                projectFolder: projectFolder)
     }
 }
