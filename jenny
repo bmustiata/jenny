@@ -88,16 +88,6 @@ jennyRun = { runConfig ->
     def shell = new GroovyShell(binding)
 
     // -------------------------------------------------------------------
-    // Create the workspace
-    // -------------------------------------------------------------------
-    // needed for credentials
-    jennyConfig.jennyGlobalConfigFolder = jennyGlobalConfigFolder
-    // needed for credentials/checkout
-    jennyConfig.projectFolder = new File(new File(runConfig.projectFolder ?: ".").canonicalPath)
-    // workspaceFolder is needed for pwd
-    jennyConfig.workspaceFolder = _prepareWorkspace()
-
-    // -------------------------------------------------------------------
     // Load the default suport functions
     // -------------------------------------------------------------------
     // jenny can run in two modes:
@@ -113,6 +103,16 @@ jennyRun = { runConfig ->
     new File(scriptFile.parent, options.info ? "info" : "support").listFiles().each {
         shell.evaluate(it)
     }
+
+    // -------------------------------------------------------------------
+    // Create the workspace
+    // -------------------------------------------------------------------
+    // needed for credentials
+    jennyConfig.jennyGlobalConfigFolder = jennyGlobalConfigFolder
+    // needed for credentials/checkout
+    jennyConfig.projectFolder = new File(new File(runConfig.projectFolder ?: ".").canonicalPath)
+    // workspaceFolder is needed for pwd
+    jennyConfig.workspaceFolder = binding._prepareWorkspace.call()
 
     // -------------------------------------------------------------------
     // Load the external libraries
