@@ -6,5 +6,5 @@ pwd = { tmp = false ->
         return _tempFolder.canonicalPath
     }
 
-    return _currentFolder.canonicalPath
+    return _currentFolder?.canonicalPath ?: _jennyConfig.workspaceFolder
 }
