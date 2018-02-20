@@ -2,9 +2,15 @@
  * Creates a new workspace for the execution.
  */
 _prepareWorkspace = { ->
-    def workspaceLocation = new File("/tmp/.jenny/workspace/")
+    def projectFolderName = _jennyConfig.projectFolder.name
+    def workspaceLocation = new File("/tmp/jenny/workspace/${projectFolderName}")
+
+    println("> workspace: ${workspaceLocation.canonicalPath}")
+
     workspaceLocation.deleteDir()
-    workspaceLocation.mkdir()
+    if (!workspaceLocation.mkdirs()) {
+        throw new IllegalStateException("Unable to create workspace: ${workspaceLocation.canonicalName}")
+    }
 
     return workspaceLocation
 }
