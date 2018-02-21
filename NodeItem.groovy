@@ -80,6 +80,6 @@ class NodeItem {
     }
 
     static void pop() {
-        this.runningItems.pop()
+        NodeItem.runningItems.pop()
     }
 }

@@ -76,5 +76,9 @@ loadCommandLineOptions = { jennyConfig, options ->
         commandLineOptions["nestedIds"] = true
     }
 
+    if (options.noLogo) {
+        commandLineOptions["noLogo"] = true
+    }
+
     jennyConfig.addNested(commandLineOptions)
 }
