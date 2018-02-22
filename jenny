@@ -67,7 +67,8 @@ jennyRun = { runConfig ->
     // Start the execution.
     // -------------------------------------------------------------------
     if (!jennyConfig.noLogo && runConfig.topProject) {
-        print """>    _
+        print """\
+        >    _
         >   (_) ___ _ __  _ __  _   _
         >   | |/ _ \\ '_ \\| '_ \\| | | |
         >   | |  __/ | | | | | | |_| |
@@ -75,7 +76,7 @@ jennyRun = { runConfig ->
         > |__/                  |___/
         > console jenkins runner
         > 
-        """
+        """.stripIndent()
     }
 
     // -------------------------------------------------------------------
