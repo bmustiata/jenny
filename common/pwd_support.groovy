@@ -6,7 +6,8 @@ pwd = { tmp = false ->
         return _tempFolder.canonicalPath
     }
 
-    return _currentFolder?.canonicalPath ?: _jennyConfig.workspaceFolder
+    return _currentFolder?.canonicalPath ?: 
+           _jennyConfig.workspaceFolder.canonicalPath
 }
 
 _runInFolder = { File filePath, code ->

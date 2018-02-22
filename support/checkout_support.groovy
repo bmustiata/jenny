@@ -11,5 +11,9 @@ checkout = { version ->
         throw new IllegalArgumentException("Only SCM checkout is supported.")
     }
 
+    if (!new File(pwd()).exists()) {
+        new File(pwd()).mkdirs()
+    }
+    
     copyLargeDir(_jennyConfig.projectFolder, new File(pwd()))
 }

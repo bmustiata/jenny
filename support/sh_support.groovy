@@ -4,9 +4,9 @@ sh = { code ->
     println("> -------------------------------------------")
 
     def process = new ProcessBuilder('bash', '-c', code)
-        .directory(pwd())
+        .directory(new File(pwd()))
         .inheritIO()
-        
+
     process.environment().putAll(env)
 
     def exitCode = process.start().waitFor();
