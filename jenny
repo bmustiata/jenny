@@ -46,6 +46,13 @@ jennyGlobal = [:]
  * when calling nested builds run.
  */
 jennyRun = { runConfig ->
+
+    def projectFolder = new File(new File(runConfig.projectFolder ?: ".").canonicalPath)
+
+    if (!projectFolder.exists()) {
+        throw new IllegalArgumentException("Unable to run build since ${projectFolder} doesn't exists.")
+    }
+
     // -------------------------------------------------------------------
     // Read the configuration for the current project.
     // -------------------------------------------------------------------
@@ -57,7 +64,7 @@ jennyRun = { runConfig ->
     ]
 
     loadConfigFile(jennyConfig, "${jennyGlobalConfigFolder}/config")
-    loadConfigFile(jennyConfig, ".jenny/config")
+    loadConfigFile(jennyConfig, new File(projectFolder, ".jenny/config").absolutePath)
 
     if (runConfig.topProject || runConfig.nestedIds) {
         loadCommandLineOptions(jennyConfig, options)
@@ -115,7 +122,7 @@ jennyRun = { runConfig ->
     // needed for credentials
     jennyConfig.jennyGlobalConfigFolder = jennyGlobalConfigFolder
     // needed for credentials/checkout
-    jennyConfig.projectFolder = new File(new File(runConfig.projectFolder ?: ".").canonicalPath)
+    jennyConfig.projectFolder = projectFolder
     // workspaceFolder is needed for pwd
     jennyConfig.workspaceFolder = binding._prepareWorkspace.call()
 
@@ -145,7 +152,7 @@ jennyRun = { runConfig ->
 
     binding.NodeItem.push(runConfig.parentId)
     // add the root node.
-    binding._runInFolder.call(jennyConfig.workspaceFolder, {
+    runInFolder(jennyConfig.workspaceFolder, {
         shell.evaluate(jenkinsFile)
     })
 }

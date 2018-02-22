@@ -28,7 +28,7 @@ Yaml parser = new Yaml()
 
 loadConfigFile = { jennyConfig, fileName ->
     if ((fileName as File).exists()) {
-        //println "> loading config file: ${fileName}"
+        println "> loading config file: ${fileName}"
         def loadedConfig = parser.load((fileName as File).text)
         jennyConfig.addNested(loadedConfig)
     }
