@@ -64,7 +64,7 @@ jennyRun = { runConfig ->
     ]
 
     loadConfigFile(jennyConfig, "${jennyGlobalConfigFolder}/config")
-    loadConfigFile(jennyConfig, new File(projectFolder, ".jenny/config").absolutePath)
+    loadConfigFile(jennyConfig, new File(projectFolder, ".jenny/config").canonicalPath)
 
     if (runConfig.topProject || runConfig.nestedIds) {
         loadCommandLineOptions(jennyConfig, options)

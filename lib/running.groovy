@@ -2,7 +2,7 @@ runInFolder = { File filePath, code ->
     def currentPath = System.getProperty("user.dir")
 
     try {
-        System.setProperty("user.dir", filePath.absolutePath)
+        System.setProperty("user.dir", filePath.canonicalPath)
 
         code()
     } finally {
