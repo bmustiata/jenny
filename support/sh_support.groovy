@@ -4,10 +4,9 @@ sh = { code ->
     println("> -------------------------------------------")
 
     def process = new ProcessBuilder('bash', '-c', code)
-        .redirectOutput(ProcessBuilder.Redirect.INHERIT)
-        .redirectError(ProcessBuilder.Redirect.INHERIT)
-        .redirectInput(ProcessBuilder.Redirect.INHERIT)
-
+        .directory(pwd())
+        .inheritIO()
+        
     process.environment().putAll(env)
 
     def exitCode = process.start().waitFor();

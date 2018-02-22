@@ -11,4 +11,3 @@ stage('Run Tests') {
             remove: true
     }
 }
-

@@ -2,6 +2,7 @@ stage('Parent') {
     node {
         sh """
             echo hello from parent
+            pwd
         """
     }
 
