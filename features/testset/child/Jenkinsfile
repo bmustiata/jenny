@@ -4,13 +4,14 @@ stage('child') {
             echo "hello from child"
             pwd
         """
+        pluginCommand()
     }
 }
 
 stage('child Deploy') {
     node {
         sh """
-            echo "wutinston"
+            echo "depoyed"
         """
     }
 }

@@ -32,12 +32,16 @@ def loadInfoLibrary(shell, binding, path) {
 
 loadLibraries = { shell, binding ->
     binding._jennyConfig.libs.each {
-        loadLibrary(shell, binding, it)
+        loadLibrary(shell, binding, (it as File).isAbsolute() ?
+            it:
+            new File(binding._jennyConfig.projectFolder, it))
     }
 }
 
 loadInfoLibraries = { shell, binding ->
     binding._jennyConfig.libs.each {
-        loadInfoLibrary(shell, binding, it)
+        loadInfoLibrary(shell, binding, (it as File).isAbsolute() ?
+            it:
+            new File(binding._jennyConfig.projectFolder, it))
     }    
 }

@@ -4,6 +4,7 @@ stage('Parent') {
             echo hello from parent
             pwd
         """
+        pluginCommand()
     }
 
     build "child"
