@@ -48,6 +48,7 @@ jennyGlobal = [:]
 jennyRun = { runConfig ->
 
     def projectFolder = new File(new File(runConfig.projectFolder ?: ".").canonicalPath)
+    println("> project folder: ${projectFolder.canonicalPath}")
 
     if (!projectFolder.exists()) {
         throw new IllegalArgumentException("Unable to run build since ${projectFolder} doesn't exists.")
@@ -124,6 +125,7 @@ jennyRun = { runConfig ->
     // needed for credentials
     jennyConfig.jennyGlobalConfigFolder = jennyGlobalConfigFolder
     // needed for credentials/checkout
+    println("> ${projectFolder}")
     jennyConfig.projectFolder = projectFolder
     // workspaceFolder is needed for pwd
     jennyConfig.workspaceFolder = binding._prepareWorkspace.call()

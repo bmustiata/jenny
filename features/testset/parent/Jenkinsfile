@@ -18,5 +18,10 @@ stage('Parent') {
           parameters: [
             [$class: 'StringParameterValue', name: 'string_parameter', value: string_parameter]
           ]
+
+    build job: "child-2-aliased",
+          parameters: [
+            [$class: 'StringParameterValue', name: 'string_parameter', value: string_parameter]
+          ]
 }
 

@@ -1,2 +1,5 @@
 libs:
   - ../plugin
+projects:
+  child-2-aliased: ../child2
+

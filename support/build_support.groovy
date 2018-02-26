@@ -18,8 +18,10 @@ build = { config ->
     def projectFolder
 
     if (jobLocation in _jennyConfig.projects) {
-        projectFolder = _jennyConfig.projects[jobLocation]
-    } else if (jobLocation[0] == '.') {
+        jobLocation = _jennyConfig.projects[jobLocation]
+    }
+    
+    if (jobLocation[0] == '.') {
         projectFolder = new File(_jennyConfig.projectFolder, jobLocation)
                                 .canonicalPath
     } else {

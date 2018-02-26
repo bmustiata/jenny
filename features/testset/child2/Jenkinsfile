@@ -1,0 +1,25 @@
+properties([
+    parameters([
+        string(name: 'string_parameter', defaultValue: 'child2',
+                description: 'A test value to pass down.')
+    ])
+])
+
+stage('child2') {
+    node {
+        sh """
+            echo "hello from child2"
+            pwd
+        """
+        pluginCommand()
+    }
+}
+
+stage('child2 Deploy') {
+    node {
+        sh """
+            echo "deployed"
+        """
+    }
+}
+
