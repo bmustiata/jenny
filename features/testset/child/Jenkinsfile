@@ -1,3 +1,10 @@
+properties([
+    parameters([
+        string(name: 'string_parameter', defaultValue: 'child',
+                description: 'A test value to pass down.')
+    ])
+])
+
 stage('child') {
     node {
         sh """
@@ -11,7 +18,7 @@ stage('child') {
 stage('child Deploy') {
     node {
         sh """
-            echo "depoyed"
+            echo "deployed"
         """
     }
 }

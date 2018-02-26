@@ -1,3 +1,10 @@
+properties([
+    parameters([
+        string(name: 'string_parameter', defaultValue: 'parent',
+                description: 'A parent value string parameter')
+    ])
+])
+
 stage('Parent') {
     node {
         sh """
@@ -7,5 +14,9 @@ stage('Parent') {
         pluginCommand()
     }
 
-    build "child"
+    build job: "child",
+          parameters: [
+            [$class: 'StringParameterValue', name: 'string_parameter', value: string_parameter]
+          ]
 }
+

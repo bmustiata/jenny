@@ -58,6 +58,7 @@ jennyRun = { runConfig ->
     // -------------------------------------------------------------------
     def jennyConfig = [
         "libs":[],
+        "params":[:],
         "execute":[:],
         "projects":[:],
         "nestedIds": runConfig["nestedIds"]
@@ -65,6 +66,7 @@ jennyRun = { runConfig ->
 
     loadConfigFile(jennyConfig, "${jennyGlobalConfigFolder}/config")
     loadConfigFile(jennyConfig, new File(projectFolder, ".jenny/config").canonicalPath)
+    jennyConfig["params"].addNested(runConfig.params)
 
     if (runConfig.topProject || runConfig.nestedIds) {
         loadCommandLineOptions(jennyConfig, options)

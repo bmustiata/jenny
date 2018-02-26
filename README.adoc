@@ -40,6 +40,9 @@ with the exception of resumeFrom and skipAfter.
 libs: # list of libaries folders to load
   - /path/to/some/folder
   - /path/to/other/folder
+noLogo: true
+params:
+  PARAMETER_NAME: "value"
 execute:
   resumeFrom: "s1"
   skipAfter: "s7"

@@ -50,7 +50,7 @@ loadCommandLineOptions = { jennyConfig, options ->
         def parameters = [:]
 
         for (def i = 0; i < options.params.size(); i += 2) {
-            parameters[options.params[i]] = parameters[i + 1]
+            parameters[options.params[i]] = options.params[i + 1]
         }
 
         commandLineOptions["params"] = parameters
