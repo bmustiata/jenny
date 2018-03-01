@@ -3,7 +3,7 @@ import org.yaml.snakeyaml.Yaml
 Map.metaClass.addNested { Map rhs ->
     def lhs = delegate
     rhs.each { k, v ->
-        if (lhs.containsKey(k) && v instanceof Collection) {
+        if (lhs.containsKey(k) && (v instanceof List || v instanceof Map)) {
             lhs[k].addNested(v)
         } else {
             lhs[k] = v

@@ -1,0 +1,3 @@
+execute:
+  skip:
+    - "s2"
