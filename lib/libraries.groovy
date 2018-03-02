@@ -1,5 +1,10 @@
 def loadLibrary(shell, binding, path) {
-    println "> Loading library ${path}"
+    def jennyConfig = binding._jennyConfig
+
+    if (jennyConfig.verbose) {
+        println "> Loading library ${path}"
+    }
+
     def libFolder = new File(path, "vars")
 
     if (!libFolder.exists()) {
@@ -15,7 +20,12 @@ def loadLibrary(shell, binding, path) {
 }
 
 def loadInfoLibrary(shell, binding, path) {
-    println "> Loading library ${path}"
+    def jennyConfig = binding._jennyConfig
+
+    if (jennyConfig.verbose) {
+        println "> Loading library ${path}"
+    }
+
     def libFolder = new File(path, "vars")
 
     if (!libFolder.exists()) {

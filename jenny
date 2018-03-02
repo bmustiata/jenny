@@ -21,6 +21,7 @@ cli.sa(longOpt: "skipAfter", args: 1, argName: "id", "stage/parallel/node blocks
 cli.ni(longOpt: "nestedIds", "Generate unique ids for the whole run, including nested runs. Execution restrictions from config files will be ignored.")
 cli.noLogo(longOpt: "noLogo", "Don't show the logo.")
 cli.i(longOpt: "info", "Show information on the current jenkinsfile, including ids.")
+cli.v(longOpt: "verbose", "Show more messages")
 cli.h(longOpt: "help", "Show this message.")
 
 options = cli.parse(args)
@@ -47,13 +48,6 @@ jennyGlobal = [:]
  */
 jennyRun = { runConfig ->
 
-    def projectFolder = new File(new File(runConfig.projectFolder ?: ".").canonicalPath)
-    println("> project folder: ${projectFolder.canonicalPath}")
-
-    if (!projectFolder.exists()) {
-        throw new IllegalArgumentException("Unable to run build since ${projectFolder} doesn't exists.")
-    }
-
     // -------------------------------------------------------------------
     // Read the configuration for the current project.
     // -------------------------------------------------------------------
@@ -62,8 +56,19 @@ jennyRun = { runConfig ->
         "params":[:],
         "execute":[:],
         "projects":[:],
-        "nestedIds": runConfig["nestedIds"]
+        "nestedIds": runConfig["nestedIds"],
+        "verbose": runConfig["verbose"]
     ]
+
+    def projectFolder = new File(new File(runConfig.projectFolder ?: ".").canonicalPath)
+    
+    if (jennyConfig.verbose) {
+        println("> project folder: ${projectFolder.canonicalPath}")
+    }
+
+    if (!projectFolder.exists()) {
+        throw new IllegalArgumentException("Unable to run build since ${projectFolder} doesn't exists.")
+    }
 
     loadConfigFile(jennyConfig, "${jennyGlobalConfigFolder}/config")
     loadConfigFile(jennyConfig, new File(projectFolder, ".jenny/config").canonicalPath)
@@ -99,6 +104,7 @@ jennyRun = { runConfig ->
     binding._jennyGlobal = jennyGlobal
 
     binding.NodeItem = NodeItem
+    binding._runInFolder = runInFolder
 
     def shell = new GroovyShell(classLoader, binding)
 
@@ -125,7 +131,6 @@ jennyRun = { runConfig ->
     // needed for credentials
     jennyConfig.jennyGlobalConfigFolder = jennyGlobalConfigFolder
     // needed for credentials/checkout
-    println("> ${projectFolder}")
     jennyConfig.projectFolder = projectFolder
     // workspaceFolder is needed for pwd
     jennyConfig.workspaceFolder = binding._prepareWorkspace.call()
@@ -156,7 +161,7 @@ jennyRun = { runConfig ->
 
     binding.NodeItem.push(runConfig.parentId)
     // add the root node.
-    runInFolder(jennyConfig.workspaceFolder, {
+    binding._runInFolder.call(jennyConfig.workspaceFolder, {
         shell.evaluate(jenkinsFile)
     })
 }
@@ -166,5 +171,6 @@ jennyRun([
     projectFolder: ".",
     jenkinsFile: (options.file ?: "Jenkinsfile"),
     topProject: true,
-    nestedIds: options.nestedIds
+    nestedIds: options.nestedIds,
+    verbose: options.verbose
 ])

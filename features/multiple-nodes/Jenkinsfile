@@ -1,0 +1,15 @@
+stage('multiple nodes') {
+    node {
+        sh """
+            pwd
+            ls
+        """
+    }
+
+    node {
+        sh """
+            pwd
+            ls
+        """
+    }
+}

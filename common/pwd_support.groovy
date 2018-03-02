@@ -1,4 +1,3 @@
-def _currentFolder = _jennyConfig.workspaceFolder
 def _tempFolder = "/tmp/"  // FIXME: something smarter?
 
 pwd = { tmp = false -> 
@@ -6,6 +5,5 @@ pwd = { tmp = false ->
         return _tempFolder.canonicalPath
     }
 
-    return _currentFolder?.canonicalPath ?: 
-           _jennyConfig.workspaceFolder.canonicalPath
+    return System.getProperty("user.dir")
 }

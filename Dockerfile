@@ -6,7 +6,9 @@ RUN apt update -y && \
 
 COPY . /jenny/
 RUN chmod +x /jenny/bin/test-jenny.sh && \
-    chmod +x /jenny/jenny
+    chmod +x /jenny/jenny && \
+    mkdir -p ${HOME}/.jenny && \
+    echo "noLogo: true" > ${HOME}/.jenny/config
 
 CMD /jenny/bin/test-jenny.sh
 
