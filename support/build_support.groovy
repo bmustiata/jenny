@@ -21,11 +21,17 @@ build = { config ->
         jobLocation = _jennyConfig.projects[jobLocation]
     }
     
+    // if we have a relative path starting from the
+    // project folder we use that one
     if (jobLocation[0] == '.') {
         projectFolder = new File(_jennyConfig.projectFolder, jobLocation)
                                 .canonicalPath
     } else {
-        projectFolder = new File(_jennyConfig.projectFolder.parentFile, jobLocation).canonicalPath
+        if ((jobLocation as File).absolute) {
+            projectFolder = new File(jobLocation).canonicalPath
+        } else {
+            projectFolder = new File(_jennyConfig.projectFolder.parentFile, jobLocation).canonicalPath
+        }
     }
 
     _jennyRun(parentId: (_jennyConfig.nestedIds ? "internal" : null),
