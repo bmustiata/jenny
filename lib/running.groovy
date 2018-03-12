@@ -1,15 +1,15 @@
-runInFolder = { File filePath, code, create=false ->
+runInFolder = { File filePath, code, create=false, ignoreMissing=false ->
     def currentPath = System.getProperty("user.dir")
 
     try {
         System.setProperty("user.dir", filePath.canonicalPath)
 
         def fileExists = filePath.exists()
-        if (!fileExists && !create) {
+        if (!fileExists && !create && !ignoreMissing) {
             throw new IllegalStateException("'${filePath.canonicalPath}' does not exist.")
         }
 
-        if (!fileExists && !filePath.mkdirs()) {
+        if (!fileExists && !ignoreMissing && !filePath.mkdirs()) {
             throw new IllegalStateException("Unable to create '${filePath.canonicalPath}'.")
         }
 

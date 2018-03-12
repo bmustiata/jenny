@@ -57,7 +57,8 @@ jennyRun = { runConfig ->
         "execute":[:],
         "projects":[:],
         "nestedIds": runConfig["nestedIds"],
-        "verbose": runConfig["verbose"]
+        "verbose": runConfig["verbose"],
+        "info": options.info
     ]
 
     def projectFolder = new File(new File(runConfig.projectFolder ?: ".").canonicalPath)
@@ -163,7 +164,7 @@ jennyRun = { runConfig ->
     // add the root node.
     binding._runInFolder.call(jennyConfig.workspaceFolder, {
         shell.evaluate(jenkinsFile)
-    })
+    }, ignoreMissing=jennyConfig.info)
 }
 
 jennyRun([
