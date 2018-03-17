@@ -167,9 +167,22 @@ jennyRun = { runConfig ->
     }, ignoreMissing=jennyConfig.info)
 }
 
+// -------------------------------------------------------------------
+// Detect the top parent where the Jenkinsfile is.
+// -------------------------------------------------------------------
+File projectFolder = new File(new File(".").canonicalPath)
+String jenkinsFileName = (options.file ?: "Jenkinsfile")
+
+while (! new File(projectFolder, jenkinsFileName).exists()) {
+    if (projectFolder.toPath().nameCount == 0) {
+        throw new IllegalArgumentException("Unable to find any ${jenkinsFileName} in any of the parents of ${new File(".").canonicalPath}")
+    }
+    projectFolder = projectFolder.parentFile
+}
+
 jennyRun([
     parentId: null,
-    projectFolder: ".",
+    projectFolder: projectFolder.canonicalPath,
     jenkinsFile: (options.file ?: "Jenkinsfile"),
     topProject: true,
     nestedIds: options.nestedIds,
