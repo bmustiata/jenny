@@ -1,9 +1,7 @@
 scm = "SCM"
 
 def copyLargeDir =  { File dirFrom, File dirTo ->
-    new AntBuilder().copy( todir:dirTo ) {
-        fileset( dir:dirFrom )
-    }
+    org.apache.commons.io.FileUtils.copyDirectory(dirFrom, dirTo)
 }
 
 checkout = { version ->

@@ -1,6 +1,7 @@
 #!/usr/bin/env groovy
 
 @Grab('org.yaml:snakeyaml:1.17')
+@Grab('commons-io:commons-io:2.6')
 
 // find where jenny is installed
 File scriptFile = new File(getClass().protectionDomain.codeSource.location.path)
