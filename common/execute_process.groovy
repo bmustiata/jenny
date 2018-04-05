@@ -1,4 +1,4 @@
-_executeProcess = { String ... args ->
+_executeProcess = { String... args ->
     print("execute process: ${args.join(' ')}")
     def process = new ProcessBuilder(args)
         .directory(new File(pwd()))
@@ -9,7 +9,7 @@ _executeProcess = { String ... args ->
     def exitCode = process.start().waitFor()
 
     if (exitCode != 0) {
-        throw new IllegalStateException("Process execution failed, exit code: " + exitCode)
+        throw new IllegalStateException("Process execution failed, exit code: ${exitCode} - ${args.join(' ')}")
     }
 }
 
