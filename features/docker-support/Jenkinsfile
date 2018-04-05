@@ -1,0 +1,26 @@
+stage('Test Docker') {
+    node {
+        deleteDir()
+
+        checkout scm
+
+        docker.image('maven:3.5').inside {
+            sh """
+                pwd
+                echo \$TESTVAR
+                mvn -version
+                cat Jenkinsfile
+            """
+        }
+
+        docker.image('node').inside('-e TESTVAR=yay') {
+            sh """
+                pwd
+                echo \$TESTVAR
+                node -version
+                cat Jenkinsfile
+            """
+        }
+    }
+}
+
