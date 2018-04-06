@@ -30,3 +30,5 @@ update_single_test features/multiple-nodes \
 update_single_test features/child-section-skip/parent \
                 features/child-section-skip/jenny-expected.txt
 
+update_single_test features/docker-support\
+                features/docker-support/jenny-expected.txt

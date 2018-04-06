@@ -3,24 +3,48 @@ class DockerAgent {
     String containerId
 
     void sh(String code) {
+        println("> docker::sh --------------------------------")
+        println(code)
+        println("> -------------------------------------------")
+
+        def scriptPath = "/tmp/${UUID.randomUUID() as String}.sh"
+
+        new File(scriptPath).write(code)
+
+        context._executeProcess.call(
+            'docker', 'cp', scriptPath, "${this.containerId}:${scriptPath}"
+        )
         context._executeProcess.call(
             'docker', 'exec', '-t', this.containerId,
-            'bash', '-c', code)
+            'sh', '-c', "cd ${pwd()}; . ${scriptPath}")
     }
 
     void deleteDir() {
+        println("docker::deleteDir ${context.pwd()}")
+
         context._executeProcess.call(
             'docker', 'exec', '-t', this.containerId,
             'rm', '-fr', context.pwd())
     }
 
     void checkout(version) {
+        println("docker::checkout ${version}")
+
         context._executeProcess.call(
             'docker', 'exec', '-t', this.containerId,
             'mkdir', '-p', context.pwd())
         context._executeProcess.call(
             'docker', 'exec', '-t', this.containerId,
             'cp', '-R', context._jennyConfig.projectFolder, context.pwd())
+    }
+
+    void shutdown() {
+        context._executeProcessSilent.call(
+            'docker', 'rm', '-f', this.containerId)
+    }
+
+    String pwd() {
+        return System.getProperty("user.dir")
     }
 }
 
@@ -39,10 +63,13 @@ class DockerImage {
 
     void inside(String parameters, Closure code) {
         def currentAgent = context._currentAgent
+        def dockerAgent
         try {
-            context._currentAgent = this.startDockerAgent(this.imageName, parameters)
+            dockerAgent = this.startDockerAgent(this.imageName, parameters)
+            context._currentAgent = dockerAgent
             code.call()
         } finally {
+            dockerAgent.shutdown()
             context._currentAgent = currentAgent
         }
     }
@@ -56,7 +83,7 @@ class DockerImage {
     }
 
     DockerAgent startDockerAgent(imageName, parameters) {
-        def command = ["docker", "run", "-t", 
+        def command = ["docker", "run", "-t",
                                 "-d", 
                                 "-u", "1000:1000", // FIXME: really read it
                                 "--entrypoint", "cat",
@@ -83,7 +110,13 @@ class DockerImage {
         def exitCode = process.waitFor();
         
         if (exitCode != 0) {
-            throw new IllegalStateException("Process execution failed, exit code: " + exitCode)
+            throw new IllegalStateException(
+                """\
+                Process execution failed, exit code: ${exitCode},
+                command `${command.join(' ')}
+                STDOUT:\n${process.inputStream.text}
+                STDERR:\n${process.errorStream.text}
+                """.stripIndent())
         }
 
         return new DockerAgent(
@@ -92,6 +125,31 @@ class DockerImage {
         )
     }
 
+}
+
+/**
+ * Allow running a build for a container, and potentially
+ * run things after in it via the available image.
+ */
+class DockerBuild {
+    def context
+    def imageName
+    def parameters
+
+    DockerImage build() {
+        def command = ["docker", "build", "-t", imageName]
+        
+        if (parameters) {
+            command.addAll(parameters.split(" "))
+        }
+
+        context._executeProcess(command as String[])
+
+        return new DockerImage(
+            context: context,
+            imageName: imageName
+        )
+    }
 }
 
 /**
@@ -105,6 +163,18 @@ class DockerBuilder {
             context: context,
             imageName: name
         )
+    }
+
+    public DockerImage build(String name) {
+        return this.build(name, ".")
+    }
+
+    public DockerImage build(String name, String parameters) {
+        return new DockerBuild(
+            context: context,
+            imageName: name,
+            parameters: parameters
+        ).build()
     }
 }
 

@@ -1,20 +1,22 @@
 class NodeAgent {
     def context
 
-    void sh(String command) {
-        println("> sh: ---------------------------------------")
+    void sh(String code) {
+        println("> node::sh ----------------------------------")
         println(code)
         println("> -------------------------------------------")
 
-        context._executeProcess('sh', '-c', code)
+        context._executeProcess.call('sh', '-c', code)
     }
 
     void deleteDir() {
-        println("NodeAgent::deleteDir: ${pwd()}")
+        println("node::deleteDir ${pwd()}")
         new File(pwd()).deleteDir()        
     }
 
     void checkout(String version) {
+        println("node::checkout ${version}")
+
         if (version != "SCM") {
             throw new IllegalArgumentException("Only SCM checkout is supported.")
         }
