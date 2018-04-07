@@ -196,6 +196,10 @@ folder into the current folder.
 
 Delete the current folder recursively.
 
+=== dir
+
+Change the current folder for the commands in the execution block.
+
 === file
 
 Specify a file for a `withCredentials`.

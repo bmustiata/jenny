@@ -32,6 +32,9 @@ run_single_test features/multiple-nodes \
 run_single_test features/child-section-skip/parent \
                 features/child-section-skip/jenny-expected.txt
 
+run_single_test features/dir-step \
+                features/dir-step/jenny-expected.txt
+
 run_single_test features/docker-support \
                 features/docker-support/jenny-expected.txt
 

@@ -1,0 +1,21 @@
+stage('Simple dir test') {
+    node {
+        sh """
+            pwd
+        """
+        println(pwd())
+
+        dir('/tmp/') {
+            sh """
+                pwd
+            """
+            println(pwd())
+        }
+
+        sh """
+            pwd
+        """
+        println(pwd())
+    }
+}
+
