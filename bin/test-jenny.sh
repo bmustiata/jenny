@@ -33,14 +33,14 @@ run_single_test() {
     cd $CURRENT_FOLDER
 }
 
-#run_single_test features/testset/parent \
-#                features/testset/jenny-expected.txt
+run_single_test features/testset/parent \
+                features/testset/jenny-expected.txt
 
-#run_single_test features/multiple-nodes \
-#                features/multiple-nodes/jenny-expected.txt
+run_single_test features/multiple-nodes \
+                features/multiple-nodes/jenny-expected.txt
 
-#run_single_test features/child-section-skip/parent \
-#                features/child-section-skip/jenny-expected.txt
+run_single_test features/child-section-skip/parent \
+                features/child-section-skip/jenny-expected.txt
 
 run_single_test features/dir-step \
                 features/dir-step/jenny-expected.txt
