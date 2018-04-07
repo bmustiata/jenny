@@ -200,6 +200,13 @@ Delete the current folder recursively.
 
 Change the current folder for the commands in the execution block.
 
+=== docker
+
+Allow running certain steps in a docker container. Both `docker.build` and
+`docker.image` are supported.
+
+`docker.image` has implemented: `run`, `withRun` and `inside`.
+
 === file
 
 Specify a file for a `withCredentials`.

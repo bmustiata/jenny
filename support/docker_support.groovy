@@ -61,9 +61,6 @@ class Container {
     void stop() {
         context._executeProcessSilent.call(
             '/', // cwd on host
-            'docker', 'stop', this.id)
-        context._executeProcessSilent.call(
-            '/', // cwd on host
             'docker', 'rm', '-f', this.id)
     }
 
