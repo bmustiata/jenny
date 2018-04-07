@@ -5,11 +5,12 @@ RUN apt update -y && \
     apt install -y groovy curl && \
     curl https://get.docker.com | bash
 
-COPY . /jenny/
-RUN chmod +x /jenny/bin/test-jenny.sh && \
-    chmod +x /jenny/jenny && \
-    mkdir -p ${HOME}/.jenny && \
-    echo "noLogo: true" > ${HOME}/.jenny/config
+RUN useradd -m germanium && \
+    usermod -G docker germanium && \
+    echo 'DOCKER_OPTS="-H tcp://0.0.0.0:4243 -H unix:///var/run/docker.sock"' >> /etc/default/docker
 
-CMD /jenny/bin/test-jenny.sh
+USER germanium
+RUN mkdir /home/germanium/.jenny && \
+    echo "noLogo: true" > /home/germanium/.jenny/config
+
 

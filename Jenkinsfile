@@ -1,20 +1,21 @@
 stage('Build Test Container') {
     node {
         deleteDir()
-
         checkout scm
-
-        dockerBuild file: './Dockerfile',
-            tags: ['jenny_test_container']
+        docker.build('jenny_test_container')
     }
 }
 
 stage('Run Tests') {
     node {
-        dockerRun image: 'jenny_test_container',
-            volumes: [
-                '/var/run/docker.sock:/var/run/docker.sock:rw'
-            ],
-            remove: true
+        docker.image('jenny_test_container')
+              .inside("-v /var/run/docker.sock:/var/run/docker.sock:rw") {
+            sh('mkdir -p /tmp/test_jenny')
+            dir('/tmp/test_jenny')
+            checkout scm
+            sh """
+                bin/test-jenny.sh --debug
+            """
+        }
     }
 }

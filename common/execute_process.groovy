@@ -1,5 +1,5 @@
 _executeProcess = { String... args ->
-    //print("execute process: ${args.join(' ')}")
+    println("exec: ${args.join(' ')}")
     def processBuilder = new ProcessBuilder(args)
         .directory(new File(pwd()))
         .inheritIO()
@@ -21,7 +21,7 @@ _executeProcess = { String... args ->
 }
 
 _executeProcessSilent = { String... args ->
-    //print("execute process: ${args.join(' ')}")
+    println("exec silent: ${args.join(' ')}")
     def processBuilder = new ProcessBuilder(args)
         .directory(new File(pwd()))
 
@@ -39,6 +39,8 @@ _executeProcessSilent = { String... args ->
             STDERR:\n${process.errorStream.text}
             """.stripIndent())
     }
+
+    return process.inputStream.text.trim()
 }
 
 

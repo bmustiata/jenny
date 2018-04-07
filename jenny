@@ -63,7 +63,7 @@ jennyRun = { runConfig ->
     ]
 
     def projectFolder = new File(new File(runConfig.projectFolder ?: ".").canonicalPath)
-    
+
     if (jennyConfig.verbose) {
         println("> project folder: ${projectFolder.canonicalPath}")
     }
@@ -92,7 +92,7 @@ jennyRun = { runConfig ->
         >  _/ |\\___|_| |_|_| |_|\\__, |
         > |__/                  |___/
         > console jenkins runner
-        > 
+        >
         """.stripIndent()
     }
 
@@ -115,7 +115,7 @@ jennyRun = { runConfig ->
     // -------------------------------------------------------------------
     // jenny can run in two modes:
     // 1. is to actually execute things,
-    // 2. is to just provide information to the user 
+    // 2. is to just provide information to the user
     //    on what will be executed, and provide the IDs
 
     // load all the support files.

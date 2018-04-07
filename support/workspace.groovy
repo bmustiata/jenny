@@ -9,7 +9,7 @@ _prepareWorkspace = { ->
 
     workspaceLocation.deleteDir()
     if (!workspaceLocation.mkdirs()) {
-        throw new IllegalStateException("Unable to create workspace: ${workspaceLocation.canonicalName}")
+        throw new IllegalStateException("Unable to create workspace: ${workspaceLocation.canonicalPath}")
     }
 
     return workspaceLocation

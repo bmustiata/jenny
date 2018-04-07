@@ -1,6 +1,6 @@
 class DockerAgent {
     def context
-    String containerId
+    String id
 
     void sh(String code) {
         println("> docker::sh --------------------------------")
@@ -12,39 +12,59 @@ class DockerAgent {
         new File(scriptPath).write(code)
 
         context._executeProcess.call(
-            'docker', 'cp', scriptPath, "${this.containerId}:${scriptPath}"
+            'docker', 'cp', scriptPath, "${this.id}:${scriptPath}"
         )
         context._executeProcess.call(
-            'docker', 'exec', '-t', this.containerId,
+            'docker', 'exec', '-t', this.id,
             'sh', '-c', "cd ${pwd()}; . ${scriptPath}")
     }
 
     void deleteDir() {
-        println("docker::deleteDir ${context.pwd()}")
+        println("docker::deleteDir ${pwd()}")
 
         context._executeProcess.call(
-            'docker', 'exec', '-t', this.containerId,
-            'rm', '-fr', context.pwd())
+            'docker', 'exec', '-t', this.id,
+            'rm', '-fr', pwd())
     }
 
     void checkout(version) {
         println("docker::checkout ${version}")
 
         context._executeProcess.call(
-            'docker', 'exec', '-t', this.containerId,
-            'mkdir', '-p', context.pwd())
+            'docker', 'exec', '-t', this.id,
+            'mkdir', '-p', pwd())
         context._executeProcess.call(
-            'docker', 'exec', '-t', this.containerId,
-            'cp', '-R', context._jennyConfig.projectFolder, context.pwd())
-    }
-
-    void shutdown() {
-        context._executeProcessSilent.call(
-            'docker', 'rm', '-f', this.containerId)
+            'docker', 'cp', 
+            "${context._jennyConfig.projectFolder.canonicalPath}/.",
+            "${id}:${pwd()}")
     }
 
     String pwd() {
         return System.getProperty("user.dir")
+    }
+
+    Container getContainer() {
+        return new Container(
+            context: context,
+            id: id
+        )
+    }
+}
+
+class Container {
+    def context
+    String id
+
+    void stop() {
+        context._executeProcessSilent.call(
+            'docker', 'stop', this.id)
+        context._executeProcessSilent.call(
+            'docker', 'rm', '-f', this.id)
+    }
+
+    String port(int port) {
+        return context._executeProcessSilent.call(
+            'docker', 'port', this.id, port as String)
     }
 }
 
@@ -57,37 +77,65 @@ class DockerImage {
     def context
     String imageName
 
-    void inside(Closure code) {
-        this.inside(null, code)
-    }
-
-    void inside(String parameters, Closure code) {
+    void inside(String args=null, String command=null, Closure code) {
+        println("docker::inside ${imageName}")
         def currentAgent = context._currentAgent
         def dockerAgent
+
         try {
-            dockerAgent = this.startDockerAgent(this.imageName, parameters)
+            if (args) {
+                args = "${args} --entrypoint cat -u 1000:1000 --group-add 999"
+            } else {
+                args = "--entrypoint cat -u 1000:1000 --group-add 999"
+            }
+
+            dockerAgent = this.startDockerContainer(args, command)
+            
+            context._executeProcess.call( // prepare the workspace
+                'docker', 'exec', '-t', dockerAgent.id,
+                'mkdir', '-p', pwd())
+
+
             context._currentAgent = dockerAgent
-            code.call()
+            code.call(dockerAgent.container)
+        } catch (Exception e) {
+            println("ERROR: " + e.getMessage())
         } finally {
-            dockerAgent.shutdown()
+            dockerAgent && dockerAgent.container.stop()
             context._currentAgent = currentAgent
         }
     }
 
-    void withRun(Closure code) {
-        this.withRun(null, code)
+    void withRun(String args=null, String command=null, Closure code) {
+        def currentAgent = context._currentAgent
+        def dockerAgent = null
+
+        try {
+            dockerAgent = this.startDockerContainer(args, command)
+            context._currentAgent = dockerAgent
+            code.call(dockerAgent.container)
+        } catch (Exception e) {
+            println("ERROR: " + e.getMessage())
+        } finally {
+            dockerAgent.container.stop()
+            context._currentAgent = currentAgent
+        }
     }
 
-    void withRun(String parameters, Closure code) {
-        code.call()
+    /**
+     * Start a container.
+     */
+    Container run(String args=null, String command=null) {
+        def dockerAgent = this.startDockerContainer(args, command)
+        return new Container(
+            id: dockerAgent.id,
+            context: context
+        )
     }
 
-    DockerAgent startDockerAgent(imageName, parameters) {
+    private DockerAgent startDockerContainer(args, parameters) {
         def command = ["docker", "run", "-t",
                                 "-d", 
-                                "-u", "1000:1000", // FIXME: really read it
-                                "--entrypoint", "cat",
-                                "-w", System.getProperty("user.dir"), // FIXME: pwd not accessible
                                 // this is only needed for checkouts, don't allow rw access
                                 "-v", "${context._jennyConfig.projectFolder}:${context._jennyConfig.projectFolder}:ro"
                         ]
@@ -97,34 +145,27 @@ class DockerImage {
             command.add("${k}=${v}")
         }
 
+        if (args) {
+            args.split(" ").each{ command.add it }
+        }
+
+        command.add(imageName)
+        
         if (parameters) {
             parameters.split(" ").each{ command.add it }
         }
 
-        command.add(imageName)
-
-        def processBuilder = new ProcessBuilder(command as String[])
-            .directory(new File(System.getProperty("user.dir")))
-
-        def process = processBuilder.start()
-        def exitCode = process.waitFor();
-        
-        if (exitCode != 0) {
-            throw new IllegalStateException(
-                """\
-                Process execution failed, exit code: ${exitCode},
-                command `${command.join(' ')}
-                STDOUT:\n${process.inputStream.text}
-                STDERR:\n${process.errorStream.text}
-                """.stripIndent())
-        }
+        def id = context._executeProcessSilent.call(command as String[])
 
         return new DockerAgent(
             context: context,
-            containerId: process.inputStream.text.trim()
+            id: id
         )
     }
 
+    String pwd() {
+        System.getProperty("user.dir")
+    }
 }
 
 /**
@@ -143,7 +184,7 @@ class DockerBuild {
             command.addAll(parameters.split(" "))
         }
 
-        context._executeProcess(command as String[])
+        context._executeProcess.call(command as String[])
 
         return new DockerImage(
             context: context,
