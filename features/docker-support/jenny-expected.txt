@@ -2,6 +2,7 @@
 > ========================================================================
 > = Stage: Test Docker
 > ========================================================================
+docker::inside maven:3.5.3
 > docker::sh --------------------------------
 
                 pwd
@@ -16,6 +17,7 @@ Maven home: /usr/share/maven
 Java version: 1.8.0_162, vendor: Oracle Corporation
 Java home: /usr/lib/jvm/java-8-openjdk-amd64/jre
 Default locale: en, platform encoding: UTF-8
+docker::inside node:9.10.1
 > docker::sh --------------------------------
 
                 pwd

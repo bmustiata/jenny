@@ -1,46 +1,73 @@
-_executeProcess = { String... args ->
-    println("exec: ${args.join(' ')}")
-    def processBuilder = new ProcessBuilder(args)
-        .directory(new File(pwd()))
-        .inheritIO()
+_executeProcess = { String cwd, String... args ->
+    //println("exec: ${args.join(' ')}")
 
-    processBuilder.environment().putAll(env)
+    def currentPath = System.getProperty("user.dir")
 
-    def process = processBuilder.start()
-    def exitCode = process.waitFor()
+    if (cwd == null) {
+        cwd = currentPath;
+    }
 
-    if (exitCode != 0) {
-        throw new IllegalStateException(
-            """\
-            Process execution failed, exit code: ${exitCode},
-            command `${args}`
-            STDOUT:\n${process.inputStream.text}
-            STDERR:\n${process.errorStream.text}
-            """.stripIndent())
+    try {
+        System.setProperty("user.dir", cwd)
+
+        def processBuilder = new ProcessBuilder(args)
+            .directory(new File(pwd()))
+            .inheritIO()
+
+        processBuilder.environment().putAll(env)
+
+        def process = processBuilder.start()
+        def exitCode = process.waitFor()
+
+        if (exitCode != 0) {
+            throw new IllegalStateException(
+                """\
+                Process execution failed, exit code: ${exitCode},
+                command `${args}`
+                STDOUT:\n${process.inputStream.text}
+                STDERR:\n${process.errorStream.text}
+                """.stripIndent())
+        }
+    } finally {
+        System.setProperty("user.dir", currentPath)
     }
 }
 
-_executeProcessSilent = { String... args ->
-    println("exec silent: ${args.join(' ')}")
-    def processBuilder = new ProcessBuilder(args)
-        .directory(new File(pwd()))
+_executeProcessSilent = { String cwd, String... args ->
+    //println("exec silent: ${args.join(' ')}")
 
-    processBuilder.environment().putAll(env)
+    def currentPath = System.getProperty("user.dir")
 
-    def process = processBuilder.start()
-    def exitCode = process.waitFor()
-
-    if (exitCode != 0) {
-        throw new IllegalStateException(
-            """\
-            Process execution failed, exit code: ${exitCode},
-            command `${args}`
-            STDOUT:\n${process.inputStream.text}
-            STDERR:\n${process.errorStream.text}
-            """.stripIndent())
+    if (cwd == null) {
+        cwd = currentPath;
     }
 
-    return process.inputStream.text.trim()
+    try {
+        System.setProperty("user.dir", cwd)
+
+        def processBuilder = new ProcessBuilder(args)
+            .directory(new File(pwd()))
+
+        processBuilder.environment().putAll(env)
+
+        def process = processBuilder.start()
+        def exitCode = process.waitFor()
+
+        if (exitCode != 0) {
+            throw new IllegalStateException(
+                """\
+                Process execution failed, exit code: ${exitCode},
+                command `${args}`
+                STDOUT:\n${process.inputStream.text}
+                STDERR:\n${process.errorStream.text}
+                """.stripIndent())
+        }
+
+        return process.inputStream.text.trim()
+    } finally {
+        System.setProperty("user.dir", currentPath)
+    }
+
 }
 
 

@@ -6,7 +6,7 @@ class NodeAgent {
         println(code)
         println("> -------------------------------------------")
 
-        context._executeProcess.call('sh', '-c', code)
+        context._executeProcess.call(null, 'sh', '-c', code)
     }
 
     void deleteDir() {

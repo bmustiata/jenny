@@ -12,9 +12,11 @@ class DockerAgent {
         new File(scriptPath).write(code)
 
         context._executeProcess.call(
+            "/", // cwd on host
             'docker', 'cp', scriptPath, "${this.id}:${scriptPath}"
         )
         context._executeProcess.call(
+            "/", // cwd on host
             'docker', 'exec', '-t', this.id,
             'sh', '-c', "cd ${pwd()}; . ${scriptPath}")
     }
@@ -23,6 +25,7 @@ class DockerAgent {
         println("docker::deleteDir ${pwd()}")
 
         context._executeProcess.call(
+            '/', // cwd on host
             'docker', 'exec', '-t', this.id,
             'rm', '-fr', pwd())
     }
@@ -30,13 +33,13 @@ class DockerAgent {
     void checkout(version) {
         println("docker::checkout ${version}")
 
+        def folder = pwd()
+
         context._executeProcess.call(
-            'docker', 'exec', '-t', this.id,
-            'mkdir', '-p', pwd())
-        context._executeProcess.call(
+            '/', // cwd on host
             'docker', 'cp', 
             "${context._jennyConfig.projectFolder.canonicalPath}/.",
-            "${id}:${pwd()}")
+            "${id}:${folder}/")
     }
 
     String pwd() {
@@ -57,13 +60,16 @@ class Container {
 
     void stop() {
         context._executeProcessSilent.call(
+            '/', // cwd on host
             'docker', 'stop', this.id)
         context._executeProcessSilent.call(
+            '/', // cwd on host
             'docker', 'rm', '-f', this.id)
     }
 
     String port(int port) {
         return context._executeProcessSilent.call(
+            '/', // cwd on host
             'docker', 'port', this.id, port as String)
     }
 }
@@ -92,6 +98,7 @@ class DockerImage {
             dockerAgent = this.startDockerContainer(args, command)
             
             context._executeProcess.call( // prepare the workspace
+                '/', // cwd on host
                 'docker', 'exec', '-t', dockerAgent.id,
                 'mkdir', '-p', pwd())
 
@@ -100,6 +107,7 @@ class DockerImage {
             code.call(dockerAgent.container)
         } catch (Exception e) {
             println("ERROR: " + e.getMessage())
+            e.printStackTrace()
         } finally {
             dockerAgent && dockerAgent.container.stop()
             context._currentAgent = currentAgent
@@ -116,6 +124,7 @@ class DockerImage {
             code.call(dockerAgent.container)
         } catch (Exception e) {
             println("ERROR: " + e.getMessage())
+            e.printStackTrace()
         } finally {
             dockerAgent.container.stop()
             context._currentAgent = currentAgent
@@ -135,9 +144,9 @@ class DockerImage {
 
     private DockerAgent startDockerContainer(args, parameters) {
         def command = ["docker", "run", "-t",
-                                "-d", 
-                                // this is only needed for checkouts, don't allow rw access
-                                "-v", "${context._jennyConfig.projectFolder}:${context._jennyConfig.projectFolder}:ro"
+                                 "-d", 
+                                 // this is only needed for checkouts, don't allow rw access
+                                 "-v", "${context._jennyConfig.projectFolder}:${context._jennyConfig.projectFolder}:ro"
                         ]
 
         context.env.each { k, v -> 
@@ -155,7 +164,9 @@ class DockerImage {
             parameters.split(" ").each{ command.add it }
         }
 
-        def id = context._executeProcessSilent.call(command as String[])
+        def id = context._executeProcessSilent.call(
+                        "/", // cwd on host
+                        command as String[])
 
         return new DockerAgent(
             context: context,
@@ -184,7 +195,9 @@ class DockerBuild {
             command.addAll(parameters.split(" "))
         }
 
-        context._executeProcess.call(command as String[])
+        context._executeProcess.call(
+                null, // don't change cwd on host
+                command as String[])
 
         return new DockerImage(
             context: context,

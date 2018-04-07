@@ -1,3 +1,7 @@
 dir = { path, code ->
-    runInFolder(new File(path), code, create=false, ignoreMissing=true)
+    println(_currentIndent("dir ${path}"))
+
+    _increaseIndent {
+        _runInFolder(new File(path), code, create=false, ignoreMissing=true)
+    }
 }

@@ -12,5 +12,3 @@ RUN useradd -m germanium && \
 USER germanium
 RUN mkdir /home/germanium/.jenny && \
     echo "noLogo: true" > /home/germanium/.jenny/config
-
-

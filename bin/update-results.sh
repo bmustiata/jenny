@@ -21,17 +21,17 @@ update_single_test() {
     cd $CURRENT_FOLDER
 }
 
-update_single_test features/testset/parent \
-                features/testset/jenny-expected.txt
+#update_single_test features/testset/parent \
+#                features/testset/jenny-expected.txt
 
-update_single_test features/multiple-nodes \
-                features/multiple-nodes/jenny-expected.txt
+#update_single_test features/multiple-nodes \
+#                features/multiple-nodes/jenny-expected.txt
 
-update_single_test features/child-section-skip/parent \
-                features/child-section-skip/jenny-expected.txt
+#update_single_test features/child-section-skip/parent \
+#                features/child-section-skip/jenny-expected.txt
 
-update_single_test features/dir-step \
-                features/dir-step/jenny-expected.txt
+#update_single_test features/dir-step \
+#                features/dir-step/jenny-expected.txt
 
 update_single_test features/docker-support\
                 features/docker-support/jenny-expected.txt
