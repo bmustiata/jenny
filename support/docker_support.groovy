@@ -146,7 +146,10 @@ class DockerImage {
                                  "-v", "${context._jennyConfig.projectFolder}:${context._jennyConfig.projectFolder}:ro"
                         ]
 
-        context.env.each { k, v -> 
+        def environment = new HashMap(context.env)
+        environment.remove('PWD')
+
+        environment.each { k, v -> 
             command.add("-e")
             command.add("${k}=${v}")
         }
