@@ -12,3 +12,7 @@ RUN useradd -m germanium && \
 USER germanium
 RUN mkdir /home/germanium/.jenny && \
     echo "noLogo: true" > /home/germanium/.jenny/config
+
+ARG WORKSPACE_FOLDER=/tmp/test
+RUN mkdir -p ${WORKSPACE_FOLDER}
+

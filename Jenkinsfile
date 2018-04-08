@@ -3,12 +3,10 @@ stage('Build Test Container') {
         deleteDir()
         checkout scm
 
-        docker.build('jenny_test_container')
+        docker.build('jenny_test_container', "--build-arg WORKSPACE_FOLDER=${pwd()} .")
               .inside("-v /var/run/docker.sock:/var/run/docker.sock:rw") {
-                dir('/tmp/test_jenny') {
                     checkout scm
                     sh "bin/test-jenny.sh"
-                }
         }
     }
 }
