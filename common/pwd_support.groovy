@@ -1,8 +1,6 @@
-def _tempFolder = "/tmp/"  // FIXME: something smarter?
-
-pwd = { tmp = false -> 
+pwd = { tmp = false ->
     if (tmp) {
-        return _tempFolder.canonicalPath
+        return "/tmp/${UUID.randomUUID() as String}"
     }
 
     return System.getProperty("user.dir")
