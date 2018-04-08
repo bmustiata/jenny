@@ -1,8 +1,10 @@
-runInFolder = { File filePath, code, create=false, ignoreMissing=false ->
+_runInFolder = { File filePath, code, create=false, ignoreMissing=false ->
     def currentPath = System.getProperty("user.dir")
+    def currentPwd = env.PWD
 
     try {
         System.setProperty("user.dir", filePath.canonicalPath)
+        env.PWD = filePath.canonicalPath
 
         def fileExists = filePath.exists()
         if (!fileExists && !create && !ignoreMissing) {
@@ -15,6 +17,7 @@ runInFolder = { File filePath, code, create=false, ignoreMissing=false ->
 
         code()
     } finally {
+        env.PWD = currentPwd
         System.setProperty("user.dir", currentPath)
     }
 }

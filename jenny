@@ -106,7 +106,6 @@ jennyRun = { runConfig ->
     binding._jennyGlobal = jennyGlobal
 
     binding.NodeItem = NodeItem
-    binding._runInFolder = runInFolder
 
     def shell = new GroovyShell(classLoader, binding)
 
