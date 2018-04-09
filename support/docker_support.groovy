@@ -87,9 +87,9 @@ class DockerImage {
 
         try {
             if (args) {
-                args = "${args} --entrypoint cat -u 1000:1000 --group-add 999 -w ${pwd()}"
+                args = "${args} --entrypoint cat -u 1000:1000 --group-add docker -w ${pwd()}"
             } else {
-                args = "--entrypoint cat -u 1000:1000 --group-add 999 -w ${pwd()}"
+                args = "--entrypoint cat -u 1000:1000 --group-add docker -w ${pwd()}"
             }
 
             dockerAgent = this.startDockerContainer(args, command)
@@ -155,13 +155,13 @@ class DockerImage {
         }
 
         if (args) {
-            args.split(" ").each{ command.add it }
+            args.split("\\s+").each{ command.add it }
         }
 
         command.add(imageName)
         
         if (parameters) {
-            parameters.split(" ").each{ command.add it }
+            parameters.split("\\s+").each{ command.add it }
         }
 
         def id = context._executeProcessSilent.call(
@@ -192,7 +192,7 @@ class DockerBuild {
         def command = ["docker", "build", "-t", imageName]
         
         if (parameters) {
-            command.addAll(parameters.split(" "))
+            command.addAll(parameters.split("\\s+"))
         }
 
         context._executeProcess.call(
