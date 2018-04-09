@@ -2,7 +2,7 @@ FROM ubuntu:16.04
 
 RUN apt update -y && \
     apt upgrade -y && \
-    apt install -y groovy curl && \
+    apt install -y groovy curl maven && \
     curl https://get.docker.com | bash
 
 RUN useradd -m germanium && \

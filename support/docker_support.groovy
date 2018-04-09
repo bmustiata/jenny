@@ -87,9 +87,9 @@ class DockerImage {
 
         try {
             if (args) {
-                args = "${args} --entrypoint cat -u 1000:1000 --group-add 998"
+                args = "${args} --entrypoint cat -u 1000:1000 --group-add 999"
             } else {
-                args = "--entrypoint cat -u 1000:1000 --group-add 998"
+                args = "--entrypoint cat -u 1000:1000 --group-add 999"
             }
 
             dockerAgent = this.startDockerContainer(args, command)

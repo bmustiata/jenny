@@ -11,8 +11,8 @@ allows skipping sections of Jenkinsfiles, and starting from different parts.
 
 == Usage
 
-Just make the `jenny` binary available in the path, go in the folder where the
-`Jenkinsfile` resides and run:
+1. Just make the `jenny` script available in the path,
+2: go in the folder where the `Jenkinsfile` resides and run:
 
 [source,sh]
 -----------------------------------------------------------------------------
