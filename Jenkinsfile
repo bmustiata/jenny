@@ -7,7 +7,7 @@ stage('Build Test Container') {
               .inside("-v /var/run/docker.sock:/var/run/docker.sock:rw") {
                 dir('/tmp/test_jenny') {
                     checkout scm
-                    sh "bin/test-jenny.sh"
+                    sh "bin/test_jenny.py"
                 }
         }
     }

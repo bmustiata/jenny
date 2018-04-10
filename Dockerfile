@@ -2,7 +2,10 @@ FROM ubuntu:16.04
 
 RUN apt update -y && \
     apt upgrade -y && \
-    apt install -y groovy curl maven && \
+    apt install -y software-properties-common && \
+    add-apt-repository -y ppa:deadsnakes/ppa && \
+    apt update -y && \
+    apt install -y groovy curl maven python3.6 && \
     curl https://get.docker.com | bash
 
 RUN useradd -m germanium && \
