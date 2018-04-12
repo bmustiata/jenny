@@ -3,7 +3,7 @@ class DockerAgent {
     String id
 
     String getNodeId() {
-        id
+        id.substring(0, 8)
     }
 
     void sh(String code) {

@@ -3,7 +3,9 @@ writer = new FileWriter(logFileName)
 
 _parentLog = [
     message:  { boolean onlyInLog = false, String message ->
-        _parentLog.logMessage("[<host>] %s".format(message))
+        _parentLog.logMessage(String.format(
+            "[<host>] %s",
+            message))
 
         if (onlyInLog) {
             return;

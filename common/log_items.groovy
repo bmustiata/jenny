@@ -1,6 +1,7 @@
 _log = [
     message:  { boolean onlyInLog = false, String message ->
-        _parentLog.logMessage("[%s] %s".format(
+        _parentLog.logMessage(String.format(
+            "[%s] %s",
             _currentAgent.nodeId,
             message
         ))
