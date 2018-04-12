@@ -31,7 +31,7 @@ _parentLog = [
         writer.flush()
         writer.close()
         if (!options.keepLog) {
-//            new File(logFileName).delete()
+            new File(logFileName).delete()
         }
     }
 ]

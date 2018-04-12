@@ -56,7 +56,7 @@ def run_single_test(folder_name: str) -> None:
             expected_file = "{0}/{1}".format(folder, "jenny-expected.txt")
             break
 
-    error_code, output = subprocess.getstatusoutput("{0}/jenny".format(PROJECT_FOLDER))
+    error_code, output = subprocess.getstatusoutput("{0}/jenny --keepLog".format(PROJECT_FOLDER))
 
     process_output = output
 
