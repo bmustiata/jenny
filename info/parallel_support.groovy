@@ -1,6 +1,6 @@
 parallel = { items ->
     _runSectionWithId("parallel") { parallelId ->
-        println(_currentIndent("parallel", parallelId))
+        _log.message(_currentIndent("parallel", parallelId))
 
         _increaseIndent {
             items.each { parallelBranch, code ->
@@ -9,7 +9,7 @@ parallel = { items ->
                         return;
                     }
 
-                    println(_currentIndent("parallel branch: ${parallelBranch}", branchId))
+                    _log.message(_currentIndent("parallel branch: ${parallelBranch}", branchId))
                     _increaseIndent {
                         code()
                     }

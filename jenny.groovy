@@ -11,6 +11,7 @@ Class NodeItem = classLoader.parseClass(new File(scriptFile.parent, "NodeItem.gr
 def cli = new CliBuilder(usage: "jenny [options]")
 cli.f(longOpt: "file", args: 1, argName: "file", "Path to Jenkinsfile.")
 cli.l(longOpt: "lib", args: -2, argName: "lib", "Path to the library to load.")
+cli.keepLog("Keep the generated log file after finishing.")
 cli.p(longOpt: "param", args: -2, argName: "nam=value", valueSeparator:'=', "Parameter to override.")
 cli.s(longOpt: "skip", args: -2, argName: "id", "stage/parallel/node blocks to skip by ID.")
 cli.o(longOpt: "only", args: -2, argName: "id", "stage/parallel/node blocks to run by ID (includes ancestors).")
@@ -62,7 +63,7 @@ jennyRun = { runConfig ->
     def projectFolder = new File(new File(runConfig.projectFolder ?: ".").canonicalPath)
 
     if (jennyConfig.verbose) {
-        println("> project folder: ${projectFolder.canonicalPath}")
+        _parentLog.message("> project folder: ${projectFolder.canonicalPath}")
     }
 
     if (!projectFolder.exists()) {
@@ -81,7 +82,7 @@ jennyRun = { runConfig ->
     // Start the execution.
     // -------------------------------------------------------------------
     if (!jennyConfig.noLogo && runConfig.topProject) {
-        print """\
+        _parentLog.message """\
         >    _
         >   (_) ___ _ __  _ __  _   _
         >   | |/ _ \\ '_ \\| '_ \\| | | |
@@ -101,6 +102,7 @@ jennyRun = { runConfig ->
     binding._jennyConfig = jennyConfig
     binding._jennyRun = jennyRun
     binding._jennyGlobal = jennyGlobal
+    binding._parentLog = _parentLog
 
     binding.NodeItem = NodeItem
     binding._runInFolder = runInFolder
@@ -178,11 +180,16 @@ while (! new File(projectFolder, jenkinsFileName).exists()) {
     projectFolder = projectFolder.parentFile
 }
 
-jennyRun([
-    parentId: null,
-    projectFolder: projectFolder.canonicalPath,
-    jenkinsFile: (options.file ?: "Jenkinsfile"),
-    topProject: true,
-    nestedIds: options.nestedIds,
-    verbose: options.verbose
-])
+try {
+    jennyRun([
+        parentId: null,
+        projectFolder: projectFolder.canonicalPath,
+        jenkinsFile: (options.file ?: "Jenkinsfile"),
+        topProject: true,
+        nestedIds: options.nestedIds,
+        verbose: options.verbose
+    ])
+} finally {
+    _parentLog.close()
+}
+

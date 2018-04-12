@@ -1,5 +1,5 @@
 _executeProcess = { String cwd, String... args ->
-    //println("exec: ${args.join(' ')}")
+    //_log.message("exec: ${args.join(' ')}")
 
     def currentPath = System.getProperty("user.dir")
 
@@ -34,7 +34,7 @@ _executeProcess = { String cwd, String... args ->
 }
 
 _executeProcessSilent = { String cwd, String... args ->
-    //println("exec silent: ${args.join(' ')}")
+    //_log.message("exec silent: ${args.join(' ')}")
 
     def currentPath = System.getProperty("user.dir")
 
@@ -72,6 +72,10 @@ _executeProcessSilent = { String cwd, String... args ->
 
 
 class NoopAgent {
+    String getNodeId() {
+        return "<host>"
+    }
+
     void sh(String code) {
         throw new Exception("You need to be inside a node, or on an agent for `sh` to work.")
     }
@@ -86,3 +90,4 @@ class NoopAgent {
 }
 
 _currentAgent = new NoopAgent()
+

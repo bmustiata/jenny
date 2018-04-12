@@ -1,3 +1,3 @@
 sh = { code ->
-    println(_currentIndent("sh"))
+    _log.message(_currentIndent("sh"))
 }

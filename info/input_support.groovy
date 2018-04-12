@@ -1,3 +1,3 @@
 input = { config ->
-    println(_currentIndent("input: ${config.message}"))
+    _log.message(_currentIndent("input: ${config.message}"))
 }

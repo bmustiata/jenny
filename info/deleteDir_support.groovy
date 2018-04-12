@@ -1,3 +1,3 @@
 deleteDir = { ->
-    println(_currentIndent("deleteDir: ${pwd()}"))
+    _log.message(_currentIndent("deleteDir: ${pwd()}"))
 }

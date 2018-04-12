@@ -2,7 +2,7 @@ def call() {
     sh """
     echo "pwd from pluginCommand: `pwd`"
     """
-    println new File(".").canonicalPath
-    println System.getProperty("user.dir")
+    _log.message new File(".").canonicalPath
+    _log.message System.getProperty("user.dir")
 }
 

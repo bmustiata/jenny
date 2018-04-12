@@ -5,73 +5,77 @@ import os
 import os.path
 import unittest
 import sys
-import math
 
 tc = unittest.TestCase()
 tc.maxDiff = None
 assertEquals = tc.assertEquals
 
-PROJECT_FOLDER=os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+PROJECT_FOLDER = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 
-def compare_lines(content1: str, content2: str) -> None:
-    lines1 = content1.splitlines()
-    lines2 = content2.splitlines()
+
+def compare_lines(expected: str, actual: str) -> None:
+    expected_lines = expected.splitlines()
+    actual_lines = actual.splitlines()
 
     error_found = False
 
-    if (len(lines1) != len(lines2)):
+    if (len(expected_lines) != len(actual_lines)):
         error_found = True
-        print("Expected %d lines, found %d lines." % 
-                    (len(lines1), len(lines2)))
+        print("Expected %d lines, found %d lines." %
+              (len(expected_lines), len(actual_lines)))
 
-    for i in range(min(len(lines1), len(lines2))):
-        if lines1[i] == lines2[i]:
+    for i in range(min(len(expected_lines), len(actual_lines))):
+        if expected_lines[i] == actual_lines[i]:
             continue
-        
+
         error_found = True
-        print("%d: expected: %s" % (i, lines1[i]))
-        print("%d: found   : %s" % (i, lines2[i]))
+        print("%d: expected: %s" % (i, expected_lines[i]))
+        print("%d: actual  : %s" % (i, actual_lines[i]))
 
     if error_found:
+        with open("/tmp/expected.txt", mode='w', encoding='utf-8') as f:
+            f.writelines(expected_lines)
+        with open("/tmp/actual.txt", mode='w', encoding='utf-8') as f:
+            f.writelines(actual_lines)
         print("Comparison differences found")
         sys.exit(1)
 
 
-def runSingleTest(folder_name: str, expected_file: str) -> None:
+def run_single_test(folder_name: str) -> None:
     print("Testing: {0}".format(folder_name))
 
+    expected_file = None  # type: str
     current_folder = os.curdir
-    os.chdir("{0}/{1}".format(
-        PROJECT_FOLDER,
-        folder_name
-    ))
 
-    output = subprocess.check_output(
-                    ["{0}/jenny".format(PROJECT_FOLDER)], 
-                    stderr=subprocess.STDOUT) # type: bytes
+    search_folder = "{0}/{1}".format(PROJECT_FOLDER, folder_name)
 
-    process_output = output.decode('UTF-8')
-    
-    expected_file_path = "{0}/{1}".format(PROJECT_FOLDER, expected_file)
+    os.chdir(search_folder)
 
-    with open(expected_file_path) as f:
+    for folder, folders, files in os.walk(search_folder):
+        if "jenny-expected.txt" in files:
+            expected_file = "{0}/{1}".format(folder, "jenny-expected.txt")
+            break
+
+    error_code, output = subprocess.getstatusoutput("{0}/jenny".format(PROJECT_FOLDER))
+
+    process_output = output
+
+    with open(expected_file) as f:
         expected_content = f.read()
         compare_lines(expected_content, process_output)
+
+    if error_code != 0:
+        print("Even if the output was equal, the program exited with exit code: %d" % error_code)
 
     os.chdir(current_folder)
 
 
-runSingleTest("features/testset/parent",
-              "features/testset/jenny-expected.txt")
+run_single_test("features/testset/parent")
 
-runSingleTest("features/multiple-nodes",
-              "features/multiple-nodes/jenny-expected.txt")
+run_single_test("features/multiple-nodes")
 
-runSingleTest("features/child-section-skip/parent",
-              "features/child-section-skip/jenny-expected.txt")
+run_single_test("features/child-section-skip/parent")
 
-runSingleTest("features/dir-step",
-              "features/dir-step/jenny-expected.txt")
+run_single_test("features/dir-step")
 
-runSingleTest("features/docker-support",
-              "features/docker-support/jenny-expected.txt")
+run_single_test("features/docker-support")

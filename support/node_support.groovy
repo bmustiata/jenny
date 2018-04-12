@@ -1,21 +1,26 @@
 class NodeAgent {
     def context
+    String id
+
+    String getNodeId() {
+        id
+    }
 
     void sh(String code) {
-        println("> node::sh ----------------------------------")
-        println(code)
-        println("> -------------------------------------------")
+        context._log.message("> node::sh ----------------------------------")
+        context._log.message(code)
+        context._log.message("> -------------------------------------------")
 
         context._executeProcess.call(null, 'sh', '-c', code)
     }
 
     void deleteDir() {
-        println("node::deleteDir ${pwd()}")
-        new File(pwd()).deleteDir()        
+        context._log.message("node::deleteDir ${pwd()}")
+        new File(pwd()).deleteDir()
     }
 
     void checkout(String version) {
-        println("node::checkout ${version}")
+        context._log.message("node::checkout ${version}")
 
         if (version != "SCM") {
             throw new IllegalArgumentException("Only SCM checkout is supported.")
@@ -26,7 +31,7 @@ class NodeAgent {
         }
 
         org.apache.commons.io.FileUtils.copyDirectory(
-            context._jennyConfig.projectFolder, 
+            context._jennyConfig.projectFolder,
             new File(pwd()))
     }
 
@@ -40,7 +45,10 @@ node = { name = null, code ->
     _runSectionWithId("node") { fullId ->
         def currentAgent = _currentAgent
         try {
-            _currentAgent = new NodeAgent(context: binding)
+            _currentAgent = new NodeAgent(
+                context: binding,
+                id: fullId
+            )
             def nodeFolder = new File(_jennyConfig.workspaceFolder, "../" + fullId)
             _runInFolder.call(nodeFolder, code, create=true, ignoreMissing=_jennyConfig.info)
         } finally {

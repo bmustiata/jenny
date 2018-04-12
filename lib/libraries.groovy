@@ -2,7 +2,7 @@ def loadLibrary(shell, binding, path) {
     def jennyConfig = binding._jennyConfig
 
     if (jennyConfig.verbose) {
-        println "> Loading library ${path}"
+        _log.message "> Loading library ${path}"
     }
 
     def libFolder = new File(path, "vars")
@@ -23,7 +23,7 @@ def loadInfoLibrary(shell, binding, path) {
     def jennyConfig = binding._jennyConfig
 
     if (jennyConfig.verbose) {
-        println "> Loading library ${path}"
+        _log.message "> Loading library ${path}"
     }
 
     def libFolder = new File(path, "vars")
@@ -35,7 +35,7 @@ def loadInfoLibrary(shell, binding, path) {
     libFolder.listFiles().each { commandFile ->
         def commandName = commandFile.getName().substring(0, commandFile.getName().lastIndexOf("."))
         binding[commandName] = { config = null ->
-            shell.evaluate("println(_currentIndent('${commandName}'))")
+            shell.evaluate("_log.message(_currentIndent('${commandName}'))")
         }
     }
 }

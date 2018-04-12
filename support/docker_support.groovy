@@ -2,10 +2,14 @@ class DockerAgent {
     def context
     String id
 
+    String getNodeId() {
+        id
+    }
+
     void sh(String code) {
-        println("> docker::sh --------------------------------")
-        println(code)
-        println("> -------------------------------------------")
+        context._log.message("> docker::sh --------------------------------")
+        context._log.message(code)
+        context._log.message("> -------------------------------------------")
 
         def scriptPath = "/tmp/${UUID.randomUUID() as String}.sh"
 
@@ -22,7 +26,7 @@ class DockerAgent {
     }
 
     void deleteDir() {
-        println("docker::deleteDir ${pwd()}")
+        context._log.message("docker::deleteDir ${pwd()}")
 
         context._executeProcess.call(
             '/', // cwd on host
@@ -31,7 +35,7 @@ class DockerAgent {
     }
 
     void checkout(version) {
-        println("docker::checkout ${version}")
+        context._log.message("docker::checkout ${version}")
 
         def folder = pwd()
 
@@ -81,7 +85,7 @@ class DockerImage {
     String imageName
 
     void inside(String args=null, String command=null, Closure code) {
-        println("docker::inside ${imageName}")
+        context._log.message("docker::inside ${imageName}")
         def currentAgent = context._currentAgent
         def dockerAgent
 
@@ -103,7 +107,7 @@ class DockerImage {
             context._currentAgent = dockerAgent
             code.call(dockerAgent.container)
         } catch (Exception e) {
-            println("ERROR: " + e.getMessage())
+            context._log.message("ERROR: " + e.getMessage())
             e.printStackTrace()
         } finally {
             dockerAgent && dockerAgent.container.stop()
@@ -120,7 +124,7 @@ class DockerImage {
             context._currentAgent = dockerAgent
             code.call(dockerAgent.container)
         } catch (Exception e) {
-            println("ERROR: " + e.getMessage())
+            _log.message("ERROR: " + e.getMessage())
             e.printStackTrace()
         } finally {
             dockerAgent.container.stop()

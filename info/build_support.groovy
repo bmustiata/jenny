@@ -33,10 +33,10 @@ build = { config ->
         config["wait"] = true
     }
 
-    println(_currentIndent("build job: \"${config.job}\", wait: ${config.wait}"))
+    _log.message(_currentIndent("build job: \"${config.job}\", wait: ${config.wait}"))
 
     if (config && config.containsKey("wait") && !config["wait"]) {
-        println("> wait: nowait in external builds is not supported.")
+        _log.message("> wait: nowait in external builds is not supported.")
     }
 
     def jobLocation = config.job

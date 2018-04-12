@@ -5,7 +5,7 @@ _prepareWorkspace = { ->
     def projectFolderName = _jennyConfig.projectFolder.name
     def workspaceLocation = new File("/tmp/jenny/workspace/${projectFolderName}/workspace")
 
-    println("> workspace: ${workspaceLocation.canonicalPath}")
+    _log.message("> workspace: ${workspaceLocation.canonicalPath}")
 
     workspaceLocation.deleteDir()
     if (!workspaceLocation.mkdirs()) {

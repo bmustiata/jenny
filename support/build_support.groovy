@@ -7,11 +7,11 @@ build = { config ->
         config["wait"] = true
     }
 
-    println("> =============================================")
-    println("> build job: ${config.job}")
-    println("> =============================================")
+    _log.message("> =============================================")
+    _log.message("> build job: ${config.job}")
+    _log.message("> =============================================")
     if (config && config.containsKey("wait") && !config["wait"]) {
-        println("> wait: nowait in external builds is not supported.")
+        _log.message("> wait: nowait in external builds is not supported.")
     }
 
     def jobLocation = config.job
@@ -38,6 +38,6 @@ build = { config ->
               nestedIds: _jennyConfig.nestedIds,
               projectFolder: projectFolder)
 
-    println("> build job ${config.job} ended.")
-    println("> =============================================")
+    _log.message("> build job ${config.job} ended.")
+    _log.message("> =============================================")
 }

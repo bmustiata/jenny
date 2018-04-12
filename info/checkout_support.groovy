@@ -1,4 +1,4 @@
 scm = "SCM"
 checkout = { version ->
-    println(_currentIndent("checkout ${version}"))
+    _log.message(_currentIndent("checkout ${version}"))
 }

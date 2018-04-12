@@ -38,13 +38,13 @@ properties = { props ->
                 _global[it.name] = it.defaultValue
             }
 
-            println("> ==============================================")
-            println("> Parameters")
-            println("> --------------------------------------------")
+            _log.message("> ==============================================")
+            _log.message("> Parameters")
+            _log.message("> --------------------------------------------")
             prop.parameters.each {
-                println("> ${it.name} = ${_global[it.name]}")
+                _log.message("> ${it.name} = ${_global[it.name]}")
             }
-            println("> ==============================================")
+            _log.message("> ==============================================")
 
             return;
         }
