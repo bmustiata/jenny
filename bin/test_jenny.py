@@ -56,13 +56,19 @@ def run_single_test(folder_name: str) -> None:
             expected_file = "{0}/{1}".format(folder, "jenny-expected.txt")
             break
 
-    error_code, output = subprocess.getstatusoutput(
-            "{0}/jenny --keepLog".format(PROJECT_FOLDER))
+    p = subprocess.Popen(["%s/jenny" % PROJECT_FOLDER, "--keepLog"],
+                         stdin=subprocess.PIPE,
+                         stdout=subprocess.PIPE,
+                         stderr=subprocess.PIPE)
+    stdout, stderr = p.communicate()  # type: bytes, bytes
+    error_code = p.returncode
 
-    process_output = output
+    process_output = stdout.decode('utf-8')
 
     if error_code != 0:
         print("Program failed with error code: %d" % error_code)
+        print("Program STDOUT: %s" % process_output)
+        print("Program STDERR: %s" % stderr.decode('utf-8'))
 
     with open(expected_file) as f:
         expected_content = f.read()
