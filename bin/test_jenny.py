@@ -56,7 +56,8 @@ def run_single_test(folder_name: str) -> None:
             expected_file = "{0}/{1}".format(folder, "jenny-expected.txt")
             break
 
-    error_code, output = subprocess.getstatusoutput("{0}/jenny --keepLog".format(PROJECT_FOLDER))
+    error_code, output = subprocess.getstatusoutput(
+            "{0}/jenny --keepLog".format(PROJECT_FOLDER))
 
     process_output = output
 
@@ -65,7 +66,8 @@ def run_single_test(folder_name: str) -> None:
         compare_lines(expected_content, process_output)
 
     if error_code != 0:
-        print("Even if the output was equal, the program exited with exit code: %d" % error_code)
+        print("Even if the output was equal, the program exited with "
+              "exit code: %d" % error_code)
 
     os.chdir(current_folder)
 
