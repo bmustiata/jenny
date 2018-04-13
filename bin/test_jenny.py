@@ -61,6 +61,9 @@ def run_single_test(folder_name: str) -> None:
 
     process_output = output
 
+    if error_code != 0:
+        print("Program failed with error code: %d" % error_code)
+
     with open(expected_file) as f:
         expected_content = f.read()
         compare_lines(expected_content, process_output)
