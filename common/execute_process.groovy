@@ -1,5 +1,5 @@
 _executeProcess = { String cwd, String... args ->
-    //_log.message("exec: ${args.join(' ')}")
+    _parentLog.logMessage("exec: ${args.join(' ')}")
 
     def currentPath = System.getProperty("user.dir")
 
@@ -34,7 +34,7 @@ _executeProcess = { String cwd, String... args ->
 }
 
 _executeProcessSilent = { String cwd, String... args ->
-    //_log.message("exec silent: ${args.join(' ')}")
+    _parentLog.logMessage("exec silent: ${args.join(' ')}")
 
     def currentPath = System.getProperty("user.dir")
 

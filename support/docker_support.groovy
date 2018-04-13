@@ -41,7 +41,7 @@ class DockerAgent {
 
         context._executeProcess.call(
             '/', // cwd on host
-            'docker', 'cp', 
+            'docker', 'cp',
             "${context._jennyConfig.projectFolder.canonicalPath}/.",
             "${id}:${folder}/")
     }
@@ -97,7 +97,7 @@ class DockerImage {
             }
 
             dockerAgent = this.startDockerContainer(args, command)
-            
+
             context._executeProcess.call( // prepare the workspace
                 '/', // cwd on host
                 'docker', 'exec', '-t', dockerAgent.id,
@@ -145,12 +145,12 @@ class DockerImage {
 
     private DockerAgent startDockerContainer(args, parameters) {
         def command = ["docker", "run", "-t",
-                                 "-d", 
+                                 "-d",
                                  // this is only needed for checkouts, don't allow rw access
-                                 "-v", "${context._jennyConfig.projectFolder}:${context._jennyConfig.projectFolder}:ro"
+                                 //"-v", "${context._jennyConfig.projectFolder}:${context._jennyConfig.projectFolder}:ro"
                         ]
 
-        context.env.each { k, v -> 
+        context.env.each { k, v ->
             command.add("-e")
             command.add("${k}=${v}")
         }
@@ -160,7 +160,7 @@ class DockerImage {
         }
 
         command.add(imageName)
-        
+
         if (parameters) {
             parameters.split(" ").each{ command.add it }
         }
@@ -191,7 +191,7 @@ class DockerBuild {
 
     DockerImage build() {
         def command = ["docker", "build", "-t", imageName]
-        
+
         if (parameters) {
             command.addAll(parameters.split(" "))
         }
