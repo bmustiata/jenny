@@ -81,12 +81,16 @@ def run_single_test(folder_name: str) -> None:
     os.chdir(current_folder)
 
 
-run_single_test("features/testset/parent")
+tests_to_run = [
+    "features/testset/parent",
+    "features/multiple-nodes",
+    "features/child-section-skip/parent",
+    "features/dir-step",
+    "features/docker-support"
+]
 
-run_single_test("features/multiple-nodes")
+tests_to_skip = list(sys.argv)
 
-run_single_test("features/child-section-skip/parent")
-
-run_single_test("features/dir-step")
-
-run_single_test("features/docker-support")
+for test in tests_to_run:
+    if test not in tests_to_skip:
+        run_single_test(test)

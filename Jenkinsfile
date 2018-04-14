@@ -7,7 +7,9 @@ stage('Build Test Container') {
               .inside("-v /var/run/docker.sock:/var/run/docker.sock:rw") {
                     checkout scm
                     try {
-                        sh "bin/test_jenny.py"
+                        sh """
+                            bin/test_jenny.py features/docker-support
+                        """
                     } finally {
                         sh "cat /tmp/jenny_*"
                     }
