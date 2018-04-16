@@ -1,0 +1,38 @@
+> workspace: /tmp/jenny/workspace/parent/workspace
+> ==============================================
+> Parameters
+> --------------------------------------------
+> string_parameter = parent
+> ==============================================
+stage: Parent [s1]
+  node [s1.n1]
+    sh
+    pluginCommand
+  build job: "child", wait: true
+    > workspace: /tmp/jenny/workspace/child/workspace
+> ==============================================
+> Parameters
+> --------------------------------------------
+> string_parameter = parent
+> ==============================================
+    stage: child [s1]
+      node [s1.n1]
+        sh
+        pluginCommand
+    stage: child Deploy [s2]
+      node [s2.n1]
+        sh
+  build job: "child-2-aliased", wait: true
+    > workspace: /tmp/jenny/workspace/child2/workspace
+> ==============================================
+> Parameters
+> --------------------------------------------
+> string_parameter = parent
+> ==============================================
+    stage: child2 [s1]
+      node [s1.n1]
+        sh
+        pluginCommand
+    stage: child2 Deploy [s2]
+      node [s2.n1]
+        sh

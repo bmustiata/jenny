@@ -1,0 +1,7 @@
+> workspace: /tmp/jenny/workspace/docker-support/workspace
+stage: Test Docker [s1]
+  node [s1.n1]
+    docker::inside maven:3.5.3
+      sh
+    docker::inside node:9.10.1
+      sh
