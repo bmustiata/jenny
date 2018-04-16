@@ -1,9 +1,10 @@
 = Jenny
 
-Command line Jenkinsfile runner written in groovy.
+Command line Jenkinsfile runner written in groovy. Does not need a Jenkins
+installation to run the Jenkinsfile.
 
 This does not require Jenkins to run, and will run everything locally. It's
-great to debug and fastly iterate over `Jenkinsfile` creation, before pushing
+great to debug and quickly iterate over `Jenkinsfile` creation, before pushing
 them for the real Jenkins.
 
 In order to do that, a lot of effort is concentrated on execution paths. It
@@ -180,7 +181,7 @@ Allow defining a boolean parameter in the `parameters` section.
 
 === build
 
-Allow running a nested build triggered from the curernt build. The `job` must
+Allow running a nested build triggered from the current build. The `job` must
 point to a project folder configured in the jenny config, or a sibling folder
 in case it's not starting with `.`, and is not configured. If it's starting
 with a `.` then either the full relative name is configured in the jenny
