@@ -53,7 +53,7 @@ class DockerImage {
     String imageName
 
     void inside(String args=null, String command=null, Closure code) {
-        context._log.message(context._currentIndent.call("docker::inside ${imageName}"))
+        context._log.message(context._currentIndent.call("docker::image::inside ${imageName}"))
         context._increaseIndent.call {
             def currentAgent = context._currentAgent
             def dockerAgent
@@ -74,7 +74,7 @@ class DockerImage {
     }
 
     void withRun(String args=null, String command=null, Closure code) {
-        context._log.message(context._currentIndent.call("docker::withRun ${imageName}"))
+        context._log.message(context._currentIndent.call("docker::image::withRun ${imageName}"))
         context._increaseIndent.call {
             def currentAgent = context._currentAgent
             def dockerAgent = null
@@ -97,6 +97,7 @@ class DockerImage {
      * Start a container.
      */
     Container run(String args=null, String command=null) {
+        context._log.message(context._currentIndent.call("docker::image::run ${imageName}"))
         def dockerAgent = this.startDockerContainer(args, command)
         return new Container(
             id: dockerAgent.id,
@@ -128,6 +129,7 @@ class DockerBuild {
     def parameters
 
     DockerImage build() {
+        context._log.message(context._currentIndent.call("docker::build ${imageName}"))
         return new DockerImage(
             context: context,
             imageName: imageName

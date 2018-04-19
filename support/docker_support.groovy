@@ -116,6 +116,7 @@ class DockerImage {
     }
 
     void withRun(String args=null, String command=null, Closure code) {
+        context._log.message("docker::withRun ${imageName}")
         def currentAgent = context._currentAgent
         def dockerAgent = null
 
@@ -136,6 +137,7 @@ class DockerImage {
      * Start a container.
      */
     Container run(String args=null, String command=null) {
+        context._log.message("docker::run ${imageName}")
         def dockerAgent = this.startDockerContainer(args, command)
         return new Container(
             id: dockerAgent.id,
@@ -190,6 +192,7 @@ class DockerBuild {
     def parameters
 
     DockerImage build() {
+        context._log.message("docker::build ${imageName}")
         def command = ["docker", "build", "-t", imageName]
 
         if (parameters) {
