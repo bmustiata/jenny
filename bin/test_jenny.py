@@ -5,6 +5,7 @@ import os
 import os.path
 import unittest
 import sys
+from typing import List
 
 tc = unittest.TestCase()
 tc.maxDiff = None
@@ -42,7 +43,22 @@ def compare_lines(expected: str, actual: str) -> None:
 
 
 def run_single_test(folder_name: str) -> None:
-    print("Testing: {0}".format(folder_name))
+    run_external_process_test(folder_name, "jenny-expected.txt")
+
+
+def run_single_info_test(folder_name: str) -> None:
+    run_external_process_test(folder_name,
+                              "jenny-expected-info.txt",
+                              ["--info"])
+
+
+def run_external_process_test(folder_name: str,
+                              expected_output_file_name: str,
+                              extra_parameters: List[str] = None) -> None:
+    if extra_parameters is None:
+        extra_parameters = []
+
+    print("Testing: {0} ({1})".format(folder_name, " ".join(extra_parameters)))
 
     expected_file = None  # type: str
     current_folder = os.curdir
@@ -52,14 +68,18 @@ def run_single_test(folder_name: str) -> None:
     os.chdir(search_folder)
 
     for folder, folders, files in os.walk(search_folder):
-        if "jenny-expected.txt" in files:
-            expected_file = "{0}/{1}".format(folder, "jenny-expected.txt")
+        if expected_output_file_name in files:
+            expected_file = "{0}/{1}".format(folder, expected_output_file_name)
             break
 
-    p = subprocess.Popen(["%s/jenny" % PROJECT_FOLDER, "--keepLog"],
+    popen_parameters = ["%s/jenny" % PROJECT_FOLDER, "--keepLog"]
+    popen_parameters.extend(extra_parameters)
+
+    p = subprocess.Popen(popen_parameters,
                          stdin=subprocess.PIPE,
                          stdout=subprocess.PIPE,
                          stderr=subprocess.PIPE)
+
     stdout, stderr = p.communicate()  # type: bytes, bytes
     error_code = p.returncode
 
@@ -94,3 +114,4 @@ tests_to_skip = list(sys.argv)
 for test in tests_to_run:
     if test not in tests_to_skip:
         run_single_test(test)
+        run_single_info_test(test)
