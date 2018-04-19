@@ -56,4 +56,3 @@ if len(sys.argv) > 1:
 
 for test in tests_to_run:
     update_single_test(test)
-
