@@ -1,4 +1,4 @@
-def logFileName = "/tmp/jenny_${UUID.randomUUID() as String}.log"
+def logFileName = "${_workFolder}/jenny_${UUID.randomUUID() as String}.log"
 writer = new FileWriter(logFileName)
 
 _parentLog = [

@@ -1,0 +1,8 @@
+stage('Child') {
+    node {
+        println pwd()
+        sh """
+            pwd
+        """
+    }
+}

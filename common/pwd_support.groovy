@@ -1,4 +1,4 @@
-def _tempFolder = "/tmp/"  // FIXME: something smarter?
+def _tempFolder = "${_jennyConfig.workFolder}/"  // FIXME: something smarter?
 
 pwd = { tmp = false -> 
     if (tmp) {

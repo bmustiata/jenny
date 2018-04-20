@@ -11,7 +11,8 @@ class DockerAgent {
         context._log.message(code)
         context._log.message("> -------------------------------------------")
 
-        def scriptPath = "/tmp/${UUID.randomUUID() as String}.sh"
+        def workFolder = context._jennyConfig.workFolder
+        def scriptPath = "${workFolder}/${UUID.randomUUID() as String}.sh"
 
         new File(scriptPath).write(code)
 

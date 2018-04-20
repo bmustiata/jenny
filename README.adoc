@@ -42,6 +42,7 @@ libs: # list of libaries folders to load
   - /path/to/some/folder
   - /path/to/other/folder
 noLogo: true
+workFolder: /tmp
 params:
   PARAMETER_NAME: "value"
 execute:

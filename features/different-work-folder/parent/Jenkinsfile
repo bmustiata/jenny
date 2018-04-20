@@ -1,0 +1,12 @@
+stage('Test') {
+    node {
+        print pwd()
+        sh """
+            pwd
+        """
+    }
+}
+
+stage('Child') {
+    build 'child'
+}

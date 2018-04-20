@@ -11,6 +11,7 @@ Class NodeItem = classLoader.parseClass(new File(scriptFile.parent, "NodeItem.gr
 def cli = new CliBuilder(usage: "jenny [options]")
 cli.f(longOpt: "file", args: 1, argName: "file", "Path to Jenkinsfile.")
 cli.l(longOpt: "lib", args: -2, argName: "lib", "Path to the library to load.")
+cli.w(longOpt: "workFolder", "Work folder (defaults to /tmp)")
 cli.keepLog("Keep the generated log file after finishing.")
 cli.p(longOpt: "param", args: -2, argName: "nam=value", valueSeparator:'=', "Parameter to override.")
 cli.s(longOpt: "skip", args: -2, argName: "id", "stage/parallel/node blocks to skip by ID.")
@@ -30,6 +31,8 @@ if (options.h) {
     return;
 }
 
+_workFolder = options.workFolder ?: "/tmp"
+
 // -------------------------------------------------------------------
 // Load the core libraries (config, lib loading)
 // -------------------------------------------------------------------
@@ -38,7 +41,6 @@ new File(scriptFile.parent, "lib").listFiles().each {
 }
 
 jennyGlobalConfigFolder = "${System.getenv('HOME')}/.jenny"
-
 jennyGlobal = [:]
 
 /**
@@ -55,6 +57,7 @@ jennyRun = { runConfig ->
         "params":[:],
         "execute":[:],
         "projects":[:],
+        "workFolder": runConfig["workFolder"],
         "nestedIds": runConfig["nestedIds"],
         "verbose": runConfig["verbose"],
         "info": options.info
@@ -81,8 +84,8 @@ jennyRun = { runConfig ->
     // -------------------------------------------------------------------
     // Start the execution.
     // -------------------------------------------------------------------
-    if (!jennyConfig.noLogo && runConfig.topProject) {
-        _parentLog.message """\
+    if (runConfig.topProject) {
+        def jennyLogo = """\
         >    _
         >   (_) ___ _ __  _ __  _   _
         >   | |/ _ \\ '_ \\| '_ \\| | | |
@@ -92,6 +95,12 @@ jennyRun = { runConfig ->
         > console jenkins runner
         >
         """.stripIndent()
+
+        if (jennyConfig.noLogo) {
+            _parentLog.logMessage(jennyLogo)
+        } else {
+            _parentLog.message(jennyLogo)
+        }
     }
 
     // -------------------------------------------------------------------
@@ -184,6 +193,7 @@ try {
     jennyRun([
         parentId: null,
         projectFolder: projectFolder.canonicalPath,
+        workFolder: _workFolder,
         jenkinsFile: (options.file ?: "Jenkinsfile"),
         topProject: true,
         nestedIds: options.nestedIds,

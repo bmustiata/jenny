@@ -48,7 +48,8 @@ tests_to_run = [
     "features/multiple-nodes",
     "features/child-section-skip/parent",
     "features/dir-step",
-    "features/docker-support"
+    "features/docker-support",
+    "features/different-work-folder/parent"
 ]
 
 if len(sys.argv) > 1:

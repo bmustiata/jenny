@@ -97,6 +97,7 @@ def run_external_process_test(folder_name: str,
     if error_code != 0:
         print("Even if the output was equal, the program exited with "
               "exit code: %d" % error_code)
+        sys.exit(1)
 
     os.chdir(current_folder)
 
@@ -106,7 +107,8 @@ tests_to_run = [
     "features/multiple-nodes",
     "features/child-section-skip/parent",
     "features/dir-step",
-    "features/docker-support"
+    "features/docker-support",
+    "features/different-work-folder/parent"
 ]
 
 if len(sys.argv) > 1:

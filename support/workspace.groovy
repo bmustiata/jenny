@@ -3,7 +3,7 @@
  */
 _prepareWorkspace = { ->
     def projectFolderName = _jennyConfig.projectFolder.name
-    def workspaceLocation = new File("/tmp/jenny/workspace/${projectFolderName}/workspace")
+    def workspaceLocation = new File("${_jennyConfig.workFolder}/jenny/workspace/${projectFolderName}/workspace")
 
     _log.message("> workspace: ${workspaceLocation.canonicalPath}")
 

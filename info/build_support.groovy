@@ -54,7 +54,9 @@ build = { config ->
     }
 
     _increaseIndent {
+        // When changing this don't forget to change the support as well
         _jennyRun(parentId: (_jennyConfig.nestedIds ? "internal" : null),
+                workFolder: _jennyConfig.workFolder,
                 nestedIds: _jennyConfig.nestedIds,
                 projectFolder: projectFolder,
                 params: buildParameters(config))

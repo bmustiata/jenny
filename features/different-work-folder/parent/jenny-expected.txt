@@ -1,0 +1,29 @@
+> workspace: /tmp/jenny_different_folder/jenny/workspace/parent/workspace
+> ========================================================================
+> = Stage: Test
+> ========================================================================
+/tmp/jenny_different_folder/jenny/workspace/parent/s1.n1> node::sh ----------------------------------
+
+            pwd
+        
+> -------------------------------------------
+/tmp/jenny_different_folder/jenny/workspace/parent/s1.n1
+> ========================================================================
+> = Stage: Child
+> ========================================================================
+> =============================================
+> build job: child
+> =============================================
+> workspace: /tmp/jenny_different_folder/jenny/workspace/child/workspace
+> ========================================================================
+> = Stage: Child
+> ========================================================================
+/tmp/jenny_different_folder/jenny/workspace/child/s1.n1
+> node::sh ----------------------------------
+
+            pwd
+        
+> -------------------------------------------
+/tmp/jenny_different_folder/jenny/workspace/child/s1.n1
+> build job child ended.
+> =============================================
