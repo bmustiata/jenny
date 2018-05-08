@@ -202,6 +202,14 @@ try {
         nestedIds: options.nestedIds,
         verbose: options.verbose
     ])
+} catch (Exception e) {
+    _parentLog.message(e.getMessage())
+
+    def stackTraceWriter = new PrintWriter(_parentLog.writer)
+    e.printStackTrace(stackTraceWriter)
+    stackTraceWriter.flush()
+
+    System.exit(1)
 } finally {
     _parentLog.close()
 }

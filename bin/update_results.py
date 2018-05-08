@@ -39,8 +39,13 @@ def update_jenny_execution(log_folder: str,
 
     with open("{0}/{1}".format(PROJECT_FOLDER, expected_file),
               mode="w") as output_file:
-        output = subprocess.check_output(popen_command)  # type: bytes
-        output_file.write(output.decode("utf-8"))
+        status, output = subprocess.getstatusoutput(" ".join(popen_command))
+        print(output)
+
+        if status != 0 and 'fail' not in log_folder:
+            raise Exception("Wrong return code: %d" % status)
+
+        output_file.write(output + "\n")
 
 
 tests_to_run = [
@@ -50,7 +55,8 @@ tests_to_run = [
     "features/child-section-skip/parent",
     "features/dir-step",
     "features/docker-support",
-    "features/different-work-folder/parent"
+    "features/different-work-folder/parent",
+    "features/failing-project"
 ]
 
 if len(sys.argv) > 1:

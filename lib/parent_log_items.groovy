@@ -35,6 +35,9 @@ _parentLog = [
         if (!options.keepLog) {
             new File(logFileName).delete()
         }
-    }
+    },
+
+    // Publish the writer to log exceptions.
+    writer: writer
 ]
 

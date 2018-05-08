@@ -1,0 +1,18 @@
+> workspace: /tmp/jenny/workspace/failing-project/workspace
+> ========================================================================
+> = Stage: simple stage that fails
+> ========================================================================
+> node::sh ----------------------------------
+
+            exit 1
+        
+> -------------------------------------------
+        Process execution failed, exit code: 1,
+        command `[sh, -c, 
+    exit 1
+]`
+        STDOUT:
+
+        STDERR:
+
+
