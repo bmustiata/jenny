@@ -1,0 +1,7 @@
+stage('simple stage that fails') {
+    node {
+        sh """
+            exit 1
+        """
+    }
+}

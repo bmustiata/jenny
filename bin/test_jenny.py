@@ -85,7 +85,7 @@ def run_external_process_test(folder_name: str,
 
     process_output = stdout.decode('utf-8')
 
-    if error_code != 0:
+    if error_code != 0 and 'fail' not in folder_name:
         print("Program failed with error code: %d" % error_code)
         print("Program STDOUT: %s" % process_output)
         print("Program STDERR: %s" % stderr.decode('utf-8'))
@@ -94,7 +94,7 @@ def run_external_process_test(folder_name: str,
         expected_content = f.read()
         compare_lines(expected_content, process_output)
 
-    if error_code != 0:
+    if error_code != 0 and 'fail' not in folder_name:
         print("Even if the output was equal, the program exited with "
               "exit code: %d" % error_code)
         sys.exit(1)
@@ -108,7 +108,8 @@ tests_to_run = [
     "features/child-section-skip/parent",
     "features/dir-step",
     "features/docker-support",
-    "features/different-work-folder/parent"
+    "features/different-work-folder/parent",
+    "features/failing-project"
 ]
 
 if len(sys.argv) > 1:
