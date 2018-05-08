@@ -87,6 +87,10 @@ class NoopAgent {
     void checkout(version) {
         throw new Exception("You need to be inside a node, or on an agent for `checkout` to work.")
     }
+
+    void copyToLocal(String source, String destination) {
+        throw new Exception("You need to be inside a node, or on an agent for `copy` to work.")
+    }
 }
 
 _currentAgent = new NoopAgent()

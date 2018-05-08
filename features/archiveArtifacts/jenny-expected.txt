@@ -1,0 +1,23 @@
+> workspace: /home/raptor/tmp/jenny_work/jenny/workspace/archiveArtifacts/workspace
+> ========================================================================
+> = Stage: test archiveArtifacts
+> ========================================================================
+node::deleteDir /home/raptor/tmp/jenny_work/jenny/workspace/archiveArtifacts/s1.n1
+node::checkout SCM
+docker::inside maven:3.5.3
+docker::deleteDir /home/raptor/tmp/jenny_work/jenny/workspace/archiveArtifacts/s1.n2
+docker::checkout SCM
+> ========================================================================
+> = Stage: check files
+> ========================================================================
+> node::sh ----------------------------------
+
+            ls /tmp/jenny-target
+            cat /tmp/jenny-target/file1.txt
+            cat /tmp/jenny-target/file2.txt
+        
+> -------------------------------------------
+file1.txt
+file2.txt
+file1 content
+file2 content

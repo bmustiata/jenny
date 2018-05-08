@@ -47,6 +47,24 @@ class DockerAgent {
             "${id}:${folder}/")
     }
 
+    void copyToLocal(String source, String destination) {
+        String absoluteSource = source
+
+        if (!isAbsolutePath(source)) {
+            absoluteSource = "${pwd()}/${source}"
+        }
+
+        context._executeProcess.call(
+            '/', // cwd on host
+            'docker', 'cp',
+            "${id}:${absoluteSource}",
+            "${destination}/")
+    }
+
+    boolean isAbsolutePath(String path) {
+        return path.startsWith("/")
+    }
+
     String pwd() {
         return System.getProperty("user.dir")
     }

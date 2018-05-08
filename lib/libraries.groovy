@@ -53,5 +53,5 @@ loadInfoLibraries = { shell, binding ->
         loadInfoLibrary(shell, binding, (it as File).isAbsolute() ?
             it:
             new File(binding._jennyConfig.projectFolder, it).canonicalPath)
-    }    
+    }
 }

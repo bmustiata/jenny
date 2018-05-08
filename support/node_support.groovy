@@ -35,6 +35,10 @@ class NodeAgent {
             new File(pwd()))
     }
 
+    void copyToLocal(String source, String destination) {
+        context._executeProcess.call(null, 'cp', source, destination)
+    }
+
     // FIXME: the pwd from common is not accessible
     String pwd() {
         return System.getProperty("user.dir")

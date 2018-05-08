@@ -1,0 +1,14 @@
+> workspace: /home/raptor/tmp/jenny_work/jenny/workspace/archiveArtifacts/workspace
+stage: test archiveArtifacts [s1]
+  node [s1.n1]
+    deleteDir: /home/raptor/tmp/jenny_work/jenny/workspace/archiveArtifacts/workspace
+    checkout SCM
+    archiveArtifacts: file1.txt
+  node [s1.n2]
+    docker::image::inside maven:3.5.3
+      deleteDir: /home/raptor/tmp/jenny_work/jenny/workspace/archiveArtifacts/workspace
+      checkout SCM
+      archiveArtifacts: file2.txt
+stage: check files [s2]
+  node [s2.n1]
+    sh

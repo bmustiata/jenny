@@ -8,7 +8,7 @@ Map.metaClass.addNested { Map rhs ->
         } else {
             lhs[k] = v
         }
-    }   
+    }
     lhs
 }
 
@@ -42,7 +42,7 @@ loadConfigFile = { jennyConfig, fileName ->
     }
 }
 
-loadCommandLineOptions = { jennyConfig, options -> 
+loadCommandLineOptions = { jennyConfig, options ->
     def commandLineOptions = ["execute":[:]]
 
     if (options.libs) {
@@ -81,6 +81,10 @@ loadCommandLineOptions = { jennyConfig, options ->
 
     if (options.noLogo) {
         commandLineOptions["noLogo"] = true
+    }
+
+    if (options.archiveFolder) {
+        commandLineOptions["archiveFolder"] = options.archiveFolder
     }
 
     jennyConfig.addNested(commandLineOptions)

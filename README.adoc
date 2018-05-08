@@ -42,7 +42,11 @@ libs: # list of libaries folders to load
   - /path/to/some/folder
   - /path/to/other/folder
 noLogo: true
+# What folder to use for temporary files, such as nodes, and workspace folders
 workFolder: /tmp
+# Where the outputs of the archiveArtifacts should be stored. Implicitly it
+# is in `${workFolder}/jenny/workspace/${name}/workspace/archive`
+archiveFolder: target/out
 params:
   PARAMETER_NAME: "value"
 execute:
@@ -175,6 +179,11 @@ Test part 2
 
 
 == Supported Commands
+
+=== archiveArtifacts
+
+Extract the given artifacts in the folder specified by the `archiveFolder` in
+the config file.
 
 === booleanParam
 
