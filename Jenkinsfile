@@ -20,7 +20,7 @@ stage('Build Test Container') {
                             bin/test_jenny.py
                         """
                     } finally {
-                        archiveArtifacts artifacts: "/tmp/jenny_*.log"
+                        //archiveArtifacts artifacts: "/tmp/jenny_*.log"
                         sh """
                             rm /tmp/jenny_*.log
                         """
