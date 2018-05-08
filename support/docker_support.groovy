@@ -54,11 +54,39 @@ class DockerAgent {
             absoluteSource = "${pwd()}/${source}"
         }
 
+        // This is a workaround since docker doesn't support wildchar copy
+        // Normally this should be just:
+        // context._executeProcess.call(
+        //    '/', // cwd on host
+        //    'docker', 'cp',
+        //    "${id}:${absoluteSource}",
+        //    "${destination}/")
+
+        context._executeProcess.call(
+            '/', // cwd on host
+            'docker', 'exec', id,
+            'bash', '-c',
+            "mkdir /tmp/_jenny_extract; cp ${absoluteSource} /tmp/_jenny_extract"
+        )
+
         context._executeProcess.call(
             '/', // cwd on host
             'docker', 'cp',
-            "${id}:${absoluteSource}",
-            "${destination}/")
+            "${id}:/tmp/_jenny_extract",
+            "${destination}")
+
+        context._executeProcess.call(
+            '/', // cwd on host
+            'docker', 'exec', id,
+            'rm', '-fr', '/tmp/_jenny_extract'
+        )
+
+        context._executeProcess.call(
+            '/', // cwd on host
+            'bash', '-c',
+            "mv ${destination}/_jenny_extract/* ${destination}; rmdir ${destination}/_jenny_extract"
+        )
+
     }
 
     boolean isAbsolutePath(String path) {
