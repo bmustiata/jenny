@@ -13,14 +13,14 @@ stage('Build Test Container') {
         checkout scm
 
         docker.build('jenny_test_container')
-              .inside("-v /var/run/docker.sock:/var/run/docker.sock:rw -u $JENNY_DOCKER_UID --group-add $JENNY_DOCKER_GID") {
+              .inside("-v /var/run/docker.sock:/var/run/docker.sock:rw -v /tmp:/tmp:rw -u $JENNY_DOCKER_UID --group-add $JENNY_DOCKER_GID") {
                     checkout scm
                     try {
                         sh """
                             bin/test_jenny.py
                         """
                     } finally {
-                        sh "cat /tmp/jenny_*.log"
+                        // sh "cat /tmp/jenny_*.log"
                     }
         }
     }

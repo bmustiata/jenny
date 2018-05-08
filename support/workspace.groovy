@@ -1,4 +1,13 @@
 
+_mkdirp = { path ->
+    if (path.exists() && path.directory) {
+        return true
+    }
+
+
+    return path.mkdirs()
+}
+
 /**
  * Creates a new workspace for the execution.
  */
@@ -28,20 +37,11 @@ _prepareWorkspace = { ->
 
     _jennyConfig.archiveFolder = archiveLocation.canonicalPath
 
-    //if (!_mkdirp(archiveLocation)) {
-    //    throw new IllegalStateException("Unable to create archive folder: ${archiveLocation.canonicalPath}")
-    //}
+    if (!_mkdirp(archiveLocation)) {
+        throw new IllegalStateException("Unable to create archive folder: ${archiveLocation.canonicalPath}")
+    }
 
     return _jennyConfig
 }
 
-
-_mkdirp = { path ->
-    if (path.exists() && path.directory) {
-        return true
-    }
-
-
-    return path.mkdirs()
-}
 

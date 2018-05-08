@@ -87,8 +87,8 @@ def run_external_process_test(folder_name: str,
 
     if error_code != 0 and 'fail' not in folder_name:
         print("Program failed with error code: %d" % error_code)
-        print("Program STDOUT: %s" % process_output)
-        print("Program STDERR: %s" % stderr.decode('utf-8'))
+        # print("Program STDOUT: %s" % process_output)
+        # print("Program STDERR: %s" % stderr.decode('utf-8'))
 
     with open(expected_file) as f:
         expected_content = f.read()
