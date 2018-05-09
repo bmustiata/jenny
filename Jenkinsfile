@@ -20,7 +20,7 @@ stage('Build Test Container') {
                             bin/test_jenny.py
                         """
                     } finally {
-                        // sh "cat /tmp/jenny_*.log"
+                        sh "cat /tmp/jenny_*.log"
                     }
         }
     }
