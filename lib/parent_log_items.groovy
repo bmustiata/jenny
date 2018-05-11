@@ -37,6 +37,16 @@ _parentLog = [
         }
     },
 
+    /**
+     * Log an exception, including the stack trace into the log
+     * file.
+     */
+    logException: { Exception e ->
+        def stackTraceWriter = new PrintWriter(writer)
+        e.printStackTrace(stackTraceWriter)
+        stackTraceWriter.flush()
+    },
+
     // Publish the writer to log exceptions.
     writer: writer
 ]

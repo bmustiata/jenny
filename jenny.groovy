@@ -204,10 +204,7 @@ try {
     ])
 } catch (Exception e) {
     _parentLog.message(e.getMessage())
-
-    def stackTraceWriter = new PrintWriter(_parentLog.writer)
-    e.printStackTrace(stackTraceWriter)
-    stackTraceWriter.flush()
+    _parentLog.logException(e)
 
     System.exit(1)
 } finally {

@@ -1,0 +1,23 @@
+<testsuite errors="0" failures="0" hostname="germanium" name="passing.a simple feature that passes just fine." skipped="0" tests="2" time="0.001158" timestamp="2018-05-11T19:45:25.502339"><testcase classname="passing.a simple feature that passes just fine." name="Passing scenario part 1" status="passed" time="0.00059"><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario: Passing scenario part 1
+    Given I do something ... passed in 0.000s
+    When I do something ... passed in 0.000s
+    Then something passes ... passed in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="passing.a simple feature that passes just fine." name="Passing scenario part 2" status="passed" time="0.000569"><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario: Passing scenario part 2
+    Given I do something ... passed in 0.000s
+    When I do something ... passed in 0.000s
+    Then something passes ... passed in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase></testsuite>

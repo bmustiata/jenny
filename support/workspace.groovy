@@ -17,6 +17,9 @@ _prepareWorkspace = { ->
 
     _jennyConfig.workspaceFolder = workspaceLocation
 
+    // -------------------------------------------------------------------
+    // archiveLocation
+    // -------------------------------------------------------------------
     def archiveLocation = new File(workspaceLocation, "archive")
 
     if (_jennyConfig.archiveFolder) {
@@ -25,8 +28,21 @@ _prepareWorkspace = { ->
         if (!archiveLocation.absolute) {
             archiveLocation = new File(_jennyConfig.projectFolder, _jennyConfig.archiveFolder)
         }
-
     }
+
+    // -------------------------------------------------------------------
+    // junitLocation
+    // -------------------------------------------------------------------
+    def junitLocation = new File(workspaceLocation, "junit")
+
+    if (_jennyConfig.junitFolder) {
+        junitLocation = new File(_jennyConfig.junitFolder)
+
+        if (!junitLocation.absolute) {
+            junitLocation = new File(_jennyConfig.projectFolder, _jennyConfig.junitFolder)
+        }
+    }
+
 
     _log.message("> workspace: ${workspaceLocation.canonicalPath}")
 
@@ -39,6 +55,12 @@ _prepareWorkspace = { ->
 
     if (!_mkdirp(archiveLocation)) {
         throw new IllegalStateException("Unable to create archive folder: ${archiveLocation.canonicalPath}")
+    }
+
+    _jennyConfig.junitFolder = junitLocation.canonicalPath
+
+    if (!_mkdirp(junitLocation)) {
+        throw new IllegalStateException("Unable to create archive folder: ${junitLocation.canonicalPath}")
     }
 
     return _jennyConfig

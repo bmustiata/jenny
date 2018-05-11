@@ -1,0 +1,10 @@
+> workspace: /tmp/jenny/workspace/junit-support/workspace
+stage: test junit [s1]
+  node [s1.n1]
+    deleteDir: /tmp/jenny/workspace/junit-support/workspace
+    checkout SCM
+    docker::build test_junit_image
+    docker::image::inside test_junit_image
+      deleteDir: /tmp/jenny/workspace/junit-support/workspace
+      checkout SCM
+      > junit: null

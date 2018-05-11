@@ -1,0 +1,36 @@
+<testsuite errors="1" failures="0" hostname="germanium" name="failing.just a simple feature that fails." skipped="0" tests="2" time="0.002887" timestamp="2018-05-11T19:45:25.494413"><testcase classname="failing.just a simple feature that fails." name="Simple scenario that fails" status="failed" time="0.00181"><error message="failed" type="Exception">
+<![CDATA[
+Failing step: Then something fails ... failed in 0.001s
+Location: features/failing.feature:6
+Traceback (most recent call last):
+  File "/home/raptor/programs/python3.6/lib/python3.6/site-packages/behave/model.py", line 1329, in run
+    match.run(runner.context)
+  File "/home/raptor/programs/python3.6/lib/python3.6/site-packages/behave/matchers.py", line 98, in run
+    self.func(context, *args, **kwargs)
+  File "features/steps/steps.py", line 10, in something_fails
+    raise Exception("failed")
+Exception: failed
+]]>
+</error><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario: Simple scenario that fails
+    Given I do something ... passed in 0.000s
+    When I do something ... passed in 0.000s
+    Then something fails ... failed in 0.001s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="failing.just a simple feature that fails." name="Simple scenario that passes" status="passed" time="0.001077"><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario: Simple scenario that passes
+    Given I do something ... passed in 0.000s
+    When I do something ... passed in 0.000s
+    Then something passes ... passed in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase></testsuite>

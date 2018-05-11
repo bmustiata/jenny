@@ -11,6 +11,14 @@ _log = [
         }
 
         _parentLog.printMessage(message)
+    },
+
+    /**
+     * Log the exception, including the stack trace into the log
+     * file only.
+     */
+    logException: { Exception e ->
+        _parentLog.logException(e)
     }
 ]
 

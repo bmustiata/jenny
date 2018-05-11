@@ -1,0 +1,13 @@
+stage('test junit') {
+    node {
+        deleteDir()
+        checkout scm
+
+        docker.build('test_junit_image').inside {
+            deleteDir()
+            checkout scm
+
+            junit "reports/*.xml"
+        }
+    }
+}
