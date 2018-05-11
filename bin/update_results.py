@@ -49,6 +49,7 @@ def update_jenny_execution(log_folder: str,
 
 
 tests_to_run = [
+    "features/junit-support",
     "features/archiveArtifacts",
     "features/testset/parent",
     "features/multiple-nodes",

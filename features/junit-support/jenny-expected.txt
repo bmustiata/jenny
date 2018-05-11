@@ -4,19 +4,7 @@
 > ========================================================================
 node::deleteDir /tmp/jenny/workspace/junit-support/s1.n1
 node::checkout SCM
-docker::build test_junit_image
-Sending build context to Docker daemon  1.901MB
-
-Step 1/2 : FROM python:3.6.5
- ---> d69bc9d9b016
-Step 2/2 : RUN pip install behave
- ---> Using cache
- ---> 9e7f9d99d600
-Successfully built 9e7f9d99d600
-Successfully tagged test_junit_image:latest
-docker::inside test_junit_image
+docker::inside jenny_test_junit
 docker::deleteDir /tmp/jenny/workspace/junit-support/s1.n1
 docker::checkout SCM
-Parsing: /tmp/jenny/workspace/junit-support/workspace/junit
-Written: /tmp/jenny/workspace/junit-support/workspace/junit/xunit-viewer.html
-> junit: /tmp/jenny/workspace/junit-support/workspace/junit
+> junit: failure generating junit. xunit-viewer missing?

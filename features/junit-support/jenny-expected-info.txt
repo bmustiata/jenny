@@ -3,8 +3,7 @@ stage: test junit [s1]
   node [s1.n1]
     deleteDir: /tmp/jenny/workspace/junit-support/workspace
     checkout SCM
-    docker::build test_junit_image
-    docker::image::inside test_junit_image
+    docker::image::inside jenny_test_junit
       deleteDir: /tmp/jenny/workspace/junit-support/workspace
       checkout SCM
-      > junit: null
+      > junit: /tmp/jenny/workspace/junit-support/workspace/junit

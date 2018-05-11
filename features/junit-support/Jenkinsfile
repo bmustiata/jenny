@@ -3,7 +3,7 @@ stage('test junit') {
         deleteDir()
         checkout scm
 
-        docker.build('test_junit_image').inside {
+        docker.image('jenny_test_junit').inside {
             deleteDir()
             checkout scm
 

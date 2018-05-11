@@ -13,7 +13,7 @@ junit = { path ->
         )
         _log.message("> junit: ${_jennyConfig.junitFolder}")
     } catch (Exception e) {
-        _log.message("> junit: failure generating junit.")
+        _log.message("> junit: failure generating junit. xunit-viewer missing?")
     }
 }
 

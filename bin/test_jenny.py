@@ -103,6 +103,7 @@ def run_external_process_test(folder_name: str,
 
 
 tests_to_run = [
+    "features/junit-support",
     "features/archiveArtifacts",
     "features/testset/parent",
     "features/multiple-nodes",

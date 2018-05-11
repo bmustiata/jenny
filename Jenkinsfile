@@ -12,6 +12,9 @@ stage('Build Test Container') {
         deleteDir()
         checkout scm
 
+        docker.build('jenny_test_junit',
+                     'features/junit-support')
+
         docker.build('jenny_test_container')
               .inside("-v /var/run/docker.sock:/var/run/docker.sock:rw -v /tmp:/tmp:rw -u $JENNY_DOCKER_UID --group-add $JENNY_DOCKER_GID") {
                     checkout scm
