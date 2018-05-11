@@ -42,11 +42,16 @@ libs: # list of libaries folders to load
   - /path/to/some/folder
   - /path/to/other/folder
 noLogo: true
-# What folder to use for temporary files, such as nodes, and workspace folders
+# What folder to use for temporary files, such as nodes, and workspace folders.
 workFolder: /tmp
 # Where the outputs of the archiveArtifacts should be stored. Implicitly it
 # is in `${workFolder}/jenny/workspace/${name}/workspace/archive`
 archiveFolder: target/out
+# Where the junit files will be copied, when the `junit` command will be invoked.
+# Implicitly it is in `${workFolder}/jenny/workspace/${name}/workspace/junit`
+# This will try to use `xunit-viewer` if available to render a HTML out of the
+# test reports.
+junitFolder: target/junit
 params:
   PARAMETER_NAME: "value"
 execute:
@@ -226,6 +231,13 @@ Specify a file for a `withCredentials`.
 
 Ask for input from the user. If the user starts with the letter `n` it's
 considered cancelled.
+
+=== junit
+
+Import and run `xunit-viewer` on the given xml files. This will generate a HTML
+with the output of the JUnit tests.
+
+If `xunit-viewer` is not available, then only the xml files will be available in the `junitFolder`.
 
 === node
 

@@ -13,6 +13,7 @@ cli.f(longOpt: "file", args: 1, argName: "file", "Path to Jenkinsfile.")
 cli.l(longOpt: "lib", args: -2, argName: "lib", "Path to the library to load.")
 cli.w(longOpt: "workFolder", "Work folder (defaults to /tmp)")
 cli.archiveFolder("Folder to store the outputs of archiveArtifacts")
+cli.junitFolder("Folder to store the outputs of junit")
 cli.keepLog("Keep the generated log file after finishing.")
 cli.p(longOpt: "param", args: -2, argName: "nam=value", valueSeparator:'=', "Parameter to override.")
 cli.s(longOpt: "skip", args: -2, argName: "id", "stage/parallel/node blocks to skip by ID.")
@@ -146,6 +147,7 @@ jennyRun = { runConfig ->
     // workspaceFolder is needed for pwd
     def config1 = binding._prepareWorkspace.call()
     jennyConfig.archiveFolder = config1.archiveFolder
+    jennyConfig.junitFolder = config1.junitFolder
     jennyConfig.workspaceFolder = config1.workspaceFolder
 
     // -------------------------------------------------------------------
