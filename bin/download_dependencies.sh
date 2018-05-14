@@ -5,7 +5,11 @@ download_file() {
     url_to_download="$1"
     file_to_save="target/dependency/$2"
 
-    wget "$url_to_download" -O "$file_to_save"
+    if command -v curl; then
+        curl "$url_to_download" --output "$file_to_save"
+    else
+        wget "$url_to_download" -O "$file_to_save"
+    fi
 }
 
 mkdir -p target/dependency/
