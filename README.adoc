@@ -10,10 +10,19 @@ them for the real Jenkins.
 In order to do that, a lot of effort is concentrated on execution paths. It
 allows skipping sections of Jenkinsfiles, and starting from different parts.
 
+== Requirements
+
+1. *NIX
+2. Java 8
+3. `curl` or `wget` ( link:./bin/download_dependencies.sh[for some
+   dependencies], that will be fetched only once.)
+4. `docker` - if running `docker.image` or `docker.build` commands.
+5. `xunit-viewer` - if you want `junit` commands to render a nice HTML report.
+
 == Usage
 
 1. Just make the `jenny` script available in the path,
-2: go in the folder where the `Jenkinsfile` resides and run:
+2. go in the folder where the `Jenkinsfile` resides and run:
 
 [source,sh]
 -----------------------------------------------------------------------------
