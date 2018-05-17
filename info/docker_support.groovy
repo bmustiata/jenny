@@ -64,8 +64,7 @@ class DockerImage {
                 context._currentAgent = dockerAgent
                 code.call(dockerAgent.container)
             } catch (Exception e) {
-                context._log.message("ERROR: " + e.getMessage())
-                e.printStackTrace()
+                throw new IllegalArgumentException("Failure executing code inside container with image ${imageName}: ${e.message}", e)
             } finally {
                 dockerAgent && dockerAgent.container.stop()
                 context._currentAgent = currentAgent
@@ -84,8 +83,7 @@ class DockerImage {
                 context._currentAgent = dockerAgent
                 code.call(dockerAgent.container)
             } catch (Exception e) {
-                _log.message("ERROR: " + e.getMessage())
-                e.printStackTrace()
+                throw new IllegalArgumentException("Failure running container with image ${imageName}: ${e.message}", e)
             } finally {
                 dockerAgent.container.stop()
                 context._currentAgent = currentAgent

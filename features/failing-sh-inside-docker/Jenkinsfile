@@ -1,0 +1,9 @@
+stage('test stage') {
+    node {
+        docker.image('ubuntu:16.04').inside {
+            sh """
+                exit 1
+            """
+        }
+    }
+}

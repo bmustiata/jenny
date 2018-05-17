@@ -57,7 +57,8 @@ tests_to_run = [
     "features/dir-step",
     "features/docker-support",
     "features/different-work-folder/parent",
-    "features/failing-project"
+    "features/failing-project",
+    "features/failing-sh-inside-docker"
 ]
 
 if len(sys.argv) > 1:

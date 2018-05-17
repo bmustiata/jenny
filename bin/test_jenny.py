@@ -6,12 +6,16 @@ import os.path
 import unittest
 import sys
 from typing import List
+import re
 
 tc = unittest.TestCase()
 tc.maxDiff = None
 assertEquals = tc.assertEquals
 
 PROJECT_FOLDER = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+
+GUID = re.compile(
+        r'.*[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}.*')
 
 
 def compare_lines(expected: str, actual: str) -> None:
@@ -27,6 +31,9 @@ def compare_lines(expected: str, actual: str) -> None:
 
     for i in range(min(len(expected_lines), len(actual_lines))):
         if expected_lines[i] == actual_lines[i]:
+            continue
+
+        if GUID.match(expected_lines[i]) and GUID.match(actual_lines[i]):
             continue
 
         error_found = True
@@ -111,7 +118,8 @@ tests_to_run = [
     "features/dir-step",
     "features/docker-support",
     "features/different-work-folder/parent",
-    "features/failing-project"
+    "features/failing-project",
+    "features/failing-sh-inside-docker"
 ]
 
 if len(sys.argv) > 1:

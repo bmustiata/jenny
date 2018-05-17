@@ -1,0 +1,5 @@
+> workspace: /tmp/jenny/workspace/failing-sh-inside-docker/workspace
+stage: test stage [s1]
+  node [s1.n1]
+    docker::image::inside ubuntu:16.04
+      sh

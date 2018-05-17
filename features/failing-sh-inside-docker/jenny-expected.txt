@@ -1,0 +1,17 @@
+> workspace: /tmp/jenny/workspace/failing-sh-inside-docker/workspace
+> ========================================================================
+> = Stage: test stage
+> ========================================================================
+docker::inside ubuntu:16.04
+> docker::sh --------------------------------
+
+                exit 1
+            
+> -------------------------------------------
+Failure executing code inside container with image ubuntu:16.04: Process execution failed, exit code: 1,
+command `[docker, exec, -t, 6b8ebcb78968d61961097d07b4e2232ceef26b3fd08826c11dd3d359daaabfa8, sh, -c, cd /tmp/jenny/workspace/failing-sh-inside-docker/s1.n1; . /tmp/2b6d05c7-a103-4caf-adc2-ba7e8bae9e01.sh]`
+STDOUT:
+
+STDERR:
+
+
