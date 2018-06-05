@@ -16,6 +16,7 @@ PROJECT_FOLDER = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 
 GUID = re.compile(
         r'.*[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}.*')
+JAVA_VERSION = re.compile(r'.*Java version:.*vendor: Oracle Corporation.*')
 
 
 def compare_lines(expected: str, actual: str) -> None:
@@ -34,6 +35,9 @@ def compare_lines(expected: str, actual: str) -> None:
             continue
 
         if GUID.match(expected_lines[i]) and GUID.match(actual_lines[i]):
+            continue
+
+        if JAVA_VERSION.match(expected_lines[i]) and JAVA_VERSION.match(actual_lines[i]):
             continue
 
         error_found = True
@@ -110,6 +114,7 @@ def run_external_process_test(folder_name: str,
 
 
 tests_to_run = [
+    "features/ansiColor-support",
     "features/junit-support",
     "features/archiveArtifacts",
     "features/testset/parent",

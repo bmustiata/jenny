@@ -1,0 +1,9 @@
+stage('Test ansiColor') {
+    node {
+        ansiColor('xterm') {
+            sh """
+                echo 1
+            """
+        }
+    }
+}

@@ -194,6 +194,12 @@ Test part 2
 
 == Supported Commands
 
+=== ansiColor
+
+Only sets the `TERM` variable for the section. Does nothing else since the
+outputs should be redirected anyway to the console. If you'll run this in your
+actual Jenkins installation, you will need to install the AnsiColor plugin.
+
 === archiveArtifacts
 
 Extract the given artifacts in the folder specified by the `archiveFolder` in
