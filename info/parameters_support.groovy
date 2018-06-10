@@ -8,31 +8,54 @@ class ParameterList {
     List<Parameter> parameters
 }
 
+class PipelineTrigger {
+}
+
+class UpstreamTrigger extends PipelineTrigger {
+    String threshold
+    String upstreamProjects
+}
+
+class PipelineTriggers {
+    List<PipelineTrigger> triggers
+}
+
 _definedParameters = [:]
 
-string = { config -> 
+string = { config ->
     return new Parameter(name: config.name,
                          defaultValue: config.defaultValue,
                          description: config.description)
 }
 
-booleanParam = { config -> 
+booleanParam = { config ->
     return new Parameter(name: config.name,
                          defaultValue: config.defaultValue,
                          description: config.description)
 }
 
-parameters = { params ->  
+parameters = { params ->
     return new ParameterList(parameters: params)
 }
 
-properties = { props -> 
+pipelineTriggers = { triggers ->
+    return new PipelineTriggers(triggers: triggers)
+}
+
+upstream = { config ->
+    return new UpstreamTrigger(
+        threshold: config.threshold,
+        upstreamProjects: config.upstreamProjects
+    )
+}
+
+properties = { props ->
     props.each { prop ->
         if (prop instanceof ParameterList) {
             prop.parameters.each {
                 if (_definedParameters.containsKey(it.name)) {
                     _global[it.name] = _definedParameters[it.name]
-                    return                    
+                    return
                 }
 
                 _global[it.name] = it.defaultValue
@@ -47,6 +70,20 @@ properties = { props ->
             _log.message("> ==============================================")
 
             return;
+        }
+
+        if (prop instanceof PipelineTriggers) {
+            _log.message("> ==============================================")
+            _log.message("> Triggers")
+            _log.message("> --------------------------------------------")
+            prop.triggers.each {
+                if (it instanceof UpstreamTrigger) {
+                    _log.message("> * ${it.upstreamProjects}: ${it.threshold}")
+                } else {
+                    _log.message("> * ${it}")
+                }
+            }
+            _log.message("> ==============================================")
         }
     }
 
