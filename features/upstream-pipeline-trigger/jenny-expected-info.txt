@@ -1,0 +1,7 @@
+> workspace: /tmp/jenny/workspace/upstream-pipeline-trigger/workspace
+> ==============================================
+> Triggers
+> --------------------------------------------
+> * /build-system/germaniumhq-python-build-system: SUCCESS
+> ==============================================
+stage: Nothing [s1]

@@ -1,0 +1,11 @@
+properties([
+    pipelineTriggers([
+        upstream(
+            threshold: 'SUCCESS',
+            upstreamProjects: '/build-system/germaniumhq-python-build-system'
+        )
+    ])
+])
+
+stage('Nothing') {
+}

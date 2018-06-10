@@ -271,6 +271,11 @@ Allow defining properties for the current file.
 Allow defining parameters for the current Jenkinsfile. The parameters can be
 overwritten at the execution using the `--param` flag.
 
+=== pipelineTriggers
+
+Allow registering what will trigger the build of this pipeline. Currently only
+`upstream` is supported.
+
 === pwd
 
 Get the current folder, or a temporary folder.
@@ -286,6 +291,10 @@ Execute a shell script on the local node.
 === stage
 
 Define a stage. It will just printout its name, and execute the code inside.
+
+=== upstream
+
+Define an upstream dependency. It will just validate it, and print it out.
 
 === withCredentials
 
