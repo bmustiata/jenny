@@ -8,6 +8,8 @@ stage: Parent [s1]
   node [s1.n1]
     sh
     pluginCommand
+    pluginCommand1p
+    pluginCommand2p
   build job: "child", wait: true
     > workspace: /tmp/jenny/workspace/child/workspace
 > ==============================================

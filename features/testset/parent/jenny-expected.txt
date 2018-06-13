@@ -23,6 +23,22 @@ hello from parent
 pwd from pluginCommand: /tmp/jenny/workspace/parent/s1.n1
 /tmp/jenny/workspace/parent/s1.n1
 /tmp/jenny/workspace/parent/s1.n1
+> node::sh ----------------------------------
+
+    echo "pwd from pluginCommand1p: `pwd`"
+    
+> -------------------------------------------
+pwd from pluginCommand1p: /tmp/jenny/workspace/parent/s1.n1
+/tmp/jenny/workspace/parent/s1.n1
+/tmp/jenny/workspace/parent/s1.n1
+> node::sh ----------------------------------
+
+    echo "pwd from pluginCommand2p: `pwd`"
+    
+> -------------------------------------------
+pwd from pluginCommand2p: /tmp/jenny/workspace/parent/s1.n1
+/tmp/jenny/workspace/parent/s1.n1
+/tmp/jenny/workspace/parent/s1.n1
 > =============================================
 > build job: child
 > =============================================

@@ -13,7 +13,7 @@ def loadLibrary(shell, binding, path) {
 
     libFolder.listFiles().each { commandFile ->
         def command = shell.parse(commandFile)
-        binding[command.class.name] = { config = null ->
+        binding[command.class.name] = { Object... config ->
             return command.invokeMethod("call", config)
         }
     }
@@ -34,7 +34,7 @@ def loadInfoLibrary(shell, binding, path) {
 
     libFolder.listFiles().each { commandFile ->
         def commandName = commandFile.getName().substring(0, commandFile.getName().lastIndexOf("."))
-        binding[commandName] = { config = null ->
+        binding[commandName] = { Object...config ->
             shell.evaluate("_log.message(_currentIndent('${commandName}'))")
         }
     }

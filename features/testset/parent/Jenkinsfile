@@ -12,6 +12,8 @@ stage('Parent') {
             pwd
         """
         pluginCommand()
+        pluginCommand1p("param1")
+        pluginCommand2p("param1", "param2")
     }
 
     build job: "child",
