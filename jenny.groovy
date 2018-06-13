@@ -163,7 +163,7 @@ jennyRun = { runConfig ->
     // Override parameters
     // -------------------------------------------------------------------
     if (jennyConfig.params) {
-        binding._definedParameters.addNested(jennyConfig.params)
+        binding.params.addNested(jennyConfig.params)
     }
 
     // this will run the given jenkinsfile
