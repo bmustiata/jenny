@@ -1,8 +1,13 @@
 class Parameter {
-    String name
-    String defaultValue
-    String description
+    private String name
+    private String defaultValue
+    private String description
+
+    def getArguments() {
+        return this
+    }
 }
+
 
 class ParameterList {
     List<Parameter> parameters
