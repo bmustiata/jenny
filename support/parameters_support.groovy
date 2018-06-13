@@ -20,7 +20,7 @@ class PipelineTriggers {
     List<PipelineTrigger> triggers
 }
 
-_definedParameters = [:]
+params = [:]
 
 string = { config ->
     return new Parameter(name: config.name,
@@ -34,8 +34,8 @@ booleanParam = { config ->
                          description: config.description)
 }
 
-parameters = { params ->
-    return new ParameterList(parameters: params)
+parameters = { parameters ->
+    return new ParameterList(parameters: parameters)
 }
 
 pipelineTriggers = { triggers ->
@@ -53,8 +53,8 @@ properties = { props ->
     props.each { prop ->
         if (prop instanceof ParameterList) {
             prop.parameters.each {
-                if (_definedParameters.containsKey(it.name)) {
-                    _global[it.name] = _definedParameters[it.name]
+                if (params.containsKey(it.name)) {
+                    _global[it.name] = params[it.name]
                     return
                 }
 

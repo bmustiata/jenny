@@ -7,6 +7,9 @@ properties([
     ])
 ])
 
+JENNY_DOCKER_UID = params.JENNY_DOCKER_UID ?: '1000:1000'
+JENNY_DOCKER_GID = params.JENNY_DOCKER_GID ?: '999'
+
 stage('Build Test Container') {
     node {
         deleteDir()
