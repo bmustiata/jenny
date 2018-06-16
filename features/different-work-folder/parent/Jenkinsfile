@@ -1,6 +1,6 @@
 stage('Test') {
     node {
-        print pwd()
+        echo pwd()
         sh """
             pwd
         """

@@ -1,0 +1,3 @@
+echo = { message ->
+    println message
+}

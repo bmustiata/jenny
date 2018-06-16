@@ -3,19 +3,19 @@ stage('Simple dir test') {
         sh """
             pwd
         """
-        println(pwd())
+        echo pwd()
 
         dir('/tmp/') {
             sh """
                 pwd
             """
-            println(pwd())
+            echo pwd()
         }
 
         sh """
             pwd
         """
-        println(pwd())
+        echo pwd()
     }
 }
 

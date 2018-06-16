@@ -1,6 +1,6 @@
 stage('Child') {
     node {
-        println pwd()
+        echo pwd()
         sh """
             pwd
         """
