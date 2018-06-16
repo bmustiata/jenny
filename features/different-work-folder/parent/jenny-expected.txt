@@ -2,7 +2,8 @@
 > ========================================================================
 > = Stage: Test
 > ========================================================================
-/tmp/jenny_different_folder/jenny/workspace/parent/s1.n1> node::sh ----------------------------------
+/tmp/jenny_different_folder/jenny/workspace/parent/s1.n1
+> node::sh ----------------------------------
 
             pwd
         

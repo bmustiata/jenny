@@ -1,7 +1,8 @@
 > workspace: /tmp/jenny_different_folder/jenny/workspace/parent/workspace
 stage: Test [s1]
   node [s1.n1]
-/tmp/jenny_different_folder/jenny/workspace/parent/workspace    sh
+/tmp/jenny_different_folder/jenny/workspace/parent/workspace
+    sh
 stage: Child [s2]
   build job: "child", wait: true
     > workspace: /tmp/jenny_different_folder/jenny/workspace/child/workspace
