@@ -1,5 +1,7 @@
 libs:
   - ../plugin
+libInfoAllowed:
+  - pluginCommand
 projects:
   child-2-aliased: ../child2
 

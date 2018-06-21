@@ -12,10 +12,7 @@ def loadLibrary(shell, binding, path) {
     }
 
     libFolder.listFiles().each { commandFile ->
-        def command = shell.parse(commandFile)
-        binding[command.class.name] = { Object... config ->
-            return command.invokeMethod("call", config)
-        }
+        registerCommandInBinding(shell, binding, commandFile)
     }
 }
 
@@ -34,9 +31,31 @@ def loadInfoLibrary(shell, binding, path) {
 
     libFolder.listFiles().each { commandFile ->
         def commandName = commandFile.getName().substring(0, commandFile.getName().lastIndexOf("."))
-        binding[commandName] = { Object...config ->
-            shell.evaluate("_log.message(_currentIndent('${commandName}'))")
+
+        if (isCommandAllowed(binding, commandName)) {
+            registerCommandInBinding(shell, binding, commandFile)
+        } else {
+            binding[commandName] = { Object...config ->
+                shell.evaluate("_log.message(_currentIndent('${commandName}'))")
+            }
         }
+    }
+}
+
+def isCommandAllowed(binding, commandName) {
+    for (def expression: binding._jennyConfig.libInfoAllowed) {
+        if (commandName.matches(expression)) {
+            return true
+        }
+    }
+
+    return false
+}
+
+def registerCommandInBinding(shell, binding, commandFile) {
+    def command = shell.parse(commandFile)
+    binding[command.class.name] = { Object... config ->
+        return command.invokeMethod("call", config)
     }
 }
 

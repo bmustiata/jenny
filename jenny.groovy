@@ -62,7 +62,8 @@ jennyRun = { runConfig ->
         "workFolder": runConfig["workFolder"],
         "nestedIds": runConfig["nestedIds"],
         "verbose": runConfig["verbose"],
-        "info": options.info
+        "info": options.info,
+        "libInfoAllowed": runConfig["libInfoAllowed"]
     ]
 
     def projectFolder = new File(new File(runConfig.projectFolder ?: ".").canonicalPath)
@@ -202,7 +203,8 @@ try {
         jenkinsFile: (options.file ?: "Jenkinsfile"),
         topProject: true,
         nestedIds: options.nestedIds,
-        verbose: options.verbose
+        verbose: options.verbose,
+        libInfoAllowed: []
     ])
 } catch (Exception e) {
     _parentLog.message(e.getMessage())

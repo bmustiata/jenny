@@ -9,7 +9,7 @@ def buildParameters(buildConfig) {
         throw new IllegalStateException("The parameters to a build must be a list of maps.")
     }
 
-    buildConfig.parameters.eachWithIndex { param, i -> 
+    buildConfig.parameters.eachWithIndex { param, i ->
         if (!(param instanceof Map)) {
             throw new IllegalStateException("Illegal parameter at index ${i}, the parameters must be a list of maps.")
         }
@@ -45,7 +45,7 @@ build = { config ->
     if (jobLocation in _jennyConfig.projects) {
         jobLocation = _jennyConfig.projects[jobLocation]
     }
-    
+
     if (jobLocation[0] == '.') {
         projectFolder = new File(_jennyConfig.projectFolder, jobLocation)
                                 .canonicalPath
@@ -59,6 +59,7 @@ build = { config ->
                 workFolder: _jennyConfig.workFolder,
                 nestedIds: _jennyConfig.nestedIds,
                 projectFolder: projectFolder,
+                libInfoAllowed: _jennyConfig.libInfoAllowed,
                 params: buildParameters(config))
     }
 }

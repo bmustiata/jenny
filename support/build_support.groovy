@@ -65,6 +65,7 @@ build = { config ->
               workFolder: _jennyConfig.workFolder,
               nestedIds: _jennyConfig.nestedIds,
               projectFolder: projectFolder,
+              libInfoAllowed: _jennyConfig.libInfoAllowed,
               params: buildParameters(config))
 
     _log.message("> build job ${config.job} ended.")

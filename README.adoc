@@ -50,6 +50,8 @@ with the exception of resumeFrom and skipAfter.
 libs: # list of libaries folders to load
   - /path/to/some/folder
   - /path/to/other/folder
+libsInfoAllowed: # regex of allowed commands to execute even in --info
+  - pluginCommand.*
 noLogo: true
 # What folder to use for temporary files, such as nodes, and workspace folders.
 workFolder: /tmp
