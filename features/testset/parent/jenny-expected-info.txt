@@ -7,7 +7,9 @@
 stage: Parent [s1]
   node [s1.n1]
     sh
-    pluginCommand
+    sh
+/tmp/jenny/workspace/parent/workspace
+/tmp/jenny/workspace/parent/workspace
     pluginCommand1p
     pluginCommand2p
   build job: "child", wait: true
@@ -20,7 +22,9 @@ stage: Parent [s1]
     stage: child [s1]
       node [s1.n1]
         sh
-        pluginCommand
+        sh
+/tmp/jenny/workspace/child/workspace
+/tmp/jenny/workspace/child/workspace
     stage: child Deploy [s2]
       node [s2.n1]
         sh
@@ -34,7 +38,9 @@ stage: Parent [s1]
     stage: child2 [s1]
       node [s1.n1]
         sh
-        pluginCommand
+        sh
+/tmp/jenny/workspace/child2/workspace
+/tmp/jenny/workspace/child2/workspace
     stage: child2 Deploy [s2]
       node [s2.n1]
         sh
