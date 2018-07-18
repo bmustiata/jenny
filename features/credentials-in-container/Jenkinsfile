@@ -1,0 +1,14 @@
+stage('Test') {
+    node {
+        deleteDir()
+        checkout scm
+
+        docker.image('ubuntu:16.04').inside {
+            withCredentials([file(credentialsId: 'CREDENTIALS_FILE', variable: 'CREDENTIALS_FILE')]) {
+                sh """
+                    test -f ${env.CREDENTIALS_FILE} && cat ${env.CREDENTIALS_FILE}
+                """
+            }
+        }
+    }
+}

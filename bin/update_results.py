@@ -50,6 +50,7 @@ def update_jenny_execution(log_folder: str,
 
 tests_to_run = [
     "features/ansiColor-support",
+    "features/credentials-in-container",
     "features/junit-support",
     "features/archiveArtifacts",
     "features/testset/parent",

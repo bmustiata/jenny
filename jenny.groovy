@@ -121,6 +121,11 @@ jennyRun = { runConfig ->
 
     def shell = new GroovyShell(classLoader, binding)
 
+    // needed for credentials
+    jennyConfig.jennyGlobalConfigFolder = jennyGlobalConfigFolder
+    // needed for credentials/checkout
+    jennyConfig.projectFolder = projectFolder
+
     // -------------------------------------------------------------------
     // Load the default suport functions
     // -------------------------------------------------------------------
@@ -141,10 +146,6 @@ jennyRun = { runConfig ->
     // -------------------------------------------------------------------
     // Create the workspace
     // -------------------------------------------------------------------
-    // needed for credentials
-    jennyConfig.jennyGlobalConfigFolder = jennyGlobalConfigFolder
-    // needed for credentials/checkout
-    jennyConfig.projectFolder = projectFolder
     // workspaceFolder is needed for pwd
     def config1 = binding._prepareWorkspace.call()
     jennyConfig.archiveFolder = config1.archiveFolder

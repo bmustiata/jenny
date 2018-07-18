@@ -9,10 +9,14 @@ withCredentials = { files, code ->
     _log.message(_currentIndent("withCredentials"))
     files.each { credentialFile ->
         for (def searchLocation: searchLocations) {
-            def file = new File(_jennyConfig.projectFolder,
-                                "${searchLocation}/credentials/${credentialFile.credentialsId}")
+            def file = new File("${searchLocation}/credentials/${credentialFile.credentialsId}")
+
             if (file.exists()) {
-                env[credentialFile.variable] = file.canonicalPath
+                def targetName = "/tmp/${credentialFile.credentialsId}-${UUID.randomUUID() as String}"
+
+                //_currentAgent.copyToAgent(file.canonicalPath, targetName)
+                env[credentialFile.variable] = targetName as String
+
                 return
             }
         }
@@ -24,7 +28,13 @@ withCredentials = { files, code ->
         throw new IllegalStateException("Unable to find credential ${credentialFile.credentialsId} in any of ${searchedPaths}.")
     }
 
-    _increaseIndent code
+    try {
+        code()
+    } finally {
+        files.each { credentialFile ->
+            env.remove(credentialFile.variable)
+        }
+    }
 }
 
 file = { config -> 

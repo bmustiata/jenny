@@ -39,6 +39,10 @@ class NodeAgent {
         context._executeProcess.call(null, 'cp', source, destination)
     }
 
+    void copyToAgent(String source, String destination) {
+        context._executeProcess.call(null, 'cp', source, destination)
+    }
+
     // FIXME: the pwd from common is not accessible
     String pwd() {
         return System.getProperty("user.dir")

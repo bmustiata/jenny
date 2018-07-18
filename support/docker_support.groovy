@@ -86,7 +86,20 @@ class DockerAgent {
             'bash', '-c',
             "mv ${destination}/_jenny_extract/* ${destination}; rmdir ${destination}/_jenny_extract"
         )
+    }
 
+    void copyToAgent(String source, String destination) {
+        String absoluteSource = source
+
+        if (!isAbsolutePath(source)) {
+            absoluteSource = "${pwd()}/${source}"
+        }
+
+        context._executeProcess.call(
+            '/', // cwd on host
+            'docker', 'cp',
+            absoluteSource,
+            "${id}:${destination}")
     }
 
     boolean isAbsolutePath(String path) {
