@@ -1,5 +1,7 @@
 #!/usr/bin/env groovy
 
+import org.codehaus.groovy.control.CompilerConfiguration
+
 // find where jenny is installed
 File scriptFile = new File(getClass().protectionDomain.codeSource.location.path)
 def classLoader = new GroovyClassLoader(getClass().getClassLoader())
@@ -44,6 +46,18 @@ new File(scriptFile.parent, "lib").listFiles().each {
 
 jennyGlobalConfigFolder = "${System.getenv('HOME')}/.jenny"
 jennyGlobal = [:]
+
+abstract class JennyScript extends Script {
+    def methodMissing(String name, args) {
+        _log.message(_currentIndent("${name} (MOCK)"))
+
+        if (args && args.last().metaClass.respondsTo(args.last(), "call")) {
+            _increaseIndent args.last()
+        }
+
+        return null
+    }
+}
 
 /**
  * Execute a build for a jenkinsfile. This uses also the parent context
@@ -119,7 +133,10 @@ jennyRun = { runConfig ->
     binding.NodeItem = NodeItem
     binding._runInFolder = runInFolder
 
-    def shell = new GroovyShell(classLoader, binding)
+    def compilerConfiguration = new CompilerConfiguration()
+    compilerConfiguration.setScriptBaseClass('JennyScript')
+
+    def shell = new GroovyShell(classLoader, binding, compilerConfiguration)
 
     // needed for credentials
     jennyConfig.jennyGlobalConfigFolder = jennyGlobalConfigFolder

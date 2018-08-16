@@ -1,0 +1,6 @@
+> workspace: /tmp/jenny/workspace/mock-missing-functions/workspace
+stage: test stage [s1]
+  skipStagesAfterUnstable (MOCK)
+  node [s1.n1]
+    timeout (MOCK)
+      sh

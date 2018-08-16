@@ -1,0 +1,12 @@
+stage('test stage') {
+    //does not recognize skipStagesAfterUnstable()
+    skipStagesAfterUnstable()
+
+    node {
+        //does not recognize timeout()
+        timeout(time: 2, unit: 'HOURS') {
+            sh "true"
+        }
+    }
+}
+
