@@ -1,0 +1,17 @@
+> workspace: /tmp/jenny/workspace/current-build/workspace
+stage: some stage [s1]
+currentBuild.number = 1
+currentBuild.result = null
+currentBuild.currentResult = SUCCESS
+currentBuild.displayName = #1
+currentBuild.description = 
+currentBuild.id = 1
+currentBuild.previousBuild = null
+currentBuild.nextBuild = null
+currentBuild.absoluteUrl = https://github.com/bmustiata/jenny
+currentBuild.buildVariables = [:]
+currentBuild.changeSets = []
+currentBuild.rawBuild = null
+currentBuild.result = FAILURE
+currentBuild.displayName = Build #1
+currentBuild.description = Great Build is Great

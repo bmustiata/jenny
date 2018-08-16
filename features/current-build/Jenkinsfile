@@ -1,0 +1,25 @@
+stage('some stage') {
+    println("currentBuild.number = ${currentBuild.number}")
+    println("currentBuild.result = ${currentBuild.result}")
+    println("currentBuild.currentResult = ${currentBuild.currentResult}")
+    println("currentBuild.displayName = ${currentBuild.displayName}")
+    println("currentBuild.description = ${currentBuild.description}")
+    println("currentBuild.id = ${currentBuild.id}")
+    println("currentBuild.previousBuild = ${currentBuild.previousBuild}")
+    println("currentBuild.nextBuild = ${currentBuild.nextBuild}")
+    println("currentBuild.absoluteUrl = ${currentBuild.absoluteUrl}")
+    println("currentBuild.buildVariables = ${currentBuild.buildVariables}")
+    println("currentBuild.changeSets = ${currentBuild.changeSets}")
+    println("currentBuild.rawBuild = ${currentBuild.rawBuild}")
+
+    // -------------------------------------------------------------------
+    // Writable properties
+    // -------------------------------------------------------------------
+    currentBuild.result = "FAILURE"
+    currentBuild.displayName = "Build #1"
+    currentBuild.description = "Great Build is Great"
+
+    println("currentBuild.result = ${currentBuild.result}")
+    println("currentBuild.displayName = ${currentBuild.displayName}")
+    println("currentBuild.description = ${currentBuild.description}")
+}

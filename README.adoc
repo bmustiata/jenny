@@ -229,6 +229,11 @@ relative to the current project folder.
 Checkout the source in the workspace. This will actually just copy the project
 folder into the current folder.
 
+=== currentBuild
+
+Current build information. The actual `currentResult` and `result` are not
+currently checked for the stage execution, just being displayed.
+
 === deleteDir
 
 Delete the current folder recursively.
