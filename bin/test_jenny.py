@@ -116,16 +116,17 @@ def run_external_process_test(folder_name: str,
 tests_to_run = [
     "features/ansiColor-support",
     "features/credentials-in-container",
-    "features/junit-support",
     "features/archiveArtifacts",
     "features/testset/parent",
     "features/multiple-nodes",
     "features/child-section-skip/parent",
     "features/dir-step",
-    "features/docker-support",
     "features/different-work-folder/parent",
     "features/failing-project",
-    "features/failing-sh-inside-docker"
+    "features/failing-sh-inside-docker",
+    "features/mock-missing-functions",
+    "features/docker-support",
+    "features/junit-support"
 ]
 
 if len(sys.argv) > 1:
