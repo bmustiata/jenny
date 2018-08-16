@@ -196,6 +196,10 @@ Test part 2
 
 == Supported Commands
 
+These are the commands where a specific implementation is made for them. If the
+method is not found, it will be mocked with a NOOP function. If the last
+parameter of the function is a callable, the callable will be invoked.
+
 === ansiColor
 
 Only sets the `TERM` variable for the section. Does nothing else since the
