@@ -16,6 +16,4 @@ node::checkout SCM
 docker::inside jenny_test_junit
 docker::deleteDir /tmp/jenny/workspace/junit-support/s1.n1
 docker::checkout SCM
-Parsing: /tmp/jenny/workspace/junit-support/workspace/junit
-Written: /tmp/jenny/workspace/junit-support/workspace/junit/xunit-viewer.html
-> junit: /tmp/jenny/workspace/junit-support/workspace/junit
+> junit: failure generating junit. xunit-viewer missing?
