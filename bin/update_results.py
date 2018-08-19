@@ -61,6 +61,7 @@ tests_to_run = [
     "features/failing-sh-inside-docker",
     "features/mock-missing-functions",
     "features/current-build",
+    "features/external-classes",
     "features/docker-support",
     "features/junit-support"
 ]

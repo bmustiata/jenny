@@ -313,3 +313,9 @@ Will create the files given into, and delete them when the section is done.
 The files must exist in the project or home folder into
 `.jenny/credentials/NAME_OF_FILE`.  They can also be symlinks.
 
+== Mocked Classes
+
+Some classes are mocked in order to allow the `Jenkinsfile` files that were
+written using those classes to function. Currently only the
+`hudson.AbortException` is mocked, in order to be available in the classpath.
+

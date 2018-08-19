@@ -1,0 +1,6 @@
+stage('Just a basic stage') {
+    try {
+        echo "exception mock"
+    } catch (hudson.AbortException e) {
+    }
+}

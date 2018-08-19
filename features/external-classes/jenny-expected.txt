@@ -1,0 +1,5 @@
+> workspace: /tmp/jenny/workspace/external-classes/workspace
+> ========================================================================
+> = Stage: Just a basic stage
+> ========================================================================
+exception mock
