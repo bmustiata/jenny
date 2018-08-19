@@ -1,3 +1,12 @@
+>    _
+>   (_) ___ _ __  _ __  _   _
+>   | |/ _ \ '_ \| '_ \| | | |
+>   | |  __/ | | | | | | |_| |
+>  _/ |\___|_| |_|_| |_|\__, |
+> |__/                  |___/
+> console jenkins runner
+>
+
 > workspace: /tmp/jenny/workspace/credentials-in-container/workspace
 > ========================================================================
 > = Stage: Test
@@ -7,7 +16,7 @@ node::checkout SCM
 docker::inside ubuntu:16.04
 > docker::sh --------------------------------
 
-                    test -f /tmp/CREDENTIALS_FILE-42aa053c-83ec-4829-9889-24ba3114df9c && cat /tmp/CREDENTIALS_FILE-42aa053c-83ec-4829-9889-24ba3114df9c
+                    test -f /tmp/CREDENTIALS_FILE-f64c4870-0750-4291-b75d-fd435e078aa8 && cat /tmp/CREDENTIALS_FILE-f64c4870-0750-4291-b75d-fd435e078aa8
                 
 > -------------------------------------------
 credentials file

@@ -319,3 +319,22 @@ Some classes are mocked in order to allow the `Jenkinsfile` files that were
 written using those classes to function. Currently only the
 `hudson.AbortException` is mocked, in order to be available in the classpath.
 
+== Testing `jenny` locally
+
+If you want to test jenny, you can just run `bin/test_jenny.py` on a Python
+3.6+. (Might work also on 3.5, but it's not tested)
+
+Another option is to run `jenny` to test itself. Note, that you need to have
+docker for this to run. This build will start `bin/test_jenny.py` in a docker
+container. Since some tests will need docker (to spin of containers), we need
+to pass in the socket into the container itself. For this to work we need also
+to pass in the group id of the docker installation, as well as the user UID/GID
+that will run the command.
+
+This command should do:
+
+[source,sh]
+-----------------------------------------------------------------------------
+./jenny --param "JENNY_DOCKER_UID=$(id -u):$(id -g)" -param "JENNY_DOCKER_GID=$(cat /etc/group | grep ^docker: | cut -f3 -d:)"
+-----------------------------------------------------------------------------
+

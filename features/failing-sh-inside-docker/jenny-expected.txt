@@ -1,3 +1,12 @@
+>    _
+>   (_) ___ _ __  _ __  _   _
+>   | |/ _ \ '_ \| '_ \| | | |
+>   | |  __/ | | | | | | |_| |
+>  _/ |\___|_| |_|_| |_|\__, |
+> |__/                  |___/
+> console jenkins runner
+>
+
 > workspace: /tmp/jenny/workspace/failing-sh-inside-docker/workspace
 > ========================================================================
 > = Stage: test stage
@@ -9,7 +18,7 @@ docker::inside ubuntu:16.04
             
 > -------------------------------------------
 Failure executing code inside container with image ubuntu:16.04: Process execution failed, exit code: 1,
-command `[docker, exec, -t, 6b8ebcb78968d61961097d07b4e2232ceef26b3fd08826c11dd3d359daaabfa8, sh, -c, cd /tmp/jenny/workspace/failing-sh-inside-docker/s1.n1; . /tmp/2b6d05c7-a103-4caf-adc2-ba7e8bae9e01.sh]`
+command `[docker, exec, -t, ef4fbf9c92c99d3581426f713dc0d15ceac3b1bd6ec06f84a8478515bf1c6ca1, sh, -c, cd /tmp/jenny/workspace/failing-sh-inside-docker/s1.n1; . /tmp/5cd20e34-abf7-4038-8f40-a97cb62e7392.sh]`
 STDOUT:
 
 STDERR:
