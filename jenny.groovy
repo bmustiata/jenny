@@ -169,7 +169,7 @@ jennyRun = { runConfig ->
     jennyConfig.junitFolder = config1.junitFolder
     jennyConfig.workspaceFolder = config1.workspaceFolder
 
-    binding.env.BUILD_ID = "${binding.currentBuild.number}"
+    binding.env.BUILD_ID = "${binding.currentBuild.number}" as String
 
     // -------------------------------------------------------------------
     // Load the external libraries
