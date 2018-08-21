@@ -1,0 +1,43 @@
+>    _
+>   (_) ___ _ __  _ __  _   _
+>   | |/ _ \ '_ \| '_ \| | | |
+>   | |  __/ | | | | | | |_| |
+>  _/ |\___|_| |_|_| |_|\__, |
+> |__/                  |___/
+> console jenkins runner
+>
+
+> workspace: /tmp/jenny/workspace/docker-user-id-inside/workspace
+> ========================================================================
+> = Stage: test internal user id
+> ========================================================================
+node::deleteDir /tmp/jenny/workspace/docker-user-id-inside/s1.n1
+node::checkout SCM
+docker::inside ubuntu:16.04
+> docker::sh --------------------------------
+
+                touch /src/file.txt
+            
+> -------------------------------------------
+> docker::sh --------------------------------
+
+                FILE_UID_GID="UID/GID: $(id -u) $(id -g)"
+                USER_UID_GID="UID/GID: $(ls -n /src/file.txt | cut -f3,4 -d\ )"
+
+                if [ "$FILE_UID_GID" != "$USER_UID_GID" ]; then
+                    echo "In the node: $FILE_UID_GID != $USER_UID_GID"
+                    exit 1
+                fi
+            
+> -------------------------------------------
+> node::sh ----------------------------------
+
+            FILE_UID_GID="UID/GID: $(id -u) $(id -g)"
+            USER_UID_GID="UID/GID: $(ls -n file.txt | cut -f3,4 -d\ )"
+
+            if [ "$FILE_UID_GID" != "$USER_UID_GID" ]; then
+                echo "In the node: $FILE_UID_GID != $USER_UID_GID"
+                exit 1
+            fi
+        
+> -------------------------------------------
