@@ -127,6 +127,7 @@ tests_to_run = [
     "features/mock-missing-functions",
     "features/current-build",
     "features/external-classes",
+    "features/docker-user-id-inside",
     "features/docker-support",
     "features/junit-support"
 ]
