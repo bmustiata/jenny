@@ -42,5 +42,5 @@ fi # [ ! -d target/dependency ]
 
 #echo java -cp $PROJECT_FOLDER/target/dependency/commons-cli-1.3.1.jar:$PROJECT_FOLDER/target/dependency/groovy-all-2.4.15.jar:$PROJECT_FOLDER/target/dependency/commons-io-2.6.jar:$PROJECT_FOLDER/target/dependency/snakeyaml-1.17.jar org.codehaus.groovy.tools.GroovyStarter --main groovy.ui.GroovyMain -Dscript.name=$PROJECT_FOLDER/jenny.groovy $PROJECT_FOLDER/jenny.groovy $@
 
-java -Djenny_userid=$(id -u) -Djenny_groupid=$(id -g) -cp $PROJECT_FOLDER/target/dependency/commons-cli-1.3.1.jar:$PROJECT_FOLDER/target/dependency/groovy-all-2.4.15.jar:$PROJECT_FOLDER/target/dependency/commons-io-2.6.jar:$PROJECT_FOLDER/target/dependency/snakeyaml-1.17.jar:$PROJECT_FOLDER/mocks org.codehaus.groovy.tools.GroovyStarter --main groovy.ui.GroovyMain -Dscript.name=$PROJECT_FOLDER/jenny.groovy $PROJECT_FOLDER/jenny.groovy $@
+java -Djenny_userid=$(id -u) -Djenny_groupid=$(id -g) -cp $PROJECT_FOLDER/target/dependency/commons-cli-1.3.1.jar:$PROJECT_FOLDER/target/dependency/groovy-all-2.4.15.jar:$PROJECT_FOLDER/target/dependency/commons-io-2.6.jar:$PROJECT_FOLDER/target/dependency/snakeyaml-1.17.jar:$PROJECT_FOLDER/mocks org.codehaus.groovy.tools.GroovyStarter --main groovy.ui.GroovyMain -Dscript.name=$PROJECT_FOLDER/jenny.groovy $PROJECT_FOLDER/jenny.groovy -- $@
 
