@@ -1,0 +1,33 @@
+stage('test internal user id') {
+    node {
+        deleteDir()
+        checkout scm
+
+        docker.image('ubuntu:16.04')
+              .inside("-v ${pwd()}:/src") {
+            sh """
+                touch /src/file.txt
+            """
+
+            sh '''
+                FILE_UID_GID="UID/GID: $(id -u) $(id -g)"
+                USER_UID_GID="UID/GID: $(ls -n /src/file.txt | cut -f3,4 -d\\ )"
+
+                if [ "$FILE_UID_GID" != "$USER_UID_GID" ]; then
+                    echo "In the node: $FILE_UID_GID != $USER_UID_GID"
+                    exit 1
+                fi
+            '''
+        }
+
+        sh '''
+            FILE_UID_GID="UID/GID: $(id -u) $(id -g)"
+            USER_UID_GID="UID/GID: $(ls -n file.txt | cut -f3,4 -d\\ )"
+
+            if [ "$FILE_UID_GID" != "$USER_UID_GID" ]; then
+                echo "In the node: $FILE_UID_GID != $USER_UID_GID"
+                exit 1
+            fi
+        '''
+    }
+}
