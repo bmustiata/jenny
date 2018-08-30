@@ -63,6 +63,7 @@ tests_to_run = [
     "features/current-build",
     "features/external-classes",
     "features/build_id-environment-variable",
+    "features/stash-unstash",
     "features/docker-user-id-inside",
     "features/docker-support",
     "features/junit-support"

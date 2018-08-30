@@ -1,0 +1,30 @@
+>    _
+>   (_) ___ _ __  _ __  _   _
+>   | |/ _ \ '_ \| '_ \| | | |
+>   | |  __/ | | | | | | |_| |
+>  _/ |\___|_| |_|_| |_|\__, |
+> |__/                  |___/
+> console jenkins runner
+>
+
+> workspace: /tmp/jenny/workspace/stash-unstash/workspace
+stage: stash [s1]
+  node [s1.n1]
+    deleteDir: /tmp/jenny/workspace/stash-unstash/workspace
+    checkout SCM
+    stash: jenkins -> Jenkinsfile
+stage: unstash [s2]
+  node [s2.n1]
+    unstash: jenkins
+    sh
+stage: stash docker [s3]
+  node [s3.n1]
+    docker::image::inside ubuntu:16.04
+      deleteDir: /tmp/jenny/workspace/stash-unstash/workspace
+      checkout SCM
+      stash: jenkins2 -> Jenkinsfile
+stage: unstash docker [s4]
+  node [s4.n1]
+    docker::image::inside ubuntu:16.04
+      unstash: jenkins2
+      sh

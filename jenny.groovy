@@ -51,9 +51,21 @@ abstract class JennyScript extends Script {
     def methodMissing(String name, args) {
         _log.message(_currentIndent("${name} (MOCK)"))
 
-        if (args && args.last().metaClass.respondsTo(args.last(), "call")) {
-            _increaseIndent args.last()
+        if (!args) {
+            return null
         }
+
+        def lastArgument = args.last()
+
+        if (!lastArgument || !lastArgument.metaClass) {
+            return null
+        }
+
+        if (!lastArgument.metaClass.respondsTo(lastArgument, "call")) {
+            return null
+        }
+
+        _increaseIndent args.last()
 
         return null
     }

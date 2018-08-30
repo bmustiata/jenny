@@ -291,6 +291,11 @@ Allow registering what will trigger the build of this pipeline. Currently only
 
 Get the current folder, or a temporary folder.
 
+=== stash
+
+Allow stashing artifacts for the current build that can be retrieved later in
+the build with `unstash`.
+
 === string
 
 Define a string param in a `parameters` section.
@@ -302,6 +307,10 @@ Execute a shell script on the local node.
 === stage
 
 Define a stage. It will just printout its name, and execute the code inside.
+
+=== unstash
+
+Unstash one of the previously executed stashes.
 
 === upstream
 

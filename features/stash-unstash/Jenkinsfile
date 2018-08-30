@@ -1,0 +1,41 @@
+stage('stash') {
+    node {
+        deleteDir()
+        checkout scm
+
+        stash includes: "Jenkinsfile", name: "jenkins"
+    }
+}
+
+stage('unstash') {
+    node {
+        unstash "jenkins"
+        sh """
+            ls Jenkinsfile
+        """
+    }
+}
+
+stage('stash docker') {
+    node {
+        docker.image('ubuntu:16.04')
+              .inside {
+            deleteDir()
+            checkout scm
+
+            stash includes: "Jenkinsfile", name: "jenkins2"
+        }
+    }
+}
+
+stage('unstash docker') {
+    node {
+        docker.image('ubuntu:16.04')
+              .inside {
+        unstash "jenkins2"
+        sh """
+            ls Jenkinsfile
+        """
+        }
+    }
+}

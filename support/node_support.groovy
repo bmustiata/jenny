@@ -36,11 +36,11 @@ class NodeAgent {
     }
 
     void copyToLocal(String source, String destination) {
-        context._executeProcess.call(null, 'cp', source, destination)
+        context._executeProcess.call(null, 'sh', '-c', "cd '${pwd()}'; cp ${source} ${destination}")
     }
 
     void copyToAgent(String source, String destination) {
-        context._executeProcess.call(null, 'cp', source, destination)
+        context._executeProcess.call(null, 'sh', '-c', "cd '${pwd()}'; cp ${source} ${destination}")
     }
 
     // FIXME: the pwd from common is not accessible

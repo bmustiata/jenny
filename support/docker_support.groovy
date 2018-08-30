@@ -97,9 +97,8 @@ class DockerAgent {
 
         context._executeProcess.call(
             '/', // cwd on host
-            'docker', 'cp',
-            absoluteSource,
-            "${id}:${destination}")
+            'bash', '-c',
+            "docker cp ${absoluteSource} ${id}:${destination}")
     }
 
     boolean isAbsolutePath(String path) {
