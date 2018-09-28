@@ -59,6 +59,7 @@ properties = { props ->
             prop.parameters.each {
                 if (params.containsKey(it.name)) {
                     _global[it.name] = params[it.name]
+                    it.defaultValue = params[it.name]
                     return
                 }
 
