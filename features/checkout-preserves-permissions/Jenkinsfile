@@ -1,0 +1,10 @@
+stage('Checkout') {
+    node {
+        deleteDir()
+        checkout scm
+
+        sh """
+            (ls -l 775.sh | cut -f1 -d\\ )
+        """
+    }
+}
