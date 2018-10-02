@@ -4,7 +4,7 @@ stage('Checkout') {
         checkout scm
 
         sh """
-            (ls -l 775.sh | cut -f1 -d\\ )
+            ls -l 775.sh | grep rwx
         """
     }
 }
