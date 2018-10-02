@@ -1,3 +1,3 @@
 echo = { message ->
-    println message
+    _log.message(message)
 }
