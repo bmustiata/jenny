@@ -1,0 +1,20 @@
+properties([
+    parameters([
+        booleanParam(name: 'BOOLEAN_PARAMETER', defaultValue: false,
+                description: 'Just a basic boolean parameter.'),
+        string(name: 'STRING_PARAMETER', defaultValue: 'some_string',
+                description: 'Just a basic string parameter.')
+    ])
+])
+
+echo "BOOLEAN parameter"
+echo "binding: " + BOOLEAN_PARAMETER
+echo "binding type: " + BOOLEAN_PARAMETER.class.canonicalName
+echo "params: " + params["BOOLEAN_PARAMETER"]
+echo "params type: " + params["BOOLEAN_PARAMETER"].getClass().getCanonicalName()
+
+echo "STRING parameter"
+echo "binding: " + STRING_PARAMETER
+echo "binding type: " + STRING_PARAMETER.getClass().canonicalName
+echo "params: " + params["STRING_PARAMETER"]
+echo "params type: " + params["STRING_PARAMETER"].getClass().canonicalName

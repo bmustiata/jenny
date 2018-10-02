@@ -1,6 +1,6 @@
 class Parameter {
     private String name
-    private String defaultValue
+    private Object defaultValue
     private String description
 
     def getArguments() {
@@ -28,15 +28,29 @@ class PipelineTriggers {
 params = [:]
 
 string = { config ->
-    return new Parameter(name: config.name,
-                         defaultValue: config.defaultValue,
+    def valueConverter = { v -> "" + v }
+    def defaultValue = params.containsKey(config.name) ?
+                       valueConverter(params[config.name]) :
+                       config.defaultValue
+
+    def result =  new Parameter(name: config.name,
+                         defaultValue: defaultValue,
                          description: config.description)
+
+    return result
 }
 
 booleanParam = { config ->
-    return new Parameter(name: config.name,
-                         defaultValue: config.defaultValue,
+    def valueConverter = { v -> Boolean.valueOf(v) }
+    def defaultValue = params.containsKey(config.name) ?
+                       valueConverter(params[config.name]) :
+                       config.defaultValue
+
+    def result =  new Parameter(name: config.name,
+                         defaultValue: defaultValue,
                          description: config.description)
+
+    return result
 }
 
 parameters = { parameters ->
@@ -58,13 +72,8 @@ properties = { props ->
     props.each { prop ->
         if (prop instanceof ParameterList) {
             prop.parameters.each {
-                if (params.containsKey(it.name)) {
-                    _global[it.name] = params[it.name]
-                    it.defaultValue = params[it.name]
-                    return
-                }
-
                 _global[it.name] = it.defaultValue
+                params[it.name] = it.defaultValue
             }
 
             _log.message("> ==============================================")

@@ -1,0 +1,26 @@
+>    _
+>   (_) ___ _ __  _ __  _   _
+>   | |/ _ \ '_ \| '_ \| | | |
+>   | |  __/ | | | | | | |_| |
+>  _/ |\___|_| |_|_| |_|\__, |
+> |__/                  |___/
+> console jenkins runner
+>
+
+> workspace: /tmp/jenny/workspace/parameters-boolean-value/workspace
+> ==============================================
+> Parameters
+> --------------------------------------------
+> BOOLEAN_PARAMETER = false
+> STRING_PARAMETER = some_string
+> ==============================================
+BOOLEAN parameter
+binding: false
+binding type: java.lang.Boolean
+params: false
+params type: java.lang.Boolean
+STRING parameter
+binding: some_string
+binding type: java.lang.String
+params: some_string
+params type: java.lang.String
