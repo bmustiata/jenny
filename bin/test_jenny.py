@@ -71,7 +71,7 @@ def run_external_process_test(folder_name: str,
 
     print("Testing: {0} ({1})".format(folder_name, " ".join(extra_parameters)))
 
-    expected_file: Optional[str] = None
+    expected_file = None  # type: Optional[str]
     current_folder = os.curdir
 
     search_folder = "{0}/{1}".format(PROJECT_FOLDER, folder_name)
