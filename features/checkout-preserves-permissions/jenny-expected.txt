@@ -15,7 +15,7 @@ node::deleteDir /tmp/jenny/workspace/checkout-preserves-permissions/s1.n1
 node::checkout SCM
 > node::sh ----------------------------------
 
-            (ls -l 775.sh | cut -f1 -d\ )
+            ls -l 775.sh | cut -b1-4 | grep rwx
         
 > -------------------------------------------
--rwxrwxr-x
+-rwx
