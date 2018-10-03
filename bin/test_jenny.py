@@ -5,7 +5,7 @@ import os
 import os.path
 import unittest
 import sys
-from typing import List
+from typing import List, Optional
 import re
 
 tc = unittest.TestCase()
@@ -71,7 +71,7 @@ def run_external_process_test(folder_name: str,
 
     print("Testing: {0} ({1})".format(folder_name, " ".join(extra_parameters)))
 
-    expected_file = None  # type: str
+    expected_file: Optional[str] = None
     current_folder = os.curdir
 
     search_folder = "{0}/{1}".format(PROJECT_FOLDER, folder_name)
@@ -101,6 +101,8 @@ def run_external_process_test(folder_name: str,
         # print("Program STDOUT: %s" % process_output)
         # print("Program STDERR: %s" % stderr.decode('utf-8'))
 
+    assert expected_file
+
     with open(expected_file) as f:
         expected_content = f.read()
         compare_lines(expected_content, process_output)
@@ -115,20 +117,23 @@ def run_external_process_test(folder_name: str,
 
 tests_to_run = [
     "features/ansiColor-support",
-    "features/credentials-in-container",
     "features/archiveArtifacts",
-    "features/testset/parent",
-    "features/multiple-nodes",
+    "features/build_id-environment-variable",
     "features/child-section-skip/parent",
-    "features/dir-step",
+    "features/credentials-in-container",
+    "features/current-build",
     "features/different-work-folder/parent",
+    "features/dir-step",
+    "features/external-classes",
     "features/failing-project",
     "features/failing-sh-inside-docker",
     "features/mock-missing-functions",
-    "features/current-build",
-    "features/external-classes",
-    "features/build_id-environment-variable",
+    "features/multiple-nodes",
+    "features/parameters-boolean-value",
     "features/stash-unstash",
+    "features/testset/parent",
+    "features/upstream-pipeline-trigger",
+
     "features/docker-user-id-inside",
     "features/docker-support",
     "features/junit-support"
