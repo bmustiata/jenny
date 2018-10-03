@@ -1,0 +1,21 @@
+>    _
+>   (_) ___ _ __  _ __  _   _
+>   | |/ _ \ '_ \| '_ \| | | |
+>   | |  __/ | | | | | | |_| |
+>  _/ |\___|_| |_|_| |_|\__, |
+> |__/                  |___/
+> console jenkins runner
+>
+
+> workspace: /tmp/jenny/workspace/checkout-preserves-permissions/workspace
+> ========================================================================
+> = Stage: Checkout
+> ========================================================================
+node::deleteDir /tmp/jenny/workspace/checkout-preserves-permissions/s1.n1
+node::checkout SCM
+> node::sh ----------------------------------
+
+            ls -l 775.sh | cut -b1-4 | grep rwx
+        
+> -------------------------------------------
+-rwx

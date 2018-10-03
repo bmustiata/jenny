@@ -30,9 +30,7 @@ class NodeAgent {
             new File(pwd()).mkdirs()
         }
 
-        org.apache.commons.io.FileUtils.copyDirectory(
-            context._jennyConfig.projectFolder,
-            new File(pwd()))
+        context._executeProcess.call(null, 'sh', '-c', "cp -R '${context._jennyConfig.projectFolder}/.' '${pwd()}'")
     }
 
     void copyToLocal(String source, String destination) {
