@@ -16,7 +16,7 @@ node::checkout SCM
 docker::inside ubuntu:16.04
 > docker::sh --------------------------------
 
-                    test -f /tmp/CREDENTIALS_FILE-f64c4870-0750-4291-b75d-fd435e078aa8 && cat /tmp/CREDENTIALS_FILE-f64c4870-0750-4291-b75d-fd435e078aa8
+                    test -f /tmp/CREDENTIALS_FILE-bb7eee44-18a9-454a-880c-afe3d12203cf && cat /tmp/CREDENTIALS_FILE-bb7eee44-18a9-454a-880c-afe3d12203cf
                 
 > -------------------------------------------
 credentials file

@@ -29,7 +29,7 @@ withCredentials = { files, code ->
     }
 
     try {
-        code()
+        _increaseIndent code
     } finally {
         files.each { credentialFile ->
             env.remove(credentialFile.variable)
