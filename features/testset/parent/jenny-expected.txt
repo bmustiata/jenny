@@ -24,6 +24,7 @@
 > -------------------------------------------
 hello from parent
 /tmp/jenny/workspace/parent/s1.n1
+pluginCommand
 > node::sh ----------------------------------
 
     echo "pwd from pluginCommand: `pwd`"
@@ -32,6 +33,7 @@ hello from parent
 pwd from pluginCommand: /tmp/jenny/workspace/parent/s1.n1
 /tmp/jenny/workspace/parent/s1.n1
 /tmp/jenny/workspace/parent/s1.n1
+pluginCommand1p
 > node::sh ----------------------------------
 
     echo "pwd from pluginCommand1p: `pwd`"
@@ -40,6 +42,7 @@ pwd from pluginCommand: /tmp/jenny/workspace/parent/s1.n1
 pwd from pluginCommand1p: /tmp/jenny/workspace/parent/s1.n1
 /tmp/jenny/workspace/parent/s1.n1
 /tmp/jenny/workspace/parent/s1.n1
+pluginCommand2p
 > node::sh ----------------------------------
 
     echo "pwd from pluginCommand2p: `pwd`"
@@ -68,6 +71,7 @@ pwd from pluginCommand2p: /tmp/jenny/workspace/parent/s1.n1
 > -------------------------------------------
 hello from child
 /tmp/jenny/workspace/child/s1.n1
+pluginCommand
 > node::sh ----------------------------------
 
     echo "pwd from pluginCommand: `pwd`"
@@ -107,6 +111,7 @@ deployed
 > -------------------------------------------
 hello from child2
 /tmp/jenny/workspace/child2/s1.n1
+pluginCommand
 > node::sh ----------------------------------
 
     echo "pwd from pluginCommand: `pwd`"

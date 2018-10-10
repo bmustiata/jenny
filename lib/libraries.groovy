@@ -33,10 +33,10 @@ def loadInfoLibrary(shell, binding, path) {
         def commandName = commandFile.getName().substring(0, commandFile.getName().lastIndexOf("."))
 
         if (isCommandAllowed(binding, commandName)) {
-            registerCommandInBinding(shell, binding, commandFile)
+            registerInfoCommandInBinding(shell, binding, commandFile)
         } else {
             binding[commandName] = { Object...config ->
-                shell.evaluate("_log.message(_currentIndent('${commandName}'))")
+                shell.context._log.message.call(shell.context._currentIndent.call(commandName))
             }
         }
     }
@@ -54,8 +54,23 @@ def isCommandAllowed(binding, commandName) {
 
 def registerCommandInBinding(shell, binding, commandFile) {
     def command = shell.parse(commandFile)
+    def commandName = commandFile.getName().substring(0, commandFile.getName().lastIndexOf("."))
+
     binding[command.class.name] = { Object... config ->
+        shell.context._log.message.call(commandName)
         return command.invokeMethod("call", config)
+    }
+}
+
+def registerInfoCommandInBinding(shell, binding, commandFile) {
+    def command = shell.parse(commandFile)
+    def commandName = commandFile.getName().substring(0, commandFile.getName().lastIndexOf("."))
+
+    binding[command.class.name] = { Object... config ->
+        shell.context._log.message.call(shell.context._currentIndent.call(commandName))
+        return shell.context._increaseIndent.call {
+            return command.invokeMethod("call", config)
+        }
     }
 }
 
