@@ -18,7 +18,7 @@ docker::inside ubuntu:16.04
             
 > -------------------------------------------
 Failure executing code inside container with image ubuntu:16.04: Process execution failed, exit code: 1,
-command `[docker, exec, -t, ef4fbf9c92c99d3581426f713dc0d15ceac3b1bd6ec06f84a8478515bf1c6ca1, sh, -c, cd /tmp/jenny/workspace/failing-sh-inside-docker/s1.n1; . /tmp/5cd20e34-abf7-4038-8f40-a97cb62e7392.sh]`
+command `[docker, exec, -t, 28a81d0bd35e2be62376c3d54fd519c95ed48864213625aaf7a5d94c5c42745a, sh, -c, cd /tmp/jenny/workspace/failing-sh-inside-docker/s1.n1; . /tmp/49118fe4-6e85-434e-8228-b60cbe5afdb0.sh]`
 STDOUT:
 
 STDERR:

@@ -12,8 +12,10 @@
 > = Stage: test junit
 > ========================================================================
 node::deleteDir /tmp/jenny/workspace/junit-support/s1.n1
+node::mkdir /tmp/jenny/workspace/junit-support/s1.n1
 node::checkout SCM
 docker::inside jenny_test_junit
 docker::deleteDir /tmp/jenny/workspace/junit-support/s1.n1
+docker::mkdir /tmp/jenny/workspace/junit-support/s1.n1
 docker::checkout SCM
 > junit: failure generating junit. xunit-viewer missing?

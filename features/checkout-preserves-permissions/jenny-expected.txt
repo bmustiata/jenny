@@ -12,6 +12,7 @@
 > = Stage: Checkout
 > ========================================================================
 node::deleteDir /tmp/jenny/workspace/checkout-preserves-permissions/s1.n1
+node::mkdir /tmp/jenny/workspace/checkout-preserves-permissions/s1.n1
 node::checkout SCM
 > node::sh ----------------------------------
 

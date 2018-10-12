@@ -12,6 +12,7 @@
 > = Stage: test internal user id
 > ========================================================================
 node::deleteDir /tmp/jenny/workspace/docker-user-id-inside/s1.n1
+node::mkdir /tmp/jenny/workspace/docker-user-id-inside/s1.n1
 node::checkout SCM
 docker::inside ubuntu:16.04
 > docker::sh --------------------------------

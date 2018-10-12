@@ -12,11 +12,12 @@
 > = Stage: Test
 > ========================================================================
 node::deleteDir /tmp/jenny/workspace/credentials-in-container/s1.n1
+node::mkdir /tmp/jenny/workspace/credentials-in-container/s1.n1
 node::checkout SCM
 docker::inside ubuntu:16.04
 > docker::sh --------------------------------
 
-                    test -f /tmp/CREDENTIALS_FILE-bb7eee44-18a9-454a-880c-afe3d12203cf && cat /tmp/CREDENTIALS_FILE-bb7eee44-18a9-454a-880c-afe3d12203cf
+                    test -f /tmp/CREDENTIALS_FILE-0584c8b0-4e46-4bb2-8c0b-1a34111e1c7f && cat /tmp/CREDENTIALS_FILE-0584c8b0-4e46-4bb2-8c0b-1a34111e1c7f
                 
 > -------------------------------------------
 credentials file

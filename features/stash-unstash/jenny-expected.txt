@@ -12,6 +12,7 @@
 > = Stage: stash
 > ========================================================================
 node::deleteDir /tmp/jenny/workspace/stash-unstash/s1.n1
+node::mkdir /tmp/jenny/workspace/stash-unstash/s1.n1
 node::checkout SCM
 > stash: jenkins -> Jenkinsfile
 > ========================================================================
@@ -29,6 +30,7 @@ Jenkinsfile
 > ========================================================================
 docker::inside ubuntu:16.04
 docker::deleteDir /tmp/jenny/workspace/stash-unstash/s3.n1
+docker::mkdir /tmp/jenny/workspace/stash-unstash/s3.n1
 docker::checkout SCM
 > stash: jenkins2 -> Jenkinsfile
 > ========================================================================
