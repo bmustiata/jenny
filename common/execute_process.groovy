@@ -1,3 +1,4 @@
+import org.apache.commons.io.input.TeeInputStream
 
 _executeProcess = { String cwd, String... args ->
     _executeReturnProcess([
@@ -20,12 +21,27 @@ _executeReturnProcess = { config ->
 
         def processBuilder = new ProcessBuilder(config.args as String[])
             .directory(new File(pwd()))
-            .inheritIO()
+            .redirectError(ProcessBuilder.Redirect.INHERIT)
+            .redirectInput(ProcessBuilder.Redirect.INHERIT)
+            .redirectOutput(config.returnStdout ?
+                                ProcessBuilder.Redirect.PIPE :
+                                ProcessBuilder.Redirect.INHERIT)
+
 
         processBuilder.environment().putAll(env)
 
         def process = processBuilder.start()
         def exitCode = process.waitFor()
+
+        TeeInputStream tee
+
+        if (config.returnStdout) {
+            tee = new TeeInputStream(process.inputStream, System.out);
+
+            if (exitCode == 0) {
+                return config.encoding ? tee.getText(config.encoding) : tee.text
+            }
+        }
 
         if (config.returnStatus) {
             return exitCode
@@ -39,13 +55,6 @@ _executeReturnProcess = { config ->
                 STDOUT:\n${process.inputStream.text}
                 STDERR:\n${process.errorStream.text}
                 """.stripIndent())
-        }
-
-        if (config.returnStdout) {
-            return config.encoding ?
-                process.inputStream.getText(config.encoding) :
-                process.inputStream.text
-
         }
     } finally {
         System.setProperty("user.dir", currentPath)

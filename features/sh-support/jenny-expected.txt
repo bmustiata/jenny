@@ -20,13 +20,18 @@ node::checkout SCM
         
 > -------------------------------------------
 Jenkinsfile
+jenny-expected-info.txt
 jenny-expected.txt
 > node::sh ----------------------------------
 ls
 > -------------------------------------------
 Jenkinsfile
+jenny-expected-info.txt
 jenny-expected.txt
-ls output: 
+ls output: Jenkinsfile
+jenny-expected-info.txt
+jenny-expected.txt
+
 > node::sh ----------------------------------
 ls missing
 > -------------------------------------------
@@ -36,8 +41,19 @@ ls error code: 2
 ls
 > -------------------------------------------
 Jenkinsfile
+jenny-expected-info.txt
 jenny-expected.txt
 ls error code: 0
+> node::sh ----------------------------------
+ls
+> -------------------------------------------
+Jenkinsfile
+jenny-expected-info.txt
+jenny-expected.txt
+ls should be output: Jenkinsfile
+jenny-expected-info.txt
+jenny-expected.txt
+
 > ========================================================================
 > = Stage: Test sh in docker
 > ========================================================================
@@ -50,12 +66,13 @@ docker::checkout SCM
                 ls
             
 > -------------------------------------------
-Jenkinsfile  jenny-expected.txt
+Jenkinsfile  jenny-expected-info.txt  jenny-expected.txt
 > docker::sh --------------------------------
 ls
 > -------------------------------------------
-Jenkinsfile  jenny-expected.txt
-ls output: 
+Jenkinsfile  jenny-expected-info.txt  jenny-expected.txt
+ls output: Jenkinsfile  jenny-expected-info.txt  jenny-expected.txt
+
 > docker::sh --------------------------------
 ls missing
 > -------------------------------------------
@@ -64,5 +81,11 @@ ls error code: 2
 > docker::sh --------------------------------
 ls
 > -------------------------------------------
-Jenkinsfile  jenny-expected.txt
+Jenkinsfile  jenny-expected-info.txt  jenny-expected.txt
 ls error code: 0
+> docker::sh --------------------------------
+ls
+> -------------------------------------------
+Jenkinsfile  jenny-expected-info.txt  jenny-expected.txt
+ls should be output: Jenkinsfile  jenny-expected-info.txt  jenny-expected.txt
+

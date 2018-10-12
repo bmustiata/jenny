@@ -19,6 +19,8 @@ ls output: null
 ls error code: null
     sh
 ls error code: null
+    sh
+ls should be output: null
 stage: Test sh in docker [s2]
   node [s2.n1]
     docker::image::inside ubuntu:16.04
@@ -31,3 +33,5 @@ ls output: null
 ls error code: null
       sh
 ls error code: null
+      sh
+ls should be output: null

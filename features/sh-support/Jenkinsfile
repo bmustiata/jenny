@@ -15,6 +15,9 @@ stage('Test sh on nodes') {
 
         errorCode = sh script: "ls", returnStatus: true
         echo "ls error code: ${errorCode}"
+
+        lsOutput = sh script: "ls", returnStatus: true, returnStdout: true
+        echo "ls should be output: ${lsOutput}"
     }
 }
 
@@ -36,6 +39,9 @@ stage('Test sh in docker') {
 
             errorCode = sh script: "ls", returnStatus: true
             echo "ls error code: ${errorCode}"
+
+            lsOutput = sh script: "ls", returnStatus: true, returnStdout: true
+            echo "ls should be output: ${lsOutput}"
         }
     }
 }
