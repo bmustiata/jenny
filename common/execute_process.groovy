@@ -42,7 +42,10 @@ _executeReturnProcess = { config ->
         }
 
         if (config.returnStdout) {
-            return process.inputStream.text
+            return config.encoding ?
+                process.inputStream.getText(config.encoding) :
+                process.inputStream.text
+
         }
     } finally {
         System.setProperty("user.dir", currentPath)

@@ -8,9 +8,9 @@ class DockerAgent {
     }
 
     Object sh(config) {
-        if (config instanceof String) {
+        if (!(config instanceof Map)) {
             config = [
-                script: config
+                script: config as String
             ]
         }
 
