@@ -1,6 +1,7 @@
 class DockerAgent {
     def context
     String id
+    String agentWorkFolder
 
     String getNodeId() {
         id.substring(0, 8)
@@ -24,6 +25,14 @@ class DockerAgent {
             "/", // cwd on host
             'docker', 'exec', '-t', this.id,
             'sh', '-c', "cd ${pwd()}; . ${scriptPath}")
+    }
+
+    void mkdir(name) {
+        context._log.message("docker::mkdir ${name}")
+        context._executeProcess.call(
+            '/', // cwd on host
+            'docker', 'exec', '-t', this.id,
+            'mkdir', '-p', name)
     }
 
     void deleteDir() {
@@ -231,6 +240,7 @@ class DockerImage {
 
         return new DockerAgent(
             context: context,
+            agentWorkFolder: pwd(),
             id: id
         )
     }

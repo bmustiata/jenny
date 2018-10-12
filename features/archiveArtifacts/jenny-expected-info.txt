@@ -12,12 +12,18 @@ stage: test archiveArtifacts [s1]
   node [s1.n1]
     deleteDir: /tmp/jenny/workspace/archiveArtifacts/workspace
     checkout SCM
-    archiveArtifacts: file1.txt
+    archiveArtifacts: files/**
   node [s1.n2]
     docker::image::inside maven:3.5.3
       deleteDir: /tmp/jenny/workspace/archiveArtifacts/workspace
       checkout SCM
-      archiveArtifacts: file2.txt
+      archiveArtifacts: filec.txt
 stage: check files [s2]
   node [s2.n1]
+    deleteDir: /tmp/jenny/workspace/archiveArtifacts/workspace
+    sh
+stage: test unarchive [s3]
+  node [s3.n1]
+    deleteDir: /tmp/jenny/workspace/archiveArtifacts/workspace
+    unarchive mapping: [files/:., filec.txt:renamed-file.txt]
     sh

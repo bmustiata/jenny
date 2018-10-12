@@ -1,6 +1,7 @@
 class NodeAgent {
     def context
     String id
+    String agentWorkFolder
 
     String getNodeId() {
         id
@@ -12,6 +13,11 @@ class NodeAgent {
         context._log.message("> -------------------------------------------")
 
         context._executeProcess.call(null, 'sh', '-c', code)
+    }
+
+    void mkdir(name) {
+        context._log.message("node::mkdir ${name}")
+        new File(name).mkdirs()
     }
 
     void deleteDir() {
@@ -34,11 +40,11 @@ class NodeAgent {
     }
 
     void copyToLocal(String source, String destination) {
-        context._executeProcess.call(null, 'sh', '-c', "cd '${pwd()}'; cp ${source} ${destination}")
+        context._executeProcess.call(null, 'bash', '-c', "shopt -s globstar; cd '${pwd()}'; cp -R ${source} ${destination}")
     }
 
     void copyToAgent(String source, String destination) {
-        context._executeProcess.call(null, 'sh', '-c', "cd '${pwd()}'; cp ${source} ${destination}")
+        context._executeProcess.call(null, 'bash', '-c', "shopt -s globstar; cd '${pwd()}'; cp -R ${source} ${destination}")
     }
 
     // FIXME: the pwd from common is not accessible
@@ -51,11 +57,14 @@ node = { name = null, code ->
     _runSectionWithId("node") { fullId ->
         def currentAgent = _currentAgent
         try {
+            def nodeFolder = new File(_jennyConfig.workspaceFolder, "../" + fullId)
+
             _currentAgent = new NodeAgent(
                 context: binding,
-                id: fullId
+                id: fullId,
+                agentWorkFolder: nodeFolder.canonicalPath
             )
-            def nodeFolder = new File(_jennyConfig.workspaceFolder, "../" + fullId)
+
             _runInFolder.call(nodeFolder, code, create=true, ignoreMissing=_jennyConfig.info)
         } finally {
             _currentAgent = currentAgent

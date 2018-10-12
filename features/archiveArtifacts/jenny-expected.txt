@@ -12,21 +12,53 @@
 > = Stage: test archiveArtifacts
 > ========================================================================
 node::deleteDir /tmp/jenny/workspace/archiveArtifacts/s1.n1
+node::mkdir /tmp/jenny/workspace/archiveArtifacts/s1.n1
 node::checkout SCM
 docker::inside maven:3.5.3
 docker::deleteDir /tmp/jenny/workspace/archiveArtifacts/s1.n2
+docker::mkdir /tmp/jenny/workspace/archiveArtifacts/s1.n2
 docker::checkout SCM
 > ========================================================================
 > = Stage: check files
 > ========================================================================
+node::deleteDir /tmp/jenny/workspace/archiveArtifacts/s2.n1
+node::mkdir /tmp/jenny/workspace/archiveArtifacts/s2.n1
 > node::sh ----------------------------------
 
-            ls /tmp/jenny-target
-            cat /tmp/jenny-target/file1.txt
-            cat /tmp/jenny-target/file2.txt
+            ls /tmp/jenny-target | sort
+            cat /tmp/jenny-target/filec.txt
+            cat /tmp/jenny-target/files/filea.txt
+            cat /tmp/jenny-target/files/fileb.txt
+            cat /tmp/jenny-target/files/nested/nested.txt
         
 > -------------------------------------------
-file1.txt
-file2.txt
+filea.txt
+fileb.txt
+filec.txt
+files
+nested
+nested.txt
+file content
 file1 content
 file2 content
+nested
+> ========================================================================
+> = Stage: test unarchive
+> ========================================================================
+node::deleteDir /tmp/jenny/workspace/archiveArtifacts/s3.n1
+node::mkdir /tmp/jenny/workspace/archiveArtifacts/s3.n1
+> node::sh ----------------------------------
+
+            ls | sort
+            cat renamed-file.txt
+            cat files/filea.txt
+            cat files/fileb.txt
+            cat files/nested/nested.txt
+        
+> -------------------------------------------
+files
+renamed-file.txt
+file content
+file1 content
+file2 content
+nested
