@@ -19,7 +19,7 @@ stage('test archiveArtifacts') {
 stage('check files') {
     node {
         sh """
-            ls /tmp/jenny-target
+            ls /tmp/jenny-target | sort
             cat /tmp/jenny-target/file.txt
             cat /tmp/jenny-target/files/file1.txt
             cat /tmp/jenny-target/files/file2.txt
@@ -38,7 +38,7 @@ stage('test unarchive') {
         ]
 
         sh """
-            ls
+            ls | sort
             cat renamed-file.txt
             cat files/file1.txt
             cat files/file2.txt
