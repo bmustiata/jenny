@@ -21,19 +21,21 @@ docker::checkout SCM
 > ========================================================================
 > = Stage: check files
 > ========================================================================
+node::deleteDir /tmp/jenny/workspace/archiveArtifacts/s2.n1
+node::mkdir /tmp/jenny/workspace/archiveArtifacts/s2.n1
 > node::sh ----------------------------------
 
             ls /tmp/jenny-target | sort
-            cat /tmp/jenny-target/file.txt
-            cat /tmp/jenny-target/files/file1.txt
-            cat /tmp/jenny-target/files/file2.txt
+            cat /tmp/jenny-target/filec.txt
+            cat /tmp/jenny-target/files/filea.txt
+            cat /tmp/jenny-target/files/fileb.txt
             cat /tmp/jenny-target/files/nested/nested.txt
         
 > -------------------------------------------
-file1.txt
-file2.txt
+filea.txt
+fileb.txt
+filec.txt
 files
-file.txt
 nested
 nested.txt
 file content
@@ -49,8 +51,8 @@ node::mkdir /tmp/jenny/workspace/archiveArtifacts/s3.n1
 
             ls | sort
             cat renamed-file.txt
-            cat files/file1.txt
-            cat files/file2.txt
+            cat files/filea.txt
+            cat files/fileb.txt
             cat files/nested/nested.txt
         
 > -------------------------------------------

@@ -11,18 +11,20 @@ stage('test archiveArtifacts') {
             deleteDir()
             checkout scm
 
-            archiveArtifacts artifacts: 'file.txt'
+            archiveArtifacts artifacts: 'filec.txt'
         }
     }
 }
 
 stage('check files') {
     node {
+        deleteDir()
+
         sh """
             ls /tmp/jenny-target | sort
-            cat /tmp/jenny-target/file.txt
-            cat /tmp/jenny-target/files/file1.txt
-            cat /tmp/jenny-target/files/file2.txt
+            cat /tmp/jenny-target/filec.txt
+            cat /tmp/jenny-target/files/filea.txt
+            cat /tmp/jenny-target/files/fileb.txt
             cat /tmp/jenny-target/files/nested/nested.txt
         """
     }
@@ -34,14 +36,14 @@ stage('test unarchive') {
 
         unarchive mapping: [
             "files/": ".",
-            "file.txt": "renamed-file.txt"
+            "filec.txt": "renamed-file.txt"
         ]
 
         sh """
             ls | sort
             cat renamed-file.txt
-            cat files/file1.txt
-            cat files/file2.txt
+            cat files/filea.txt
+            cat files/fileb.txt
             cat files/nested/nested.txt
         """
     }
