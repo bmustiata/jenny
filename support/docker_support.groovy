@@ -7,24 +7,33 @@ class DockerAgent {
         id.substring(0, 8)
     }
 
-    void sh(String code) {
+    Object sh(config) {
+        if (config instanceof String) {
+            config = [
+                script: config
+            ]
+        }
+
         context._log.message("> docker::sh --------------------------------")
-        context._log.message(code)
+        context._log.message(config.script)
         context._log.message("> -------------------------------------------")
 
         def workFolder = context._jennyConfig.workFolder
         def scriptPath = "${workFolder}/${UUID.randomUUID() as String}.sh"
 
-        new File(scriptPath).write(code)
+        new File(scriptPath).write(config.script)
 
         context._executeProcess.call(
             "/", // cwd on host
             'docker', 'cp', scriptPath, "${this.id}:${scriptPath}"
         )
-        context._executeProcess.call(
-            "/", // cwd on host
-            'docker', 'exec', '-t', this.id,
-            'sh', '-c', "cd ${pwd()}; . ${scriptPath}")
+
+        return context._executeReturnProcess.call([
+            cwd: "/", // cwd on host
+            args: ['docker', 'exec', '-t', this.id, 'sh', '-c', "cd ${pwd()}; . ${scriptPath}"],
+            returnStatus: config.returnStatus,
+            returnStdout: config.returnStdout
+        ])
     }
 
     void mkdir(name) {

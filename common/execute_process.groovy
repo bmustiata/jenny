@@ -1,16 +1,24 @@
+
 _executeProcess = { String cwd, String... args ->
-    _parentLog.logMessage("exec: ${args.join(' ')}")
+    _executeReturnProcess([
+        cwd: cwd,
+        args: args
+    ])
+}
+
+_executeReturnProcess = { config ->
+    _parentLog.logMessage("exec: ${config.args.join(' ')}")
 
     def currentPath = System.getProperty("user.dir")
 
-    if (cwd == null) {
-        cwd = currentPath;
+    if (!config.cwd) {
+        config.cwd = currentPath;
     }
 
     try {
-        System.setProperty("user.dir", cwd)
+        System.setProperty("user.dir", config.cwd)
 
-        def processBuilder = new ProcessBuilder(args)
+        def processBuilder = new ProcessBuilder(config.args as String[])
             .directory(new File(pwd()))
             .inheritIO()
 
@@ -19,14 +27,22 @@ _executeProcess = { String cwd, String... args ->
         def process = processBuilder.start()
         def exitCode = process.waitFor()
 
+        if (config.returnStatus) {
+            return exitCode
+        }
+
         if (exitCode != 0) {
             throw new IllegalStateException(
                 """\
                 Process execution failed, exit code: ${exitCode},
-                command `${args}`
+                command `${config.args}`
                 STDOUT:\n${process.inputStream.text}
                 STDERR:\n${process.errorStream.text}
                 """.stripIndent())
+        }
+
+        if (config.returnStdout) {
+            return process.inputStream.text
         }
     } finally {
         System.setProperty("user.dir", currentPath)

@@ -1,0 +1,68 @@
+>    _
+>   (_) ___ _ __  _ __  _   _
+>   | |/ _ \ '_ \| '_ \| | | |
+>   | |  __/ | | | | | | |_| |
+>  _/ |\___|_| |_|_| |_|\__, |
+> |__/                  |___/
+> console jenkins runner
+>
+
+> workspace: /tmp/jenny/workspace/sh-support/workspace
+> ========================================================================
+> = Stage: Test sh on nodes
+> ========================================================================
+node::deleteDir /tmp/jenny/workspace/sh-support/s1.n1
+node::mkdir /tmp/jenny/workspace/sh-support/s1.n1
+node::checkout SCM
+> node::sh ----------------------------------
+
+            ls
+        
+> -------------------------------------------
+Jenkinsfile
+jenny-expected.txt
+> node::sh ----------------------------------
+ls
+> -------------------------------------------
+Jenkinsfile
+jenny-expected.txt
+ls output: 
+> node::sh ----------------------------------
+ls missing
+> -------------------------------------------
+ls: cannot access 'missing': No such file or directory
+ls error code: 2
+> node::sh ----------------------------------
+ls
+> -------------------------------------------
+Jenkinsfile
+jenny-expected.txt
+ls error code: 0
+> ========================================================================
+> = Stage: Test sh in docker
+> ========================================================================
+docker::inside ubuntu:16.04
+docker::deleteDir /tmp/jenny/workspace/sh-support/s2.n1
+docker::mkdir /tmp/jenny/workspace/sh-support/s2.n1
+docker::checkout SCM
+> docker::sh --------------------------------
+
+                ls
+            
+> -------------------------------------------
+Jenkinsfile  jenny-expected.txt
+> docker::sh --------------------------------
+ls
+> -------------------------------------------
+Jenkinsfile  jenny-expected.txt
+ls output: 
+> docker::sh --------------------------------
+ls missing
+> -------------------------------------------
+ls: cannot access 'missing': No such file or directory
+ls error code: 2
+> docker::sh --------------------------------
+ls
+> -------------------------------------------
+Jenkinsfile  jenny-expected.txt
+ls error code: 0

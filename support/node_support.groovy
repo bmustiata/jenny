@@ -7,12 +7,23 @@ class NodeAgent {
         id
     }
 
-    void sh(String code) {
+    Object sh(config) {
+        if (config instanceof String) {
+            config = [
+                script: config
+            ]
+        }
+
         context._log.message("> node::sh ----------------------------------")
-        context._log.message(code)
+        context._log.message(config.script)
         context._log.message("> -------------------------------------------")
 
-        context._executeProcess.call(null, 'sh', '-c', code)
+        return context._executeReturnProcess.call([
+            cwd: null,
+            args: ['sh', '-c', config.script],
+            returnStatus: config.returnStatus,
+            returnStdout: config.returnStdout
+        ])
     }
 
     void mkdir(name) {

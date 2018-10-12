@@ -68,6 +68,8 @@ tests_to_run = [
     "features/testset/parent",
     "features/upstream-pipeline-trigger",
 
+    "features/sh-support",  # this also needs docker
+
     "features/docker-user-id-inside",
     "features/docker-support",
     "features/junit-support"

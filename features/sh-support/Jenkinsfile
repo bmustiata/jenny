@@ -1,0 +1,41 @@
+stage('Test sh on nodes') {
+    node {
+        deleteDir()
+        checkout scm
+
+        sh """
+            ls
+        """
+
+        def lsOutput = sh script: "ls", returnStdout: true
+        echo "ls output: ${lsOutput}"
+
+        def errorCode = sh script: "ls missing", returnStatus: true
+        echo "ls error code: ${errorCode}"
+
+        errorCode = sh script: "ls", returnStatus: true
+        echo "ls error code: ${errorCode}"
+    }
+}
+
+stage('Test sh in docker') {
+    node {
+        docker.image('ubuntu:16.04').inside {
+            deleteDir()
+            checkout scm
+
+            sh """
+                ls
+            """
+
+            def lsOutput = sh script: "ls", returnStdout: true
+            echo "ls output: ${lsOutput}"
+
+            def errorCode = sh script: "ls missing", returnStatus: true
+            echo "ls error code: ${errorCode}"
+
+            errorCode = sh script: "ls", returnStatus: true
+            echo "ls error code: ${errorCode}"
+        }
+    }
+}
