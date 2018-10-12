@@ -308,6 +308,22 @@ Execute a shell script on the local node.
 
 Define a stage. It will just printout its name, and execute the code inside.
 
+=== unarchive
+
+Unarchives (i.e. copies on the local node) one of the previously executed
+`archiveArtifacts`. For it to work you need to pass a `mapping` that is
+required by Jenkins even if it's marked optional in the official documentation.
+
+The naming in mapping must match what it was on `archiveArtifacts`
+
+[source,groovy]
+-----------------------------------------------------------------------------
+unarchive mapping: [
+    "files/": ".",
+    "file.txt": "renamed-file.txt"
+]
+-----------------------------------------------------------------------------
+
 === unstash
 
 Unstash one of the previously executed stashes.
