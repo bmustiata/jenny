@@ -10,8 +10,8 @@ stage('Test sh on nodes') {
         def lsOutput = sh script: "ls", returnStdout: true
         echo "ls output: ${lsOutput}"
 
-        def errorCode = sh script: "ls missing", returnStatus: true
-        echo "ls error code: ${errorCode}"
+        def errorCode = sh script: "false", returnStatus: true
+        echo "false error code: ${errorCode}"
 
         errorCode = sh script: "ls", returnStatus: true
         echo "ls error code: ${errorCode}"
@@ -34,8 +34,8 @@ stage('Test sh in docker') {
             def lsOutput = sh script: "ls", returnStdout: true
             echo "ls output: ${lsOutput}"
 
-            def errorCode = sh script: "ls missing", returnStatus: true
-            echo "ls error code: ${errorCode}"
+            def errorCode = sh script: "false", returnStatus: true
+            echo "false error code: ${errorCode}"
 
             errorCode = sh script: "ls", returnStatus: true
             echo "ls error code: ${errorCode}"

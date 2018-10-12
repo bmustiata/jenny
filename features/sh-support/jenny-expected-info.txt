@@ -16,7 +16,7 @@ stage: Test sh on nodes [s1]
     sh
 ls output: null
     sh
-ls error code: null
+false error code: null
     sh
 ls error code: null
     sh
@@ -30,7 +30,7 @@ stage: Test sh in docker [s2]
       sh
 ls output: null
       sh
-ls error code: null
+false error code: null
       sh
 ls error code: null
       sh

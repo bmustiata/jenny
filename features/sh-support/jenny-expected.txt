@@ -33,10 +33,9 @@ jenny-expected-info.txt
 jenny-expected.txt
 
 > node::sh ----------------------------------
-ls missing
+false
 > -------------------------------------------
-ls: cannot access 'missing': No such file or directory
-ls error code: 2
+false error code: 1
 > node::sh ----------------------------------
 ls
 > -------------------------------------------
@@ -74,10 +73,9 @@ Jenkinsfile  jenny-expected-info.txt  jenny-expected.txt
 ls output: Jenkinsfile  jenny-expected-info.txt  jenny-expected.txt
 
 > docker::sh --------------------------------
-ls missing
+false
 > -------------------------------------------
-ls: cannot access 'missing': No such file or directory
-ls error code: 2
+false error code: 1
 > docker::sh --------------------------------
 ls
 > -------------------------------------------
