@@ -15,4 +15,4 @@ stage: test junit [s1]
     docker::image::inside jenny_test_junit
       deleteDir: /tmp/jenny/workspace/junit-support/workspace
       checkout SCM
-      > junit: /tmp/jenny/workspace/junit-support/workspace/junit
+      junit: /tmp/jenny/workspace/junit-support/workspace/junit
