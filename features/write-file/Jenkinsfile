@@ -1,0 +1,21 @@
+stage('Node writeFile support') {
+    node {
+        deleteDir()
+        writeFile file: 'test.txt', text: 'basic text\n'
+        sh """
+            cat test.txt
+        """
+    }
+}
+
+stage('Docker writeFile support') {
+    node {
+        docker.image('ubuntu:16.04').inside {
+            deleteDir()
+            writeFile file: 'test.txt', text: 'basic text\n'
+            sh """
+                cat test.txt
+            """
+        }
+    }
+}

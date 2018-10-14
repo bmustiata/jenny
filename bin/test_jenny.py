@@ -135,7 +135,9 @@ tests_to_run = [
     "features/testset/parent",
     "features/upstream-pipeline-trigger",
 
-    "features/sh-support",  # this also needs docker
+    # these tests need docker
+    "features/write-file",
+    "features/sh-support",
 
     "features/docker-user-id-inside",
     "features/docker-support",

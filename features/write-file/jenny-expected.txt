@@ -1,0 +1,35 @@
+>    _
+>   (_) ___ _ __  _ __  _   _
+>   | |/ _ \ '_ \| '_ \| | | |
+>   | |  __/ | | | | | | |_| |
+>  _/ |\___|_| |_|_| |_|\__, |
+> |__/                  |___/
+> console jenkins runner
+>
+
+> workspace: /tmp/jenny/workspace/write-file/workspace
+> ========================================================================
+> = Stage: Node writeFile support
+> ========================================================================
+node::deleteDir /tmp/jenny/workspace/write-file/s1.n1
+node::mkdir /tmp/jenny/workspace/write-file/s1.n1
+> writeFile: test.txt
+> node::sh ----------------------------------
+
+            cat test.txt
+        
+> -------------------------------------------
+basic text
+> ========================================================================
+> = Stage: Docker writeFile support
+> ========================================================================
+docker::inside ubuntu:16.04
+docker::deleteDir /tmp/jenny/workspace/write-file/s2.n1
+docker::mkdir /tmp/jenny/workspace/write-file/s2.n1
+> writeFile: test.txt
+> docker::sh --------------------------------
+
+                cat test.txt
+            
+> -------------------------------------------
+basic text
