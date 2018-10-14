@@ -9,7 +9,12 @@ writeFile = { config ->
     }
 
     tempFile = new File(Files.createTempFile(null, null).toAbsolutePath().toString())
-    tempFile.write(config.text)
+
+    if (config.encoding) {
+        tempFile.write(config.text, config.encoding)
+    } else {
+        tempFile.write(config.text)
+    }
 
     _currentAgent.copyToAgent(tempFile.canonicalPath, "${pwd()}/${config.file}")
 
