@@ -21,9 +21,9 @@ stage: test archiveArtifacts [s1]
 stage: check files [s2]
   node [s2.n1]
     deleteDir: /tmp/jenny/workspace/archiveArtifacts/workspace
-    sh
+    sh: ls /tmp/je .. ; cat /tmp/jenny-target/files/fileb.txt; cat /tmp/jenny-target/files/nested/nested.txt
 stage: test unarchive [s3]
   node [s3.n1]
     deleteDir: /tmp/jenny/workspace/archiveArtifacts/workspace
     unarchive mapping: [files/:., filec.txt:renamed-file.txt]
-    sh
+    sh: ls | sort; .. enamed-file.txt; cat files/filea.txt; cat files/fileb.txt; cat files/nested/nested.txt

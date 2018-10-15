@@ -114,19 +114,29 @@ stage('Deploy') {
 
 The outcome of `jenny -i` will be:
 
-[source,groovy]
+[source,text]
 -----------------------------------------------------------------------------
+>    _
+>   (_) ___ _ __  _ __  _   _
+>   | |/ _ \ '_ \| '_ \| | | |
+>   | |  __/ | | | | | | |_| |
+>  _/ |\___|_| |_|_| |_|\__, |
+> |__/                  |___/
+> console jenkins runner
+>
+
+> workspace: /tmp/jenny/workspace/x/workspace
 stage: Prepare [s1]
   node [s1.n1]
-    sh
+    sh: echo Prepare
 stage: Test [s2]
   node [s2.n1]
-    sh
+    sh: echo Test part 1
   node [s2.n2]
-    sh
+    sh: echo Test part 2
 stage: Deploy [s3]
   node [s3.n1]
-    sh
+    sh: echo Deploy
 -----------------------------------------------------------------------------
 
 To see how the skips, etc. will affect the execution, `jenny -i` will also
@@ -147,13 +157,15 @@ jenny --resumeFrom s2 --skip s3 -i
 >  _/ |\___|_| |_|_| |_|\__, |
 > |__/                  |___/
 > console jenkins runner
-> 
+>
+
+> workspace: /tmp/jenny/workspace/x/workspace
 > jenny: Skipped stage s1
 stage: Test [s2]
   node [s2.n1]
-    sh
+    sh: echo Test part 1
   node [s2.n2]
-    sh
+    sh: echo Test part 2
 > jenny: Skipped stage s3
 -----------------------------------------------------------------------------
 
@@ -161,7 +173,7 @@ Running it would also yield what we would expect:
 
 [source,sh]
 -----------------------------------------------------------------------------
-jenny --resumeFrom s2 --skip s3 -i
+jenny --resumeFrom s2 --skip s3
 -----------------------------------------------------------------------------
 
 [source,text]

@@ -14,4 +14,4 @@ stage: Test [s1]
     checkout SCM
     docker::image::inside ubuntu:16.04
       withCredentials
-        sh
+        sh: test -f /t .. a3-95aa-e8898d6a069b && cat /tmp/CREDENTIALS_FILE-d542a7e4-69d0-41a3-95aa-e8898d6a069b

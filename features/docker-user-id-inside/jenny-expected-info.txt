@@ -13,6 +13,6 @@ stage: test internal user id [s1]
     deleteDir: /tmp/jenny/workspace/docker-user-id-inside/workspace
     checkout SCM
     docker::image::inside ubuntu:16.04
-      sh
-      sh
-    sh
+      sh: touch /src/file.txt
+      sh: FILE_UID_G .. D_GID" ]; then;     echo "In the node: $FILE_UID_GID != $USER_UID_GID";     exit 1; fi
+    sh: FILE_UID_G .. D_GID" ]; then;     echo "In the node: $FILE_UID_GID != $USER_UID_GID";     exit 1; fi

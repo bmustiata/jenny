@@ -12,26 +12,26 @@ stage: Test sh on nodes [s1]
   node [s1.n1]
     deleteDir: /tmp/jenny/workspace/sh-support/workspace
     checkout SCM
-    sh
-    sh
+    sh: ls
+    sh: ls
 ls output: null
-    sh
+    sh: false
 false error code: null
-    sh
+    sh: ls
 ls error code: null
-    sh
+    sh: ls
 ls should be output: null
 stage: Test sh in docker [s2]
   node [s2.n1]
     docker::image::inside ubuntu:16.04
       deleteDir: /tmp/jenny/workspace/sh-support/workspace
       checkout SCM
-      sh
-      sh
+      sh: ls
+      sh: ls
 ls output: null
-      sh
+      sh: false
 false error code: null
-      sh
+      sh: ls
 ls error code: null
-      sh
+      sh: ls
 ls should be output: null

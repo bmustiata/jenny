@@ -11,4 +11,4 @@
 stage: Test ansiColor [s1]
   node [s1.n1]
     ansiColor: xterm
-      sh
+      sh: echo 1

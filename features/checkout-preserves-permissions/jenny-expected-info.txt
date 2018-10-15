@@ -12,4 +12,4 @@ stage: Checkout [s1]
   node [s1.n1]
     deleteDir: /tmp/jenny/workspace/checkout-preserves-permissions/workspace
     checkout SCM
-    sh
+    sh: ls -l 775.sh | cut -b1-4 | grep rwx

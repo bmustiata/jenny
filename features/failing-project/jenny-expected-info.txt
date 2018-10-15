@@ -10,4 +10,4 @@
 > workspace: /tmp/jenny/workspace/failing-project/workspace
 stage: simple stage that fails [s1]
   node [s1.n1]
-    sh
+    sh: exit 1

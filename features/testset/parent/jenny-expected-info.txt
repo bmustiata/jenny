@@ -15,9 +15,9 @@
 > ==============================================
 stage: Parent [s1]
   node [s1.n1]
-    sh
+    sh: echo hello from parent; pwd
     pluginCommand
-      sh
+      sh: echo "pwd from pluginCommand: `pwd`"
 /tmp/jenny/workspace/parent/workspace
 /tmp/jenny/workspace/parent/workspace
     pluginCommand1p
@@ -31,14 +31,14 @@ stage: Parent [s1]
 > ==============================================
     stage: child [s1]
       node [s1.n1]
-        sh
+        sh: echo "hello from child"; pwd
         pluginCommand
-          sh
+          sh: echo "pwd from pluginCommand: `pwd`"
 /tmp/jenny/workspace/child/workspace
 /tmp/jenny/workspace/child/workspace
     stage: child Deploy [s2]
       node [s2.n1]
-        sh
+        sh: echo "deployed"
   build job: "child-2-aliased", wait: true
     > workspace: /tmp/jenny/workspace/child2/workspace
 > ==============================================
@@ -48,11 +48,11 @@ stage: Parent [s1]
 > ==============================================
     stage: child2 [s1]
       node [s1.n1]
-        sh
+        sh: echo "hello from child2"; pwd
         pluginCommand
-          sh
+          sh: echo "pwd from pluginCommand: `pwd`"
 /tmp/jenny/workspace/child2/workspace
 /tmp/jenny/workspace/child2/workspace
     stage: child2 Deploy [s2]
       node [s2.n1]
-        sh
+        sh: echo "deployed"

@@ -10,10 +10,10 @@
 > workspace: /tmp/jenny/workspace/dir-step/workspace
 stage: Simple dir test [s1]
   node [s1.n1]
-    sh
+    sh: pwd
 /tmp/jenny/workspace/dir-step/workspace
     dir /tmp/
-      sh
+      sh: pwd
 /tmp
-    sh
+    sh: pwd
 /tmp/jenny/workspace/dir-step/workspace

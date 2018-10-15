@@ -11,4 +11,4 @@
 stage: test stage [s1]
   node [s1.n1]
     docker::image::inside ubuntu:16.04
-      sh
+      sh: exit 1

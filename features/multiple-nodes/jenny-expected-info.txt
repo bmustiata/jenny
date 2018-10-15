@@ -10,6 +10,6 @@
 > workspace: /tmp/jenny/workspace/multiple-nodes/workspace
 stage: multiple nodes [s1]
   node [s1.n1]
-    sh
+    sh: pwd; ls
   node [s1.n2]
-    sh
+    sh: pwd; ls

@@ -11,6 +11,6 @@
 stage: Test Docker [s1]
   node [s1.n1]
     docker::image::inside maven:3.5.3
-      sh
+      sh: pwd; echo $TESTVAR; mvn -version | grep -v "OS name"
     docker::image::inside node:9.10.1
-      sh
+      sh: pwd; echo $TESTVAR; node --version

@@ -16,7 +16,7 @@ stage: stash [s1]
 stage: unstash [s2]
   node [s2.n1]
     unstash: jenkins
-    sh
+    sh: ls Jenkinsfile
 stage: stash docker [s3]
   node [s3.n1]
     docker::image::inside ubuntu:16.04
@@ -27,4 +27,4 @@ stage: unstash docker [s4]
   node [s4.n1]
     docker::image::inside ubuntu:16.04
       unstash: jenkins2
-      sh
+      sh: ls Jenkinsfile

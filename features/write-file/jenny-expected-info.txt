@@ -12,10 +12,10 @@ stage: Node writeFile support [s1]
   node [s1.n1]
     deleteDir: /tmp/jenny/workspace/write-file/workspace
     writeFile: test.txt
-    sh
+    sh: cat test.txt
 stage: Docker writeFile support [s2]
   node [s2.n1]
     docker::image::inside ubuntu:16.04
       deleteDir: /tmp/jenny/workspace/write-file/workspace
       writeFile: test.txt
-      sh
+      sh: cat test.txt
