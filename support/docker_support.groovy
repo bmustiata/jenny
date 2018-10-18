@@ -223,6 +223,7 @@ class DockerImage {
     private DockerAgent startDockerContainer(args, parameters) {
         def command = ["docker", "run", "-t",
                                  "-u", "${System.getProperty('jenny_userid')}:${System.getProperty('jenny_groupid')}",
+                                 "-v", "${context._jennyConfig.workFolder}:${context._jennyConfig.workFolder}",
                                  "-d",
                                  // this is only needed for checkouts, don't allow rw access
                                  //"-v", "${context._jennyConfig.projectFolder}:${context._jennyConfig.projectFolder}:ro"

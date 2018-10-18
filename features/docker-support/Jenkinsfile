@@ -1,7 +1,11 @@
 stage('Test Docker') {
     node {
+        deleteDir()
+        checkout scm
+
         docker.image('maven:3.5.3').inside {
             sh """
+                ls Jenkinsfile
                 pwd
                 echo \$TESTVAR
                 mvn -version | grep -v "OS name"
@@ -10,6 +14,7 @@ stage('Test Docker') {
 
         docker.image('node:9.10.1').inside('-e TESTVAR=yay') {
             sh """
+                ls Jenkinsfile
                 pwd
                 echo \$TESTVAR
                 node --version

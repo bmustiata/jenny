@@ -10,7 +10,9 @@
 > workspace: /tmp/jenny/workspace/docker-support/workspace
 stage: Test Docker [s1]
   node [s1.n1]
+    deleteDir: /tmp/jenny/workspace/docker-support/workspace
+    checkout SCM
     docker::image::inside maven:3.5.3
-      sh: pwd; echo $TESTVAR; mvn -version | grep -v "OS name"
+      sh: ls Jenkinsfile; pwd; echo $TESTVAR; mvn -version | grep -v "OS name"
     docker::image::inside node:9.10.1
-      sh: pwd; echo $TESTVAR; node --version
+      sh: ls Jenkinsfile; pwd; echo $TESTVAR; node --version

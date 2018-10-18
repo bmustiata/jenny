@@ -11,29 +11,36 @@
 > ========================================================================
 > = Stage: Test Docker
 > ========================================================================
+node::deleteDir /tmp/jenny/workspace/docker-support/s1.n1
+node::mkdir /tmp/jenny/workspace/docker-support/s1.n1
+node::checkout SCM
 docker::inside maven:3.5.3
 > docker::sh --------------------------------
 
+                ls Jenkinsfile
                 pwd
                 echo $TESTVAR
                 mvn -version | grep -v "OS name"
             
 > -------------------------------------------
+Jenkinsfile
 /tmp/jenny/workspace/docker-support/s1.n1
 
 Apache Maven 3.5.3 (3383c37e1f9e9b3bc3df5050c29c8aff9f295297; 2018-02-24T19:49:05Z)
 Maven home: /usr/share/maven
-Java version: 1.8.0_171, vendor: Oracle Corporation
+Java version: 1.8.0_162, vendor: Oracle Corporation
 Java home: /usr/lib/jvm/java-8-openjdk-amd64/jre
 Default locale: en, platform encoding: UTF-8
 docker::inside node:9.10.1
 > docker::sh --------------------------------
 
+                ls Jenkinsfile
                 pwd
                 echo $TESTVAR
                 node --version
             
 > -------------------------------------------
+Jenkinsfile
 /tmp/jenny/workspace/docker-support/s1.n1
 yay
 v9.10.1
