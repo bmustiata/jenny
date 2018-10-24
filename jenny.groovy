@@ -182,6 +182,7 @@ jennyRun = { runConfig ->
     jennyConfig.workspaceFolder = config1.workspaceFolder
 
     binding.env.BUILD_ID = "${binding.currentBuild.number}" as String
+    binding.env.BRANCH_NAME = "master"
 
     // -------------------------------------------------------------------
     // Load the external libraries
