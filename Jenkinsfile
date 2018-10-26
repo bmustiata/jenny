@@ -41,3 +41,13 @@ stage('Build Test Container') {
     }
 }
 
+if (isMasterBranch()) {
+    stage('Publish on github') {
+        node {
+            deleteDir()
+            checkout scm
+
+            publishGit repo: "git@github.com:bmustiata/jenny.git"
+        }
+    }
+}
