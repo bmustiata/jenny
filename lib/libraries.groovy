@@ -11,9 +11,11 @@ def loadLibrary(shell, binding, path) {
         throw new IllegalArgumentException("${libFolder} does not exists")
     }
 
-    libFolder.listFiles().each { commandFile ->
-        registerCommandInBinding(shell, binding, commandFile)
-    }
+    libFolder.listFiles()
+        .findAll { it.name.endsWith(".groovy") }
+        .each { File commandFile ->
+            registerCommandInBinding(shell, binding, commandFile)
+        }
 }
 
 def loadInfoLibrary(shell, binding, path) {
@@ -29,17 +31,19 @@ def loadInfoLibrary(shell, binding, path) {
         throw new IllegalArgumentException("${libFolder} does not exists")
     }
 
-    libFolder.listFiles().each { commandFile ->
-        def commandName = commandFile.getName().substring(0, commandFile.getName().lastIndexOf("."))
+    libFolder.listFiles()
+        .findAll { it.name.endsWith(".groovy") }
+        .each { commandFile ->
+            def commandName = commandFile.getName().substring(0, commandFile.getName().lastIndexOf("."))
 
-        if (isCommandAllowed(binding, commandName)) {
-            registerInfoCommandInBinding(shell, binding, commandFile)
-        } else {
-            binding[commandName] = { Object...config ->
-                shell.context._log.message.call(shell.context._currentIndent.call(commandName))
+            if (isCommandAllowed(binding, commandName)) {
+                registerInfoCommandInBinding(shell, binding, commandFile)
+            } else {
+                binding[commandName] = { Object...config ->
+                    shell.context._log.message.call(shell.context._currentIndent.call(commandName))
+                }
             }
         }
-    }
 }
 
 def isCommandAllowed(binding, commandName) {
