@@ -13,7 +13,7 @@ Class NodeItem = classLoader.parseClass(new File(scriptFile.parent, "NodeItem.gr
 def cli = new CliBuilder(usage: "jenny [options]")
 cli.f(longOpt: "file", args: 1, argName: "file", "Path to Jenkinsfile.")
 cli.l(longOpt: "lib", args: -2, argName: "lib", "Path to the library to load.")
-cli.w(longOpt: "workFolder", args: 1, "Work folder (defaults to /tmp)")
+cli.w(longOpt: "workFolder", args: 1, "Work folder (defaults to ${System.getProperty("java.io.tmpdir")})")
 cli.archiveFolder("Folder to store the outputs of archiveArtifacts")
 cli.junitFolder("Folder to store the outputs of junit")
 cli.keepLog("Keep the generated log file after finishing.")
@@ -35,7 +35,7 @@ if (options.h) {
     return;
 }
 
-_workFolder = options.workFolder ?: "/tmp"
+_workFolder = options.workFolder ?: System.getProperty("java.io.tmpdir")
 
 // -------------------------------------------------------------------
 // Load the core libraries (config, lib loading)
