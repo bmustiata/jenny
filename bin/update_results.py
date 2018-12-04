@@ -63,6 +63,7 @@ tests_to_run = [
     "features/failing-sh-inside-docker",
     "features/mock-missing-functions",
     "features/multiple-nodes",
+    "features/overwrite-environment-variables",
     "features/parameters-boolean-value",
     "features/stash-unstash",
     "features/testset/parent",
