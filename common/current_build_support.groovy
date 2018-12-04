@@ -2,7 +2,7 @@ class CurrentBuild {
     def context
 
     Integer getNumber() {
-        return 1
+        return Integer.valueOf(this.getId())
     }
 
     def result = null
@@ -11,11 +11,23 @@ class CurrentBuild {
         return "SUCCESS"
     }
 
-    String displayName = "#1"
+    private String displayName = null
     String description = ""
 
+    public String getDisplayName() {
+        if (this.displayName == null) {
+            return "#${this.context.env.BUILD_ID}"
+        }
+
+        return this.displayName
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName
+    }
+
     String getId() {
-        "${this.number}"
+        "${this.context.env.BUILD_ID}"
     }
 
     long getTimeInMillis() {
@@ -47,7 +59,7 @@ class CurrentBuild {
     }
 
     def getBuildVariables() {
-        context.params
+        this.context.params
     }
 
     List getChangeSets() {

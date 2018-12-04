@@ -18,6 +18,7 @@ cli.archiveFolder("Folder to store the outputs of archiveArtifacts")
 cli.junitFolder("Folder to store the outputs of junit")
 cli.keepLog("Keep the generated log file after finishing.")
 cli.p(longOpt: "param", args: -2, argName: "nam=value", valueSeparator:'=', "Parameter to override.")
+cli.e(longOpt: "env", args: -2, argName: "nam=value", valueSeparator:'=', "Environment variable to override.")
 cli.s(longOpt: "skip", args: -2, argName: "id", "stage/parallel/node blocks to skip by ID.")
 cli.o(longOpt: "only", args: -2, argName: "id", "stage/parallel/node blocks to run by ID (includes ancestors).")
 cli.rf(longOpt: "resumeFrom", args: 1, argName: "id", "stage/parallel/node blocks to continue from.")
@@ -83,6 +84,11 @@ jennyRun = { runConfig ->
     def jennyConfig = [
         "libs":[],
         "params":[:],
+        "env": [
+            "BRANCH_NAME": "master",
+            "BUILD_ID": "1",
+            "BUILD_NUMBER": "1"
+        ],
         "execute":[:],
         "projects":[:],
         "workFolder": runConfig["workFolder"],
@@ -105,6 +111,7 @@ jennyRun = { runConfig ->
     loadConfigFile(jennyConfig, "${jennyGlobalConfigFolder}/config")
     loadConfigFile(jennyConfig, new File(projectFolder, ".jenny/config").canonicalPath)
     jennyConfig["params"].addNested(runConfig.params)
+    jennyConfig["env"].addNested(runConfig.env)
 
     if (runConfig.topProject || runConfig.nestedIds) {
         loadCommandLineOptions(jennyConfig, options)
@@ -181,9 +188,6 @@ jennyRun = { runConfig ->
     jennyConfig.junitFolder = config1.junitFolder
     jennyConfig.workspaceFolder = config1.workspaceFolder
 
-    binding.env.BUILD_ID = "${binding.currentBuild.number}" as String
-    binding.env.BRANCH_NAME = "master"
-
     // -------------------------------------------------------------------
     // Load the external libraries
     // -------------------------------------------------------------------
@@ -198,6 +202,13 @@ jennyRun = { runConfig ->
     // -------------------------------------------------------------------
     if (jennyConfig.params) {
         binding.params.addNested(jennyConfig.params)
+    }
+
+    // -------------------------------------------------------------------
+    // Override environment
+    // -------------------------------------------------------------------
+    if (jennyConfig.env) {
+        binding.env.addNested(jennyConfig.env)
     }
 
     // this will run the given jenkinsfile
