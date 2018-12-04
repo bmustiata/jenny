@@ -6,7 +6,10 @@ class CredentialFile {
 def searchLocations = [_jennyConfig.jennyGlobalConfigFolder, ".jenny"]
 
 withCredentials = { files, code ->
-    _log.message(_currentIndent("withCredentials"))
+    def credentials = files.collect({ it.credentialsId }).join(", ")
+
+    _log.message(_currentIndent("withCredentials: ${credentials}"))
+
     files.each { credentialFile ->
         for (def searchLocation: searchLocations) {
             def file = new File("${searchLocation}/credentials/${credentialFile.credentialsId}")
@@ -37,7 +40,7 @@ withCredentials = { files, code ->
     }
 }
 
-file = { config -> 
+file = { config ->
     return new CredentialFile(credentialsId: config.credentialsId,
                               variable: config.variable)
 }

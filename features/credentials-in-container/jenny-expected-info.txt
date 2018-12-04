@@ -13,5 +13,5 @@ stage: Test [s1]
     deleteDir: /tmp/jenny/workspace/credentials-in-container/workspace
     checkout SCM
     docker::image::inside ubuntu:16.04
-      withCredentials
-        sh: test -f /t .. a3-95aa-e8898d6a069b && cat /tmp/CREDENTIALS_FILE-d542a7e4-69d0-41a3-95aa-e8898d6a069b
+      withCredentials: CREDENTIALS_FILE
+        sh: test -f /t .. d2-b188-f17ec5a6a421 && cat /tmp/CREDENTIALS_FILE-7e50049b-c1d8-4fd2-b188-f17ec5a6a421
