@@ -52,6 +52,13 @@ libs: # list of libaries folders to load
   - /path/to/other/folder
 libsInfoAllowed: # regex of allowed commands to execute even in --info
   - pluginCommand.*
+# The environment can be overwritten, implicitly jenny sets these variables
+# to match the variables set by Jenkins. If BUILD_ID will change, it will also
+# change the currentBuild.
+env:
+  BUILD_ID: "1"
+  BUILD_NUMBER: "1"
+  BRANCH_NAME: "master"
 noLogo: true
 # What folder to use for temporary files, such as nodes, and workspace folders.
 workFolder: /tmp
