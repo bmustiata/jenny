@@ -1,0 +1,5 @@
+stage('Test environment variables') {
+    echo env.BUILD_ID
+    echo env.BRANCH_NAME
+    echo env.CUSTOM_ENV
+}

@@ -1,0 +1,3 @@
+env:
+    BRANCH_NAME: feature/branch
+    CUSTOM_ENV: custom/env
