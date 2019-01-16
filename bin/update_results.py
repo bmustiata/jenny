@@ -51,7 +51,7 @@ def update_jenny_execution(log_folder: str,
 tests_to_run = [
     "features/ansiColor-support",
     "features/archiveArtifacts",
-    "features/build_id-environment-variable",
+    "features/build-environment-variables",
     "features/checkout-preserves-permissions",
     "features/child-section-skip/parent",
     "features/credentials-in-container",

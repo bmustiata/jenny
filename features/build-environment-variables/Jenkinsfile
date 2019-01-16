@@ -1,0 +1,14 @@
+
+osname = "linux"
+
+def created = env.JOB_NAME.startsWith("${osname}-")
+
+echo "created: ${created}"
+
+stage('Test build_id environment variable') {
+    echo env.BUILD_ID
+    echo env.JOB_NAME
+    echo env.JOB_BASE_NAME
+    echo env.JOB_DISPLAY_URL
+    echo env.JOB_URL
+}

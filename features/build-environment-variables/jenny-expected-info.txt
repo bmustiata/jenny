@@ -1,0 +1,17 @@
+>    _
+>   (_) ___ _ __  _ __  _   _
+>   | |/ _ \ '_ \| '_ \| | | |
+>   | |  __/ | | | | | | |_| |
+>  _/ |\___|_| |_|_| |_|\__, |
+> |__/                  |___/
+> console jenkins runner
+>
+
+> workspace: /tmp/jenny/workspace/build-environment-variables/workspace
+created: false
+stage: Test build_id environment variable [s1]
+1
+build-environment-variables
+build-environment-variables
+http://github.com/bmustiata/jenny/build-environment-variables/display/redirect
+http://github.com/bmustiata/jenny/build-environment-variables

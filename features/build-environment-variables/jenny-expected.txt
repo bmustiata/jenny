@@ -7,8 +7,13 @@
 > console jenkins runner
 >
 
-> workspace: /tmp/jenny/workspace/build_id-environment-variable/workspace
+> workspace: /tmp/jenny/workspace/build-environment-variables/workspace
+created: false
 > ========================================================================
 > = Stage: Test build_id environment variable
 > ========================================================================
 1
+build-environment-variables
+build-environment-variables
+http://github.com/bmustiata/jenny/build-environment-variables/display/redirect
+http://github.com/bmustiata/jenny/build-environment-variables

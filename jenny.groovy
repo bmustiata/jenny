@@ -81,13 +81,19 @@ jennyRun = { runConfig ->
     // -------------------------------------------------------------------
     // Read the configuration for the current project.
     // -------------------------------------------------------------------
+    def projectFolder = new File(new File(runConfig.projectFolder ?: ".").canonicalPath)
+
     def jennyConfig = [
         "libs":[],
         "params":[:],
         "env": [
             "BRANCH_NAME": "master",
             "BUILD_ID": "1",
-            "BUILD_NUMBER": "1"
+            "BUILD_NUMBER": "1",
+            "JOB_BASE_NAME": projectFolder.name,
+            "JOB_NAME": projectFolder.name,
+            "JOB_URL": "http://github.com/bmustiata/jenny/${projectFolder.name}" as String,
+            "JOB_DISPLAY_URL": "http://github.com/bmustiata/jenny/${projectFolder.name}/display/redirect" as String,
         ],
         "execute":[:],
         "projects":[:],
@@ -97,8 +103,6 @@ jennyRun = { runConfig ->
         "info": options.info,
         "libInfoAllowed": runConfig["libInfoAllowed"]
     ]
-
-    def projectFolder = new File(new File(runConfig.projectFolder ?: ".").canonicalPath)
 
     if (jennyConfig.verbose) {
         _parentLog.message("> project folder: ${projectFolder.canonicalPath}")
