@@ -12,4 +12,12 @@ sh = { config ->
     }
 
     _log.message(_currentIndent("sh: ${code}"))
+
+    if (config.returnStdout) {
+        return ""
+    }
+
+    if (config.returnStatus) {
+        return 0
+    }
 }

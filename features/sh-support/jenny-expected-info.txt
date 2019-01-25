@@ -14,13 +14,13 @@ stage: Test sh on nodes [s1]
     checkout SCM
     sh: ls
     sh: ls
-ls output: null
+ls output: 
     sh: false
-false error code: null
+false error code: 0
     sh: ls
-ls error code: null
+ls error code: 0
     sh: ls
-ls should be output: null
+ls should be output: 
 stage: Test sh in docker [s2]
   node [s2.n1]
     docker::image::inside ubuntu:16.04
@@ -28,10 +28,10 @@ stage: Test sh in docker [s2]
       checkout SCM
       sh: ls
       sh: ls
-ls output: null
+ls output: 
       sh: false
-false error code: null
+false error code: 0
       sh: ls
-ls error code: null
+ls error code: 0
       sh: ls
-ls should be output: null
+ls should be output: 
