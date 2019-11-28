@@ -30,6 +30,13 @@ stage('Build Test Container') {
             returnStatus: true
         ]) == 0
 
+        sh """
+            cat /proc/1/cgroup
+        """
+
+        echo "in docker: $jennyParentIsInDocker"
+        echo "in kubernetes: $jennyParentIsInKubernetes"
+
         def extraMount = (jennyParentIsInDocker || jennyParentIsInKubernetes) ? " -v /tmp:/tmp" : ""
 
         docker.build('jenny_test_container')
