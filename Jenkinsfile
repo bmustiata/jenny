@@ -20,12 +20,17 @@ stage('Build Test Container') {
 
         // jenny needs access to the workFolder to mount it inside the containers,
         // and the tests output is checked against /tmp
-        def jennyParentIsAContainer = sh([
+        def jennyParentIsInDocker = sh([
             script: "cat /proc/1/cgroup | grep docker",
             returnStatus: true
         ]) == 0
 
-        def extraMount = jennyParentIsAContainer ? " -v /tmp:/tmp" : ""
+        def jennyParentIsInKubernetes = sh([
+            script: "cat /proc/1/cgroup | grep kubepods",
+            returnStatus: true
+        ]) == 0
+
+        def extraMount = (jennyParentIsInDocker || jennyParentIsInKubernetes) ? " -v /tmp:/tmp" : ""
 
         docker.build('jenny_test_container')
               .inside("-v /var/run/docker.sock:/var/run/docker.sock:rw -u $JENNY_DOCKER_UID --group-add $JENNY_DOCKER_GID${extraMount}") {
