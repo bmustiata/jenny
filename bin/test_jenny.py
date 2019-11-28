@@ -128,7 +128,7 @@ tests_to_run = [
     "features/external-classes",
     "features/failing-project",
     "features/failing-sh-inside-docker",
-    "features/library-annotations-mock",
+    "features/library-annotation-mock",
     "features/mock-missing-functions",
     "features/multiple-nodes",
     "features/overwrite-environment-variables",
