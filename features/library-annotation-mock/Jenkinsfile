@@ -1,0 +1,4 @@
+@Library('some-lib')_
+
+stage('test stage') {
+}
